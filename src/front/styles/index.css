@@ -4,29 +4,66 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-
 .font-nunito {
-    font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 /* Colors */
 
 .extralight-blue {
-    color: #CAE8FF
+  color: #cae8ff;
 }
 
 .light-blue {
-    color: #8BD1F3
+  color: #8bd1f3;
 }
 
 .blue {
-    color: #018FA6
+  color: #018fa6;
 }
 
 .dark-blue {
-    color: #01319D
+  color: #01319d;
 }
 
 .extradark-blue {
-    color: #000080
+  color: #000080;
+}
+
+.yellow {
+  color: #ffc100;
+}
+
+.extradark-grey {
+  color: #040606;
+}
+
+/* Background colors */
+
+.bg-extralight-blue {
+  background-color: #cae8ff;
+}
+
+.bg-light-blue {
+  background-color: #8bd1f3;
+}
+
+.bg-blue {
+  background-color: #018fa6;
+}
+
+.bg-dark-blue {
+  background-color: #01319d;
+}
+
+.extradark-blue {
+  background-color: #000080;
+}
+
+.bg-yellow {
+  background-color: #ffc100;
+}
+
+.bg-extradark-grey {
+  background-color: #040606;
 }
