@@ -28,74 +28,9 @@
   filter: invert(100%);
 }
 
-.font-nunito {
-  font-family: "Nunito", sans-serif;
-}
-
 /* HEADLINE */
 
 .headline {
   padding-top: 100px;
   padding-bottom: 100px;
-  
-}
-
-/* Colors */
-
-.extralight-blue {
-  color: #cae8ff;
-}
-
-.light-blue {
-  color: #8bd1f3;
-}
-
-.blue {
-  color: #018fa6;
-}
-
-.dark-blue {
-  color: #01319d;
-}
-
-.extradark-blue {
-  color: #000080;
-}
-
-.yellow {
-  color: #ffc100;
-}
-
-.extradark-grey {
-  color: #040606;
-}
-
-/* Background colors */
-
-.bg-extralight-blue {
-  background-color: #cae8ff;
-}
-
-.bg-light-blue {
-  background-color: #8bd1f3;
-}
-
-.bg-blue {
-  background-color: #018fa6;
-}
-
-.bg-dark-blue {
-  background-color: #01319d;
-}
-
-.extradark-blue {
-  background-color: #000080;
-}
-
-.bg-yellow {
-  background-color: #ffc100;
-}
-
-.bg-extradark-grey {
-  background-color: #040606;
 }
