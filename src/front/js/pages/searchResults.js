@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
+import "../../styles/searchResults.css";
 
 export const SearchResults = () => {
 	const { store, actions } = useContext(Context);
@@ -9,6 +10,61 @@ export const SearchResults = () => {
 		
 		<>
 		{/* SEARCH BAR */}
+
+		{/* NEW SEARCH BAR 
+			Faltan las imagenes de la branch de Vanesa
+		*/}
+
+        <div className=" bg-light position-relative rounded-3 home-search-bar-shadow over overflow-hidden">
+          {/*FORM */}
+
+          <form className="form-inline d-flex justify-content-between ">
+            {/*SEARCH SIDE */}
+
+            <div className="d-flex flex-grow-1">
+              {/*SEARCH ICON */}
+
+              <div className="bg-dark-blue p-2 px-3 rounded">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png" height="40px" className="home-icons" />
+              </div>
+
+              {/*SEARCH INPUT */}
+              <input
+                className=" mr-sm-2  py-2 px-4 text-16 bg-light home-inputs w-100 "
+                type="search"
+                placeholder="Tipo de actividad, tempos..."
+              />
+            </div>
+
+            {/*LOCATION SIDE */}
+
+            <div className="d-flex flex-grow-1">
+              {/*LOCATION ICON */}
+
+              <div className="bg-dark-blue py-2 px-3 rounded">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/310px-Placeholder_view_vector.svg.png" height="40px" className="home-icons" />
+              </div>
+              {/*LOCATION INPUT */}
+
+              <input
+                className=" py-2 px-4 text-16 bg-light home-inputs w-100"
+                type="search"
+                placeholder="Location"
+              />
+            </div>
+
+            {/*SUBMIT BUTTON */}
+
+            <button
+              className="btn rounded-3 rounded-end home-input-btn bg-dark-blue fw-bolder text-16 text-light my-2 my-sm-0 px-4"
+              type="submit"
+            >
+              Encuentra tu grupo
+            </button>
+          </form>
+        </div>
+
+		{/* OLD SEARCHBAR */}
 		<div className="p-2 bg-light position-relative rounded-3 shadow mx-sm-1 mx-md-5">
 			<form className="form-inline d-flex flex-column flex-sm-row align-items-sm-center">
 				<div className="flex-grow-1 form-group mb-2 mb-sm-0 me-sm-2">
