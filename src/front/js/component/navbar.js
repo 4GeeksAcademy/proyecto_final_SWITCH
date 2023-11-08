@@ -31,64 +31,63 @@ export const Navbar = () => {
 
         {/* Buttons when screen big */}
 
-        <div className="d-lg-none d-block" onClick={toggleNavbar}>
-          <img src={hamburger} height="80px" />
-        </div>
-
-        <div className="ml-auto d-lg-block d-none">
+        <div className="ml-auto ">
           {/*BUTTON REGISTER*/}
 
-          <Link to="/demo">
-            <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey my-auto">
-              REGÍSTRATE
-            </button>
-          </Link>
+          <div className="d-xl-block d-none">
+            <Link to="/demo">
+              <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey my-auto">
+                REGÍSTRATE
+              </button>
+            </Link>
 
-          {/*BUTTON MEMEBERS*/}
+            {/*BUTTON MEMEBERS*/}
 
-          <Link to="/demo">
-            <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
-              ACCESO MIEMBROS
-            </button>
-          </Link>
+            <Link to="/demo">
+              <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
+                ACCESO MIEMBROS
+              </button>
+            </Link>
 
-          {/*BUTTON ORGANIZERS*/}
+            {/*BUTTON ORGANIZERS*/}
 
-          <Link to="/demo">
-            <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
-              ACCESO ORGANIZADORES
-            </button>
-          </Link>
+            <Link to="/demo">
+              <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
+                ACCESO ORGANIZADORES
+              </button>
+            </Link>
+          </div>
 
           {/* Buttons when screen small */}
+          <div className="position-relative">
+            <div className="d-xl-none d-block" onClick={toggleNavbar}>
+              <img src={hamburger} height="50px" />
+            </div>
 
-          <div className="d-sm-none ">
-            {isNavbarOpen && (
-              <>
-                {/*BUTTON register*/}
-                <Link to="/demo">
-                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-5 py-3  extradark-grey my-auto">
-                    REGÍSTRATE---
-                  </button>
-                </Link>
-
-                {/*BUTTON MEMEBERS*/}
-
-                <Link to="/demo">
-                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-5 py-3  extradark-grey ms-3">
-                    ACCESO MIEMBROS---
-                  </button>
-                </Link>
-
-                {/*BUTTON ORGANIZERS*/}
-
-                <Link to="/demo">
-                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-5 py-3  extradark-grey ms-3">
-                    ACCESO ORGANIZADORES---
-                  </button>
-                </Link>
-              </>
-            )}
+            <div className="d-xl-none ">
+              {isNavbarOpen && (
+                <div className="bg-dark-blue d-flex navbar-desplegable flex-column rounded p-3 fs-4 align-items-start justify-content-start navbar-desplegable-go-up-when-open ">
+                  {/*BUTTON register*/}
+                  <Link to="/demo" className="text-decoration-none">
+                    <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue ">
+                      Registro
+                    </div>
+                  </Link>
+                  {/* BUTTON MEMEBERS */}
+                  <Link to="/demo" className="text-decoration-none">
+                    <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
+                      Acceso miembros
+                    </div>
+                  </Link>
+                  {/*BUTTON ORGANIZERS*/}
+                  <Link to="/demo" className="text-decoration-none">
+                    <div className="navbar-link-desplegable font-nunito  fw-bolder extralight-blue">
+                      Acceso organizadores
+                    </div>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

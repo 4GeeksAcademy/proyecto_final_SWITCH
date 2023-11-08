@@ -3,7 +3,7 @@ import React from "react";
 export const HomeHeadline = () => {
   return (
     <section className="bg-yellow d-flex flex-column container pt-5 ">
-      <div className="d-flex justify-between  headline flex-sm-row flex-column">
+      <div className="d-flex justify-between flex-column headline flex-xl-row ">
         {/*TEXT LEFT*/}
 
         <div className="pe-5">
@@ -29,7 +29,7 @@ export const HomeHeadline = () => {
 
         {/* FOTO RIGHT */}
 
-        <div>
+        <div className="pt-xl-0 pt-5">
           <img
             src="https://placehold.co/600x500"
             alt="people having a conversation"
