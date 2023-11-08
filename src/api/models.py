@@ -15,7 +15,7 @@ class Users(db.Model):
     languages = db.Column(db.String(100), nullable = False)
     photo_url = db.Column(db.String(500))
     is_active = db.Column(db.Boolean(), nullable = False)
-    roll = db.Column (db.Boolean(), nullable =False)
+    role = db.Column (db.Boolean(), nullable =False)
 
     def __repr__(self):
         return f'<Users: {self.id_user}>'
@@ -32,7 +32,7 @@ class Users(db.Model):
             "languages": self.languages,
             "photo_url": self.photo_url,
             "is_active": self.active,
-            "roll" : self.roll         
+            "role" : self.role      
         }
 
 class Groups(db.Model):
@@ -52,7 +52,7 @@ class Groups(db.Model):
 
     def serialize(self):
         return {
-            "id": self.id_user,#Duda
+            "id": self.id_group,
             "group": self.name, 
             "organizer": self.id_organizer,
             "city": self.city,
@@ -66,8 +66,9 @@ class Groups(db.Model):
 class Events(db.Model):
     __tablename__ = 'events'
     id_event = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(120), unique = True, nullable = False)
     description = db.Column(db.String(300), nullable = False)
-    start_time = db.Column(db.Datetime, nullable = False)
+    start_time = db.Column(db.Datetime, nullable = False) #lo dejamos como dateTime o mejor string?
     end_time = db.Column(db.Datetime, nullable = False)
     location = db.Column(db.String, nullable = False)
     photo_url = db.Column(db.String(500))
@@ -77,12 +78,12 @@ class Events(db.Model):
     group_relationship = db.relationship(Groups)
 
     def __repr__(self):
-        return f'<Groups: {self.id_event}>'
+        return f'<Events: {self.id_event}>'
     
     def serialize(self):
         return {
             "id": self.id_event,
-            "group": self.name, 
+            "name": self.name, 
             "description": self.description,
             "start_time": self.start_time,
             "end_time": self.end_time,
@@ -93,5 +94,42 @@ class Events(db.Model):
             "group": self.id_group           
         }
 
+
+class EventsAttendee(db.Model): #puedo ponerlo con camelcase?
+    __tablename__ = 'eventsAttendee'
+    id_event_attendee = db.Column(db.Integer, primary_key = True)
+    id_event = db.Column(db.Integer, db.ForeignKey('id_event'))
+    event_relationship = db.relationship(Events)
+    id_user = db.Column(db.Integer, db.ForeignKey('id_user'))
+    user_relationship = db.relationship(Users)
+
+    def __repr__(self):
+        return f'<EventsAttendee: {self.id_event_attendee}>'
+    
+    def serialize(self):
+        return {
+            "id": self.id_event,
+            "event": self.id_event,
+            "user": self.id_user       
+        }
+
+class MembersGroup(db.Model):
+    __tablename__ = 'membersGroup'
+    id_member_group = db.Column(db.Integer, primary_key = True)
+    id_user = db.Column(db.Integer, db.ForeignKey('id_user'))
+    user_relationship = db.relationship(Users)
+    id_group = db.Column(db.Integer, db.ForeignKey('id_group'))
+    group_relationship = db.relationship(Groups)
+   
+
+    def __repr__(self):
+        return f'<EventsAttendee: {self.id_event_attendee}>'
+    
+    def serialize(self):
+        return {
+            "id": self.id_event,
+            "user": self.id_user,
+            "group": self.id_group       
+        }
 
 
