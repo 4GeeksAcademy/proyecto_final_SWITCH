@@ -8,7 +8,10 @@ import injectContext from "./store/appContext";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
+import GroupPage from "./pages/GroupPage";
 import { SearchResults } from "./pages/searchResults";
+import injectContext from "./store/appContext";
+
 
 // Components
 import { Navbar } from "./component/navbar";
@@ -31,8 +34,9 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
+                        <Route element={<GroupPage />} path="/GroupPage" />
                         <Route element={<SearchResults />} path="/searchResults" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<Single />} path="/single/:theid" />                       
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
