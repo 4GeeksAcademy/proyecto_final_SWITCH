@@ -10,6 +10,8 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import { SearchResults } from "./pages/SearchResults";
 import { CreateNewUserProfile } from "./pages/CreateNewUserProfile";
+import GroupPage from "./pages/GroupPage";
+import injectContext from "./store/appContext";
 
 // Components
 import { Navbar } from "./component/navbar";
@@ -34,7 +36,8 @@ const Layout = () => {
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<SearchResults />} path="/SearchResults" />
                         <Route element={<CreateNewUserProfile />} path="/CreateNewUserProfile" />
-                        <Route element={<Single />} path="/single/:theid" />
+                        <Route element={<GroupPage />} path="/GroupPage" />
+                        <Route element={<Single />} path="/single/:theid" />                        
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>
                     <Footer />
