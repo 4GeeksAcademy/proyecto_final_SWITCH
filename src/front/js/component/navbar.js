@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "../../styles/navbar.css";
 
-// import logo from "../../img/navbar-logo.png";
+import logo from "../../img/logo-switch-raya-blanca.png";
 
 import hamburger from "../../img/navbar-hamburger.png";
 
@@ -20,11 +20,7 @@ export const Navbar = () => {
         {/*LOGO - left side***********************************************************************************/}
 
         <Link to="/">
-          <img
-            //   src={logo}
-            src="https://placehold.co/500x250"
-            height="100px"
-          />
+          <img src={logo} height="150px" className="pb-2" />
         </Link>
 
         {/*BUTTONS - right side***********************************************************************************/}
@@ -59,9 +55,9 @@ export const Navbar = () => {
           </div>
 
           {/* Buttons when screen small */}
-          <div className="position-relative">
+          <div className="position-relative ">
             <div className="d-xl-none d-block" onClick={toggleNavbar}>
-              <img src={hamburger} height="50px" />
+              <img src={hamburger} height="50px" className="mt-5" />
             </div>
 
             <div className="d-xl-none ">
