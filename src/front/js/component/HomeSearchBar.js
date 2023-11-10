@@ -1,61 +1,53 @@
 import React from "react";
-
+import "../../styles/searchBar.css";
 import locationIcon from "../../img/home-location-icon.png";
 import searchIcon from "../../img/home-search-icon.png";
 
 export const HomeSearchBar = () => {
   return (
-    <section className="bg-yellow d-flex flex-column container pt-5 ">
-      {/*SEARCH BAR */}
-
-      <div className=" bg-light position-relative rounded-3 home-search-bar-shadow over overflow-hidden">
-        {/*FORM */}
-
-        <form className="form-inline d-flex justify-content-between ">
-          {/*SEARCH SIDE */}
-
-          <div className="d-flex flex-grow-1">
-            {/*SEARCH ICON */}
-
-            <div className="bg-dark-blue p-2 px-3 rounded">
-              <img src={searchIcon} height="40px" className="home-icons" />
-            </div>
-
-            {/*SEARCH INPUT */}
-            <input
-              className=" mr-sm-2  py-2 px-4 text-16 bg-light home-inputs w-100 "
-              type="search"
-              placeholder="Tipo de actividad, tempos..."
-            />
+    <div className="bg-light position-relative rounded-3 home-searchbar-shadow over overflow-hidden mt-3">
+      {/*FORM */}
+      <form className="d-flex flex-column flex-md-row ">
+        {/*SEARCH SIDE */}
+        <div className="d-flex flex-grow-1 mb-2 mb-md-0 me-md-2 justify-content-center">
+          {/*SEARCH ICON */}
+          <div className="bg-dark-blue py-2 search-icon-div rounded">
+            <img src={searchIcon} height="40px" className="home-icons" />
           </div>
 
-          {/*LOCATION SIDE */}
+          {/*SEARCH INPUT */}
+          <input
+            className="mr-2 py-2 px-3 text-16 bg-light home-inputs w-100"
+            type="search"
+            placeholder="Search for a group"
+            aria-label="Search"
+          />
+        </div>
 
-          <div className="d-flex flex-grow-1">
-            {/*LOCATION ICON */}
-
-            <div className="bg-dark-blue py-2 px-3 rounded">
-              <img src={locationIcon} height="40px" className="home-icons" />
-            </div>
-            {/*LOCATION INPUT */}
-
-            <input
-              className=" py-2 px-4 text-16 bg-light home-inputs w-100"
-              type="search"
-              placeholder="Ciudad, barrio..."
-            />
+        {/*LOCATION SIDE */}
+        <div className="d-flex flex-grow-1 mb-2 mb-md-0 me-md-2">
+          {/*LOCATION ICON */}
+          <div className="bg-dark-blue py-2 px-3 rounded">
+            <img src={locationIcon} height="40px" className="home-icons" />
           </div>
 
-          {/*SUBMIT BUTTON */}
+          {/*LOCATION INPUT */}
+          <input
+            className="py-2 px-3 text-16 bg-light home-inputs w-100"
+            type="search"
+            placeholder="Location"
+          />
+        </div>
 
-          <button
-            className="btn rounded-3 rounded-end home-input-btn bg-dark-blue fw-bolder text-16 text-light my-2 my-sm-0 px-4"
-            type="submit"
-          >
-            Encuentra tu grupo
-          </button>
-        </form>
-      </div>
-    </section>
+        {/*SUBMIT BUTTON */}
+        <button
+          className="btn rounded-3 rounded-end home-input-btn bg-dark-blue fw-bolder text-16 text-light px-4"
+          type="submit"
+        >
+          Find a Group
+        </button>
+      </form>
+    </div>
+    // </section>
   );
 };
