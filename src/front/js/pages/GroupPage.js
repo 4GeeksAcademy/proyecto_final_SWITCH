@@ -1,7 +1,5 @@
 import React from 'react';
 import '../../styles/martha.css';
-import '../../img/logo-switch.png';
-import '../../img/ventana-2bocadillos.png'
 import '../../img/LaTertulia.png'
 
 function GroupPage() {
@@ -13,7 +11,7 @@ function GroupPage() {
       <div className="main-content">
         <div className="contenedores">          
           <div className="descripcion">
-            <h2>Descripción:</h2>
+            <h2 className="tipoh2">Descripción:</h2>
             <p className="extradark-grey"> 
               Bienvenidos a nuestras tardes de intercambio!.
               ¡Aquí podrás conocer gente nueva para practicar tu inglés, español o cualquier otro idioma que encuentres en nuestro bar! 
@@ -24,17 +22,17 @@ function GroupPage() {
           </div>
 
           <div className="organizador">
-            <h2>Organizador:</h2>
+            <h2 className="tipoh2">Organizador:</h2>
             <p className="extradark-grey">Stefanie Houston</p>
           </div>
 
           <div className="miembros">
-            <h2>Miembros:</h2>
+            <h2 className="tipoh2">Miembros:</h2>
             <p className="extradark-grey">Lista de miembros o información relevante.</p>
           </div>
 
           <div className="eventos"> 
-            <h2>Eventos:</h2>
+            <h2 className="tipoh2">Eventos:</h2>
             <p className="extradark-grey">Información sobre próximos eventos.</p>
           </div>
           
