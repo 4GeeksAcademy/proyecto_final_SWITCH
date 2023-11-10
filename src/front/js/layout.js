@@ -10,7 +10,6 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import GroupPage from "./pages/GroupPage";
 import { SearchResults } from "./pages/searchResults";
-import injectContext from "./store/appContext";
 
 
 // Components
