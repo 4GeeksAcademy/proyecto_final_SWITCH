@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "../../styles/navbar.css";
 
-import logo from "../../img/logo-switch.png";
+import logo from "../../img/logo-switch-raya-blanca.png";
 
 import hamburger from "../../img/navbar-hamburger.png";
 
