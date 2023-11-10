@@ -28,7 +28,7 @@ header {
   padding: 10px 20px;
 }
 
-h2 {
+.tipoh2{
   background-color: #000080;
   color: white; /* texto blanco legible en el fondo azul */
   padding: 6px; /* Espacio interno para separar el texto del borde */
@@ -81,64 +81,3 @@ h2 {
       width: 100%; /* Ocupa el ancho completo */
     }
   }
-
-  /* Paleta de colores */
-.extralight-blue {
-  color: #cae8ff;
-}
-
-.light-blue {
-  color: #8bd1f3;
-}
-
-.blue {
-  color: #018fa6;
-}
-
-.dark-blue {
-  color: #01319d;
-}
-
-.extradark-blue {
-  color: #000080;
-}
-
-.yellow {
-  color: #ffc100;
-}
-
-.extradark-grey {
-  color: #040606;
-  text-align: justify;
-}
-
-/* Background colors */
-
-.bg-extralight-blue {
-  background-color: #cae8ff;
-}
-
-.bg-light-blue {
-  background-color: #8bd1f3;
-}
-
-.bg-blue {
-  background-color: #018fa6;
-}
-
-.bg-dark-blue {
-  background-color: #01319d;
-}
-
-.extradark-blue {
-  background-color: #000080;
-}
-
-.bg-yellow {
-  background-color: #ffc100;
-}
-
-.bg-extradark-grey {
-  background-color: #040606;
-}
-

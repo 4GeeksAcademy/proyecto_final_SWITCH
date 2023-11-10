@@ -11,6 +11,7 @@ import { Single } from "./pages/single";
 import GroupPage from "./pages/GroupPage";
 import { SearchResults } from "./pages/searchResults";
 
+
 // Components
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
