@@ -31,7 +31,7 @@ class Users(db.Model):
             "city": self.city,
             "languages": self.languages,
             "photo_url": self.photo_url,
-            "is_active": self.active,
+            "is_active": self.is_active,
             "role" : self.role      
         }
 
