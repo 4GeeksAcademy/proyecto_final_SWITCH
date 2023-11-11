@@ -7,20 +7,19 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, Users, Groups, Events, Events_attendee, Members_group
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 
-# Bcrypt
-from flask_bcrypt import Bcrypt
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import JWTManager
-
-
-#from models import Person
+# # Bcrypt
+# from flask_bcrypt import Bcrypt
+# from flask_jwt_extended import create_access_token
+# from flask_jwt_extended import get_jwt_identity
+# from flask_jwt_extended import jwt_required
+# from flask_jwt_extended import JWTManager
+# pipenv install flask-bcrypt
+# bcrypt = Bcrypt(app) 
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
@@ -71,19 +70,68 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
-
-# Code de Vanesa 
-# https://github.com/4GeeksAcademy/Authentication-system-with-Python-Flask-and-React.js-vanesascode/blob/main/src/app.py
-
+# CREATE NEW USER PROFILE (POST)
 @app.route('/CreateNewUserProfile', methods=['POST'])
 def create_new_user():
     # Extraer data de JSON
     body = request.get_json(silent=True)
     # Handle Errors
     if body is None:
-        return jsonify({'error': 'You must send information with the body'})
+        return jsonify({'error': 'You must send information with the body'}), 400
+    if 'first_name' not in body:
+        return jsonify({'error': 'You must include the first_name of the user'}), 400
+    if 'last_name' not in body:
+        return jsonify({'error': 'You must include the last_name of the user'}), 400
+    if 'user_name' not in body:
+        return jsonify({'error': 'You must include the user_name of the user'}), 400
+    if 'email' not in body:
+        return jsonify({'error': 'You must include an email for the user'}), 400
+    if 'password' not in body:
+        return jsonify({'error': 'You must include a password for the user'}), 400
+    if 'city' not in body:
+        return jsonify({'error': 'You must include the city of the user'}), 400
+    if 'role' not in body:
+        return jsonify({'error': 'You must specify the role of the user - member (true) or organizer (false)'}), 400
 
+    # Check: user_name must be unique
+    if Users.query.filter_by(user_name=body['user_name']).first() is not None:
+        return jsonify({'error': 'This user_name already exists'}), 400
+    
+    # Check: email must be unique
+    if Users.query.filter_by(email=body['email']).first() is not None:
+        return jsonify({'error': 'This email already exists'}), 400
 
+    # For no-required columns
+    languages = body.get('languages')
+    gender = body.get('gender')
+    photo_url = body.get('photo_url')
+
+    # Inserting New User into Database
+    new_user = Users()
+    # Required
+    new_user.first_name = body['first_name']
+    new_user.last_name = body['last_name']
+    new_user.user_name = body['user_name']
+    new_user.email = body['email']
+    new_user.password = body['password']
+    new_user.city = body['city']
+    new_user.role = body['role']
+    # Optional
+    new_user.gender = gender
+    new_user.languages = languages
+    new_user.photo_url = photo_url  # --> Todo: conectar API, ¿cómo tomar archivo y convertirlo en URL?
+    # Automatic   
+    new_user.is_active = True
+
+    # Add to Database
+    db.session.add(new_user)
+    db.session.commit()
+
+    # Client-side Message
+    return jsonify({'msg': 'New User Successfully Created'})
+
+# Code de Vanesa 
+# https://github.com/4GeeksAcademy/Authentication-system-with-Python-Flask-and-React.js-vanesascode/blob/main/src/app.py
 
 
 # this only runs if `$ python src/main.py` is executed

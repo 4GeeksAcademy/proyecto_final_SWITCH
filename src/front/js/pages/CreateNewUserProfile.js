@@ -23,18 +23,18 @@ export const CreateNewUserProfile = () => {
           <form>
             {/* FIRST NAME */}
             <div className="mb-3">
-              <label htmlFor="firstName" className="form-label">Nombre<span className="requiredAsterisk">*</span></label>
-              <input type="text" className="form-control" id="firstName" name="firstName" required />
+              <label htmlFor="first_name" className="form-label">Nombre<span className="requiredAsterisk">*</span></label>
+              <input type="text" className="form-control" id="first_name" name="first_name" required />
             </div>
             {/* LAST NAME */}
             <div className="mb-3">
-              <label htmlFor="lastName" className="form-label">Appelido(s)<span className="requiredAsterisk">*</span></label>
-              <input type="text" className="form-control" id="lastName" name="lastName" required />
+              <label htmlFor="last_name" className="form-label">Appelido(s)<span className="requiredAsterisk">*</span></label>
+              <input type="text" className="form-control" id="last_name" name="last_name" required />
             </div>
             {/* USER NAME */}
             <div className="mb-3">
-              <label htmlFor="userName" className="form-label">Nombre de Usuario<span className="requiredAsterisk">*</span></label>
-              <input type="text" className="form-control" id="userName" name="userName" required />
+              <label htmlFor="user_name" className="form-label">Nombre de Usuario<span className="requiredAsterisk">*</span></label>
+              <input type="text" className="form-control" id="user_name" name="user_name" required />
             </div>
             {/* EMAIL */}
             <div className="mb-3">
@@ -55,13 +55,13 @@ export const CreateNewUserProfile = () => {
             <fieldset className="mb-3">
               <legend className="col-form-label col-sm-2 pt-0">Tipo de Usuario<span className="requiredAsterisk">*</span></legend>
                 <div className="form-check mb-2">
-                  <input className="form-check-input" type="radio" name="radioChoice" id="radioMember" value="member" checked/>
+                  <input className="form-check-input" type="radio" name="radioMember" id="radioMember" value="true" checked/>
                   <label className="form-check-label" htmlFor="radioMember">
                     Miembro - solo quiero unirme a grupos y acudir a eventos
                   </label>
                 </div>
                 <div className="form-check">
-                  <input className="form-check-input" type="radio" name="radioChoice" id="radioOrganizer" value="organizer"/>
+                  <input className="form-check-input" type="radio" name="radioOrganizer" id="radioOrganizer" value="false"/>
                   <label className="form-check-label" htmlFor="radioOrganizer">
                     Organizador - quiero tanto crear un grupo y organizar eventos como unirme a grupos y acudir a eventos
                   </label>
@@ -124,7 +124,7 @@ export const CreateNewUserProfile = () => {
             {/* PHOTO FILE */}
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label">Imagen de perfil</label>
-              <input className="form-control" type="file" id="formFile"/>
+              <input className="form-control" type="file" id="formFile" name="photo"/>
             </div>
             {/* SUBMIT BUTTON */}
             <div className="mb-3 d-flex justify-content-center">
