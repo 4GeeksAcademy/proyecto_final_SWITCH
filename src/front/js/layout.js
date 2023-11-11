@@ -11,6 +11,7 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import GroupPage from "./pages/GroupPage";
 import { SearchResults } from "./pages/searchResults";
+import { CreateNewUserProfile } from "./pages/CreateNewUserProfile";
 
 
 // Components
@@ -37,6 +38,7 @@ const Layout = () => {
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<GroupPage />} path="/GroupPage" />
                         <Route element={<SearchResults />} path="/searchResults" />
+                        <Route element={<CreateNewUserProfile />} path="/CreateNewUserProfile" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

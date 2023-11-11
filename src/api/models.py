@@ -12,7 +12,7 @@ class Users(db.Model):
     password = db.Column(db.String(80), nullable = False)
     gender = db.Column(db.String(20))
     city = db.Column(db.String(50), nullable = False)
-    languages = db.Column(db.String(100), nullable = False)
+    languages = db.Column(db.String(100))
     photo_url = db.Column(db.String(500))
     is_active = db.Column(db.Boolean(), nullable = False)
     role = db.Column (db.Boolean(), nullable =False)
