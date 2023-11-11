@@ -61,7 +61,7 @@ export const Navbar = () => {
 
                 {/*BUTTON MEMEBERS*/}
 
-                <Link to="/sign-in">
+                <Link to="/signin">
                   <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
                     ACCESO MIEMBROS
                   </button>
@@ -69,7 +69,7 @@ export const Navbar = () => {
 
                 {/*BUTTON ORGANIZERS*/}
 
-                <Link to="/sign-in">
+                <Link to="/signin">
                   <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
                     ACCESO ORGANIZADORES
                   </button>
@@ -92,13 +92,13 @@ export const Navbar = () => {
                         </div>
                       </Link>
                       {/* BUTTON MEMEBERS */}
-                      <Link to="/sign-in" className="text-decoration-none">
+                      <Link to="/signin" className="text-decoration-none">
                         <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
                           Acceso miembros
                         </div>
                       </Link>
                       {/*BUTTON ORGANIZERS*/}
-                      <Link to="/sign-in" className="text-decoration-none">
+                      <Link to="/signin" className="text-decoration-none">
                         <div className="navbar-link-desplegable font-nunito  fw-bolder extralight-blue">
                           Acceso organizadores
                         </div>
@@ -142,11 +142,11 @@ export const Navbar = () => {
                 {/*BUTTON CERRAR SESION*/}
 
 
-                <Link to="/sign-up">
-                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey my-auto ms-4" onClick={handleClick}>
-                    CERRAR SESIÓN
-                  </button>
-                </Link>
+
+                <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey my-auto ms-4" onClick={handleClick}>
+                  CERRAR SESIÓN
+                </button>
+
 
               </div>
 
@@ -160,18 +160,18 @@ export const Navbar = () => {
                   {isNavbarOpen && (
                     <div className="bg-dark-blue d-flex navbar-desplegable flex-column rounded p-3 fs-4 align-items-start justify-content-start navbar-desplegable-go-up-when-open ">
                       {/* BUTTON MEMEBERS */}
-                      <Link to="/sign-in" className="text-decoration-none">
+                      <Link to="/Profile" className="text-decoration-none">
                         <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
                           Tu perfil
                         </div>
                       </Link>
 
                       {/*BUTTON register*/}
-                      <Link to="/sign-up" className="text-decoration-none">
-                        <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue ">
-                          Cerrar sessión
-                        </div>
-                      </Link>
+
+                      <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue " onClick={handleClick}>
+                        Cerrar sessión
+                      </div>
+
 
 
                     </div>

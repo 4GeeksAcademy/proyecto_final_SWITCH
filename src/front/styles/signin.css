@@ -1,0 +1,10 @@
+.signin_max-width {
+    max-width: 500px;
+  }
+
+  /* BUTTONS */
+
+.sign-in-btn:hover {
+    background-color: #01319d;
+
+  }
