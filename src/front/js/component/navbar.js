@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
+import { Context } from "../store/appContext";
+
 import "../../styles/navbar.css";
-
 import logo from "../../img/logo-switch-raya-blanca.png";
-
 import hamburger from "../../img/navbar-hamburger.png";
 
+
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
+
   const [isNavbarOpen, setNavbarOpen] = useState(false);
 
   const toggleNavbar = () => {
     setNavbarOpen((prevIsNavbarOpen) => !prevIsNavbarOpen);
+  };
+
+
+  // FUNCION PARA CERRAR SESION : 
+
+  const handleClick = () => {
+    actions.logout();
+    navigate("/");
   };
 
   return (
@@ -25,68 +36,152 @@ export const Navbar = () => {
 
         {/*BUTTONS - right side***********************************************************************************/}
 
-        {/* Buttons when screen big */}
+        {/* NO TOKEN */}
 
-        <div className="ml-auto ">
-          {/*BUTTON REGISTER*/}
 
-          <div className="d-xl-block d-none">
-            <Link to="/demo">
-              <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey my-auto">
-                REGÍSTRATE
-              </button>
-            </Link>
+        {/* {!store.token && ( */}
 
-            {/*BUTTON MEMEBERS*/}
+        {/*SOLO PARA TESTEAR*/}
 
-            <Link to="/demo">
-              <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
-                ACCESO MIEMBROS
-              </button>
-            </Link>
+        {store.navbar === "no token" && (
 
-            {/*BUTTON ORGANIZERS*/}
+          <>
 
-            <Link to="/demo">
-              <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
-                ACCESO ORGANIZADORES
-              </button>
-            </Link>
-          </div>
+            {/* Buttons when screen big */}
 
-          {/* Buttons when screen small */}
-          <div className="position-relative ">
-            <div className="d-xl-none d-block" onClick={toggleNavbar}>
-              <img src={hamburger} height="50px" className="mt-5" />
-            </div>
+            < div className="ml-auto ">
+              {/*BUTTON REGISTER*/}
 
-            <div className="d-xl-none ">
-              {isNavbarOpen && (
-                <div className="bg-dark-blue d-flex navbar-desplegable flex-column rounded p-3 fs-4 align-items-start justify-content-start navbar-desplegable-go-up-when-open ">
-                  {/*BUTTON register*/}
-                  <Link to="/demo" className="text-decoration-none">
-                    <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue ">
-                      Registro
-                    </div>
-                  </Link>
-                  {/* BUTTON MEMEBERS */}
-                  <Link to="/demo" className="text-decoration-none">
-                    <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
-                      Acceso miembros
-                    </div>
-                  </Link>
-                  {/*BUTTON ORGANIZERS*/}
-                  <Link to="/demo" className="text-decoration-none">
-                    <div className="navbar-link-desplegable font-nunito  fw-bolder extralight-blue">
-                      Acceso organizadores
-                    </div>
-                  </Link>
+              <div className="d-xl-block d-none">
+                <Link to="/sign-up">
+                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3 extradark-grey my-auto">
+                    REGÍSTRATE
+                  </button>
+                </Link>
+
+                {/*BUTTON MEMEBERS*/}
+
+                <Link to="/sign-in">
+                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
+                    ACCESO MIEMBROS
+                  </button>
+                </Link>
+
+                {/*BUTTON ORGANIZERS*/}
+
+                <Link to="/sign-in">
+                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
+                    ACCESO ORGANIZADORES
+                  </button>
+                </Link>
+              </div>
+
+              {/* Buttons when screen small */}
+              <div className="position-relative ">
+                <div className="d-xl-none d-block" onClick={toggleNavbar}>
+                  <img src={hamburger} height="50px" className="mt-5" />
                 </div>
-              )}
+
+                <div className="d-xl-none ">
+                  {isNavbarOpen && (
+                    <div className="bg-dark-blue d-flex navbar-desplegable flex-column rounded p-3 fs-4 align-items-start justify-content-start navbar-desplegable-go-up-when-open ">
+                      {/*BUTTON register*/}
+                      <Link to="/sign-up" className="text-decoration-none">
+                        <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue ">
+                          Registro
+                        </div>
+                      </Link>
+                      {/* BUTTON MEMEBERS */}
+                      <Link to="/sign-in" className="text-decoration-none">
+                        <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
+                          Acceso miembros
+                        </div>
+                      </Link>
+                      {/*BUTTON ORGANIZERS*/}
+                      <Link to="/sign-in" className="text-decoration-none">
+                        <div className="navbar-link-desplegable font-nunito  fw-bolder extralight-blue">
+                          Acceso organizadores
+                        </div>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+          </>
+        )}
+
+        {/*******************************************************************************************************************************************************/}
+
+        {/* TOKEN */}
+
+        {/* {store.token && ( */}
+
+        {/*SOLO PARA TESTEAR*/}
+        {store.navbar === "token" && (
+
+          <>
+
+            {/* Buttons when screen big */}
+
+            < div className="ml-auto ">
+
+
+
+
+              {/*BUTTON ORGANIZERS*/}
+              <div className="d-xl-block d-none">
+                <Link to="/profile">
+
+                  <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
+
+                </Link>
+
+
+
+                {/*BUTTON CERRAR SESION*/}
+
+
+                <Link to="/sign-up">
+                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey my-auto ms-4" onClick={handleClick}>
+                    CERRAR SESIÓN
+                  </button>
+                </Link>
+
+              </div>
+
+              {/* Buttons when screen small */}
+              <div className="position-relative ">
+                <div className="d-xl-none d-block" onClick={toggleNavbar}>
+                  <img src={hamburger} height="50px" className="mt-5" />
+                </div>
+
+                <div className="d-xl-none ">
+                  {isNavbarOpen && (
+                    <div className="bg-dark-blue d-flex navbar-desplegable flex-column rounded p-3 fs-4 align-items-start justify-content-start navbar-desplegable-go-up-when-open ">
+                      {/* BUTTON MEMEBERS */}
+                      <Link to="/sign-in" className="text-decoration-none">
+                        <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
+                          Tu perfil
+                        </div>
+                      </Link>
+
+                      {/*BUTTON register*/}
+                      <Link to="/sign-up" className="text-decoration-none">
+                        <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue ">
+                          Cerrar sessión
+                        </div>
+                      </Link>
+
+
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </>)}
+
+      </div >
+    </nav >
   );
 };
