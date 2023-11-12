@@ -12,19 +12,22 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 
-# # Bcrypt
-# from flask_bcrypt import Bcrypt
-# from flask_jwt_extended import create_access_token
-# from flask_jwt_extended import get_jwt_identity
-# from flask_jwt_extended import jwt_required
-# from flask_jwt_extended import JWTManager
-# pipenv install flask-bcrypt
-# bcrypt = Bcrypt(app) 
+# Bcrypt ---- pipenv install flask-bcrypt
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+
+
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+
+# Bcrypt ---- pipenv install flask-bcrypt
+bcrypt = Bcrypt(app) 
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -70,8 +73,10 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
+#################################################################################################################################################################
+
 # CREATE NEW USER PROFILE (POST)
-@app.route('/CreateNewUserProfile', methods=['POST'])
+@app.route('/api/CreateNewUserProfile', methods=['POST'])
 def create_new_user():
     # Extraer data de JSON
     body = request.get_json(silent=True)
@@ -106,6 +111,9 @@ def create_new_user():
     gender = body.get('gender')
     photo_url = body.get('photo_url')
 
+
+
+    pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
     # Inserting New User into Database
     new_user = Users()
     # Required
@@ -113,7 +121,7 @@ def create_new_user():
     new_user.last_name = body['last_name']
     new_user.user_name = body['user_name']
     new_user.email = body['email']
-    new_user.password = body['password']
+    new_user.password = pw_hash
     new_user.city = body['city']
     new_user.role = body['role']
     # Optional
@@ -129,6 +137,33 @@ def create_new_user():
 
     # Client-side Message
     return jsonify({'msg': 'New User Successfully Created'})
+
+#################################################################################################################################################################
+
+# SIGN-IN USER: 
+
+@app.route("/api/token", methods=["POST"])
+def create_token():
+
+    body = request.get_json(silent=True)
+
+    if body is None: 
+        return jsonify({"msg": "Body missing"}), 400 
+    if "email" not in body:
+        return jsonify({"msg": "Email missing"})
+    if "password" not in body:
+        return jsonify({"msg": "Password missing"})
+
+    user = User.query.filter_by(email=body['email']).first()
+    if user is None: 
+        return jsonify({"msg": "user doesn't exist"}), 402 
+    
+    if not bcrypt.check_password_hash(user.password, body['password']):
+        return jsonify({'msg':'password is not correct'}), 402
+
+    access_token = create_access_token(identity=user.email)
+    return jsonify(access_token=access_token), 200
+
 
 # Code de Vanesa 
 # https://github.com/4GeeksAcademy/Authentication-system-with-Python-Flask-and-React.js-vanesascode/blob/main/src/app.py
