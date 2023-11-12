@@ -19,8 +19,6 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 
-
-
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
 static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
@@ -28,6 +26,15 @@ app.url_map.strict_slashes = False
 
 # Bcrypt ---- pipenv install flask-bcrypt
 bcrypt = Bcrypt(app) 
+
+from datetime import timedelta
+
+# JWT MANAGER - FLASK JWT EXTENDED Configuration: 
+
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1) 
+
+app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')  
+jwt = JWTManager(app)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -154,7 +161,7 @@ def create_token():
     if "password" not in body:
         return jsonify({"msg": "Password missing"})
 
-    user = User.query.filter_by(email=body['email']).first()
+    user = Users.query.filter_by(email=body['email']).first()
     if user is None: 
         return jsonify({"msg": "user doesn't exist"}), 402 
     

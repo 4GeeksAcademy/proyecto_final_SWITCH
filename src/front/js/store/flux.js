@@ -130,7 +130,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					);
 					if (data.access_token != undefined) {
 						sessionStorage.setItem("token", data.access_token); //I know it's access_token cos I saw it in Postman/Google Network tool
-						setStore({ token: data.access_token });
+						setStore({ token: data.access_token }); // TOKEN IS NOT NULL ANYMORE, AND IS TRUE!
 						setStore({ registrationSuccess: true });
 						return true;
 					}
@@ -158,12 +158,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			logout: () => {
 				sessionStorage.removeItem("token");
-				console.log("login out");
+				console.log("logged out");
 				setStore({ token: null });
 				setStore({ message: null });
-				// location.reload();
+
 			},
-			// Use getActions to call a function within a fuction
+
+
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
@@ -180,6 +184,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
+
+			//////////////////////////////////////////////////////////////////////
+
+
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();

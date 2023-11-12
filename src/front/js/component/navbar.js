@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 
@@ -16,6 +16,8 @@ export const Navbar = () => {
   const toggleNavbar = () => {
     setNavbarOpen((prevIsNavbarOpen) => !prevIsNavbarOpen);
   };
+
+  const navigate = useNavigate();
 
 
   // FUNCION PARA CERRAR SESION : 
@@ -43,7 +45,7 @@ export const Navbar = () => {
 
         {/*SOLO PARA TESTEAR*/}
 
-        {store.navbar === "no token" && (
+        {!store.token && (
 
           <>
 
@@ -118,7 +120,7 @@ export const Navbar = () => {
         {/* {store.token && ( */}
 
         {/*SOLO PARA TESTEAR*/}
-        {store.navbar === "token" && (
+        {store.token && (
 
           <>
 

@@ -13,7 +13,7 @@ export const HomeExplanation = () => {
 
         <div className="bg-blue explanation-blue-box-left p-5 mb-5">
           <div className="d-flex justify-content-center">
-            <div class="explanation-white-line"></div>
+            <div className="explanation-white-line"></div>
           </div>
 
           <h3 className="fw-bold extradark-grey font-nunito home-explanation-title pt-3">
@@ -48,7 +48,7 @@ export const HomeExplanation = () => {
         {/*BLUE BOX RIGHT*/}
         <div className="bg-blue explanation-blue-box-right p-5">
           <div className="d-flex justify-content-center">
-            <div class="explanation-white-line"></div>
+            <div className="explanation-white-line"></div>
           </div>
           <h3 className="fw-bold extradark-grey font-nunito home-explanation-title pt-3">
             Crea tu propio grupo y eventos
