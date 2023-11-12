@@ -1,0 +1,24 @@
+/* INPUT SEARCH BAR */
+
+.home-search-bar-shadow {
+  box-shadow: 0 0.5rem 1rem rgba(45, 45, 45, 0.12),
+    0 0.25rem 0.5rem rgba(45, 45, 45, 0.16), 0 0 0.125rem rgba(45, 45, 45, 0.2);
+}
+
+.home-inputs {
+  outline: none;
+  border: none;
+}
+
+.home-input-btn:hover {
+  background-color: #018fa6;
+}
+
+.home-icons {
+  filter: invert(100%);
+}
+
+.search-icon-div {
+  padding-left: 12px;
+  padding-right: 12px;
+}

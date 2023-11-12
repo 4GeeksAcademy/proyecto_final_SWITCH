@@ -1,0 +1,36 @@
+.navbar-btn:hover {
+  background-color: #000080 !important;
+  color: #cae8ff;
+}
+
+.navbar-desplegable {
+  width: 200px;
+  z-index: 50;
+  position: absolute;
+  right: 0px;
+  top: 140px;
+}
+
+.navbar-link-desplegable:hover {
+  color: #018fa6;
+}
+
+@keyframes go-up {
+  0% {
+    transform: translateY(90px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 100%;
+  }
+}
+
+.navbar-desplegable-go-up-when-open {
+  opacity: 0;
+  animation-name: go-up;
+  animation-duration: 0.5s;
+  animation-delay: 0;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
+}
