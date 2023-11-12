@@ -43,7 +43,7 @@ header {
 }
 
 /* Estilos para títulos dentro de los div contenedores */
-h2 {
+.tipoh2 {
     font-size: 1.5em; /* Ejemplo de tamaño de fuente para pantallas grandes */
   
     @media (max-width: 768px) {
