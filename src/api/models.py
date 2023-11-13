@@ -72,7 +72,7 @@ class Events(db.Model):
     end_time = db.Column(db.DateTime, nullable = False)
     location = db.Column(db.String, nullable = False)
     photo_url = db.Column(db.String(500))
-    attendee = db.Column(db.Boolean(), nullable = False)
+    attendee = db.Column(db.Boolean())
     event_capacity = db.Column(db.Integer, nullable = False)
     id_group = db.Column(db.Integer, db.ForeignKey('groups.id_group'))
     group_relationship = db.relationship(Groups)
