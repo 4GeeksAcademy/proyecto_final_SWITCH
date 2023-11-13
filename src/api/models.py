@@ -141,7 +141,7 @@ class Enum_languages(enum.Enum):
     french = 'french'
     italian = 'italian'
     german = 'german'
-    portugues = 'portugues'
+    portuguese = 'portugues'
     russian = 'russian'
     arabic = 'arabic'
     japanese = 'japanese'
