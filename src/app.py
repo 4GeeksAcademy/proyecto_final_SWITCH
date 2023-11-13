@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from api.utils import APIException, generate_sitemap
-from api.models import db, Users, Groups, Events, Events_attendee, Members_group
+from api.models import db, Users, Groups, Events, Events_attendee, Members_group, User_languages
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -118,8 +118,6 @@ def create_new_user():
     gender = body.get('gender')
     photo_url = body.get('photo_url')
 
-
-
     pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
     # Inserting New User into Database
     new_user = Users()
@@ -133,7 +131,6 @@ def create_new_user():
     new_user.role = body['role']
     # Optional
     new_user.gender = gender
-    new_user.languages = languages
     new_user.photo_url = photo_url  # --> Todo: conectar API, ¿cómo tomar archivo y convertirlo en URL?
     # Automatic   
     new_user.is_active = True
@@ -141,6 +138,16 @@ def create_new_user():
     # Add to Database
     db.session.add(new_user)
     db.session.commit()
+
+    # User Languages
+    if languages is not None:
+        for language in languages:
+            new_user_language = User_languages()
+            new_user_language.language = language
+            new_user_language.id_user = new_user.id_user
+
+            db.session.add(new_user_language)
+            db.session.commit()
 
     # Client-side Message
     return jsonify({'msg': 'New User Successfully Created'})
