@@ -44,6 +44,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ registrationWrong: value });
 			},
 
+			/////////// CREATE USER IN DATABASE //////////////
+
+			// createUser: async () =>
+
 			/////////// REGISTER USER IN DATABASE //////////////
 
 			register: async (email, password) => {
