@@ -1,5 +1,5 @@
 import click
-from api.models import db, Users, Groups, Events
+from api.models import db, Users, Groups, Events, User_languages
 """
 In this file, you can add as many commands as you want using the @app.cli.command decorator
 Flask commands are useful to run cronjobs or tasks outside of the API but sill in integration
@@ -7,9 +7,9 @@ with your database, for example: Import the price of bitcoin every night as 12am
 """
 def setup_commands(app):
     """
-    This is an example command "insert-test-users" that you can run from the command line
-    by typing: $ flask insert-test-users 5
-    Note: 5 is the number of users to add
+    El commando (dentro de pipenv shell) es "flask insert-test-<palabara>" 
+    más un número que significa la cantidad de ese tipo de dato que quieres 
+    insertar en la BBD from the command line
     """
     # Crear Nuevos Miembros
     @app.cli.command("insert-test-members") # name of our command
@@ -26,15 +26,25 @@ def setup_commands(app):
             test_member.city = "Testevilla"
             test_member.role = True # True = Member, False = Organizer
             test_member.gender = "male"
-            test_member.languages = "spanish"
             test_member.photo_url = "www.memberphoto_url" + str(x) + ".com"
             test_member.is_active = True
-            
+        
             db.session.add(test_member)
-            db.session.commit()
-            print("TestMember: ", test_member.user_name, " created.")
-            
-        print("All test members created")
+            db.session.commit()     
+            print("TestMember: ", test_member.user_name, "created.")
+
+            # Languages
+            languages = ["spanish", "english"]
+            for language in languages: 
+                test_member_languages = User_languages()
+                test_member_languages.id_user = test_member.id_user
+                test_member_languages.language = language
+                
+                db.session.add(test_member_languages)
+                print("Languages: ", test_member_languages.language, "added.")
+                db.session.commit()
+
+        print("All test members and languages created")
         
     # Crear Nuevos Organizadores
     @app.cli.command("insert-test-organizers") # name of our command
