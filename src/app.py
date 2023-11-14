@@ -80,6 +80,83 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
+################################################################################################################################################################
+
+# GET ALL EVENTS
+
+# TODO APPLY FILTERING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+@app.route('/api/allEvents', methods=['GET'])
+def get_all_events():
+    # Retrieve all events from the database
+    all_events = Events.query.all()
+
+    # Convert the events to a list of dictionaries
+    events_list = []
+    for event in all_events:
+        event_dict = {
+            'name': event.name,
+            'description': event.description,
+            'start_time': event.start_time,
+            'end_time': event.end_time,
+            'location': event.location,
+            'event_capacity': event.event_capacity
+        }
+        events_list.append(event_dict)
+
+    # Print the events list for debugging
+    print("Events List:", events_list)
+
+    # Return the list of events as a JSON response
+    return jsonify(events_list), 200
+
+################################################################################################################################################################
+
+# CREATE NEW EVENT
+
+# CREATE NEW USER PROFILE (POST)
+@app.route('/api/CreateNewEvent', methods=['POST'])
+def create_new_event():
+    # Extraer data de JSON
+    body = request.get_json(silent=True)
+    # Handle Errors
+    if body is None:
+        return jsonify({'error': 'You must send information with the body'}), 400
+    if 'name' not in body:
+        return jsonify({'error': 'You must include the name of the event'}), 400
+    if 'description' not in body:
+        return jsonify({'error': 'You must include the description of the event'}), 400
+    if 'start_time' not in body:
+        return jsonify({'error': 'You must include the start_time of the event'}), 400
+    if 'end_time' not in body:
+        return jsonify({'error': 'You must include an end_time for the event'}), 400
+    if 'location' not in body:
+        return jsonify({'error': 'You must include a location for the event'}), 400
+    if 'event_capacity' not in body:
+        return jsonify({'error': 'You must include the event_capacity of the event'}), 400
+
+
+    # Check: name must be unique
+    if Events.query.filter_by(name=body['name']).first() is not None:
+        return jsonify({'error': 'This event name already exists'}), 400
+
+  # Create a new event object
+    new_event = Events(
+        name=body['name'],
+        description=body['description'],
+        start_time=body['start_time'],
+        end_time=body['end_time'],
+        location=body['location'],
+        event_capacity=body['event_capacity']
+    )
+
+    # Add the new event to the database
+    db.session.add(new_event)
+    db.session.commit()
+
+    # Return success response
+    return jsonify({'message': 'Event created successfully'}), 200
+
 #################################################################################################################################################################
 
 # CREATE NEW USER PROFILE (POST)
