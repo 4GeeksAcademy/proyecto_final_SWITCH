@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			events: [],
 			token: null,
 			registrationSuccess: false,
 			registrationExists: false,
@@ -62,6 +63,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return response.json();
 					})
 					.then((allEvents) => {
+						setStore({ events: allEvents });
 						console.log("All Events:", allEvents);
 					})
 					.catch((error) => {

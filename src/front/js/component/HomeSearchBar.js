@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import "../../styles/searchBar.css";
 import locationIcon from "../../img/home-location-icon.png";
 import searchIcon from "../../img/home-search-icon.png";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const HomeSearchBar = () => {
   const { store, actions } = useContext(Context);
@@ -10,23 +11,17 @@ export const HomeSearchBar = () => {
   const [searchLocation, setSearchLocation] = useState("");
   const [searchedResults, setSearchedResults] = useState([]);
 
-  // TODO APPLY FILTERING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-  // const filterPrompts = (searchEvent) => {
-  //   const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
-  //   return (
-  //     regex.test(store.organizer) ||
-  //     regex.test(store.member) ||
-  //     regex.test(store.event)
-  //   );
-  // };
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const searchResult = filterPrompts(searchEvent, searchLocation);
-    // setSearchedResults(searchResult);
-    // actions.searchEvents(searchedResults)
+
     actions.searchEvents();
+
+    if (location.pathname !== "/searchresults") {
+      navigate("/searchresults");
+    }
   };
 
   return (
@@ -47,7 +42,7 @@ export const HomeSearchBar = () => {
             placeholder="Search for a group"
             aria-label="Search"
             onChange={(e) => setSearchEvent(e.target.value)}
-            value={searchGroup}
+            value={searchEvent}
           />
         </div>
 
@@ -64,7 +59,7 @@ export const HomeSearchBar = () => {
             type="search"
             placeholder="Location"
             aria-label="Search Location"
-            onChange={handleSearchLocationChange}
+            onChange={(e) => setSearchLocation(e.target.value)}
             value={searchLocation}
           />
         </div>
