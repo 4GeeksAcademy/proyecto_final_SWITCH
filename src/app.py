@@ -36,7 +36,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')  
 jwt = JWTManager(app)
 
-# database condiguration
+# database configuration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
@@ -105,6 +105,8 @@ def create_new_user():
     if 'role' not in body:
         return jsonify({'error': 'You must specify the role of the user - member (true) or organizer (false)'}), 400
 
+    
+
     # Check: user_name must be unique
     if Users.query.filter_by(user_name=body['user_name']).first() is not None:
         return jsonify({'error': 'This user_name already exists'}), 400
@@ -150,7 +152,9 @@ def create_new_user():
             db.session.commit()
 
     # Client-side Message
-    return jsonify({'msg': 'New User Successfully Created'})
+    response = jsonify({'msg': 'New User Successfully Created'})
+    response.headers.add('Access-Control-Allow-Origin', "*")
+    return response
 
 #################################################################################################################################################################
 

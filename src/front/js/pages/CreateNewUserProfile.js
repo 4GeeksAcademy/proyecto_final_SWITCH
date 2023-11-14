@@ -45,7 +45,9 @@ export const CreateNewUserProfile = () => {
   // Form Submit Function 
   const handleSubmit = (e) => {
     e.preventDefault();
-    actions.createNewUser(newUserFirstName, newUserLastName, newUserUserName, newUserEmail, newUserPassword, newUserCity, newUserRole, newUserGender, newUserLanguages, newUserPhoto)
+    actions.createNewUser(newUserFirstName, newUserLastName, newUserUserName, newUserEmail, 
+                          newUserPassword, newUserCity, newUserRole, newUserGender,
+                          newUserLanguages, newUserPhoto)
   }
 
   return (

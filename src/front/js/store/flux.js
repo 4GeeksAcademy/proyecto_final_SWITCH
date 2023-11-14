@@ -46,7 +46,59 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			/////////// CREATE USER IN DATABASE //////////////
 
-			// createUser: async () =>
+			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
+				
+				// Testing Input
+				// return(console.log(firstName, lastName, userName, email, city, role, gender, languages, photo)) ✅
+				
+				// Converting boolean values for Python
+				// if (role === "true") {
+				// 	role = "True"
+				// }
+				// if (role === "false") {
+				// 	role = "False"
+				// }
+				// console.log(role)
+
+				// New User Fetch Request Body
+				const fetchBody = {
+					method: "POST",
+					mode: "no-cors", // CHANGE BACK TO CORS LATER -> CORS ERROR?
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						first_name: firstName,
+						last_name: lastName,
+						user_name: userName,
+						email: email,
+						password: password, 
+						city: city,
+						role: role, 
+						gender: gender, 
+						languages: languages, 
+						photo_url: photo_url
+					})
+				}
+				// Fetch Request 
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/CreateNewUserProfile", fetchBody);
+					const responseData = await response.json();
+					console.log(responseData)
+
+					// Handling Different Outcomes 
+					if(response.ok) {
+						alert("El nuevo usuario se ha creado con éxito")
+					} else {
+						const errorMessage = await response.text();
+						alert(`Ha habido un error en crear tu perfil. Inténtalo de nuevo. Detalles: ${errorMessage}`)
+					}	
+					return responseData				
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+			},
 
 			/////////// REGISTER USER IN DATABASE //////////////
 
