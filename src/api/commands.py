@@ -41,7 +41,7 @@ def setup_commands(app):
                 test_member_languages.language = language
                 
                 db.session.add(test_member_languages)
-                print("Languages: ", test_member_languages.language, "added.")
+                print("Languages:", test_member_languages.language, "added.")
                 db.session.commit()
 
         print("All test members and languages created")
