@@ -1,7 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			navbar: "no token", // "token"  -------------- SOLO PARA TESTEAR
 			token: null,
 			registrationSuccess: false,
 			registrationExists: false,
@@ -42,7 +41,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setRegistrationWrong: (value) => {
 				setStore({ registrationWrong: value });
+
+
+
 			},
+			///////////// MANAGE SEARCH RESULT FROM THE SEARCH BAR ///////////////////////
+
+			///////////// GET ALL EVENTS  (for now as a TEST) ///////////////////////
+
+
+			// TODO APPLY FILTERING PARAMETER!!!!!!!!!!!!!!!!!!!!!
+			
+			searchEvents: () => {
+				// Perform a fetch request to retrieve all events
+				fetch(`${process.env.BACKEND_URL}/api/allEvents`)
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error('Error fetching events');
+						}
+						return response.json();
+					})
+					.then((allEvents) => {
+						console.log("All Events:", allEvents);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			},
+
 
 			/////////// CREATE USER IN DATABASE //////////////
 

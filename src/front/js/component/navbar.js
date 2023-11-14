@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 import { Context } from "../store/appContext";
 
@@ -18,7 +18,7 @@ export const Navbar = () => {
   };
 
   const navigate = useNavigate();
-
+  const location = useLocation();
 
   // FUNCION PARA CERRAR SESION : 
 
@@ -29,7 +29,7 @@ export const Navbar = () => {
 
   return (
     <nav className="navbar bg-blue py-3 d-flex navbar-expand-lg">
-      <div className="container">
+      <div className={`container ${location.pathname === "/createnewuserprofile" ? "d-flex justify-content-center" : ""}`}>
         {/*LOGO - left side***********************************************************************************/}
 
         <Link to="/">
@@ -40,12 +40,7 @@ export const Navbar = () => {
 
         {/* NO TOKEN */}
 
-
-        {/* {!store.token && ( */}
-
-        {/*SOLO PARA TESTEAR*/}
-
-        {!store.token && (
+        {!store.token && location.pathname !== "/createnewuserprofile" && (
 
           <>
 
@@ -55,25 +50,18 @@ export const Navbar = () => {
               {/*BUTTON REGISTER*/}
 
               <div className="d-xl-block d-none">
-                <Link to="/sign-up">
+                <Link to="/createnewuserprofile">
                   <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3 extradark-grey my-auto">
                     REGÍSTRATE
                   </button>
                 </Link>
 
-                {/*BUTTON MEMEBERS*/}
-
-                <Link to="/signin">
-                  <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
-                    ACCESO MIEMBROS
-                  </button>
-                </Link>
 
                 {/*BUTTON ORGANIZERS*/}
 
                 <Link to="/signin">
                   <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey ms-3">
-                    ACCESO ORGANIZADORES
+                    ACCEDE A TU CUENTA
                   </button>
                 </Link>
               </div>
@@ -93,16 +81,11 @@ export const Navbar = () => {
                           Registro
                         </div>
                       </Link>
-                      {/* BUTTON MEMEBERS */}
-                      <Link to="/signin" className="text-decoration-none">
-                        <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
-                          Acceso miembros
-                        </div>
-                      </Link>
+
                       {/*BUTTON ORGANIZERS*/}
                       <Link to="/signin" className="text-decoration-none">
                         <div className="navbar-link-desplegable font-nunito  fw-bolder extralight-blue">
-                          Acceso organizadores
+                          Acceso
                         </div>
                       </Link>
                     </div>
@@ -117,9 +100,6 @@ export const Navbar = () => {
 
         {/* TOKEN */}
 
-        {/* {store.token && ( */}
-
-        {/*SOLO PARA TESTEAR*/}
         {store.token && (
 
           <>
@@ -127,8 +107,6 @@ export const Navbar = () => {
             {/* Buttons when screen big */}
 
             < div className="ml-auto ">
-
-
 
 
               {/*BUTTON ORGANIZERS*/}
@@ -140,9 +118,7 @@ export const Navbar = () => {
                 </Link>
 
 
-
                 {/*BUTTON CERRAR SESION*/}
-
 
 
                 <button className="btn rounded-3 rounded navbar-btn bg-light fw-bolder text-16 px-md-5 px-0 py-3  extradark-grey my-auto ms-4" onClick={handleClick}>
