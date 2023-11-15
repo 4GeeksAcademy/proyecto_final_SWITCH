@@ -52,15 +52,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) =>
 			{
 				const store = getStore();
+				
+				role = (role === 'true')? true : false
 
 				// Testing Input
-				// return(console.log(firstName, lastName, userName, email, city, role, gender, languages, photo)) ✅
+				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
 
 				// Variables for Fetch Request Body
 				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
 				const fetchBody = {
 					method: "POST",
-					mode: "cors",
+	
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -77,15 +79,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 						photo_url: photo_url
 					})
 				}
-				console.log("fetchUrl:", fetchUrl)
-				console.log("fetchBody:", fetchBody)
+				// console.log("fetchUrl:", fetchUrl)
+				// console.log("fetchBody:", fetchBody)
 
 				// Fetch Request 
 				try {
 					const response = await fetch(fetchUrl, fetchBody);
-					console.log("response:", response)
+					// console.log("response:", response)
 					const responseData = await response.json();
-					console.log("responseData:", responseData)
+					// console.log("responseData:", responseData)
 
 					// Handling Different Outcomes 
 					if(response.ok) {
@@ -101,18 +103,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error
 				}
 			},
-
-			/* 
-				PROBLEMAS: 
-				- CORs, autorización correcta entre frontend y backend
-					--> POST funciona en POSTMAN pero no aquí 
-				
-				TODO:
-				- Una vez la llamada funcione, hay que convertir "true" a True en el backend?
-				- Comprueba lo que ve el usuario en el frontend después de una llamada éxistoso/fallida
-					--> funcionan lo del 'setStore' y los useEffect en el archivo del formulario?
-
-			*/
 
 			/////////// REGISTER USER IN DATABASE //////////////
 
