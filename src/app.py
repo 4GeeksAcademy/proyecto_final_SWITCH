@@ -36,7 +36,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')  
 jwt = JWTManager(app)
 
-# database condiguration
+# database configuration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
@@ -181,6 +181,8 @@ def create_new_user():
         return jsonify({'error': 'You must include the city of the user'}), 400
     if 'role' not in body:
         return jsonify({'error': 'You must specify the role of the user - member (true) or organizer (false)'}), 400
+
+    # Need to convert JS string "true" & "false" values to Python True & False?
 
     # Check: user_name must be unique
     if Users.query.filter_by(user_name=body['user_name']).first() is not None:

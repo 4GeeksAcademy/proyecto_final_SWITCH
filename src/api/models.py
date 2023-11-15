@@ -18,7 +18,7 @@ class Users(db.Model):
     role = db.Column (db.Boolean(), nullable =False)
 
     # Consideración: usar una tabla de Enum para role? 
-    # ¿Hacer algo parecido a lo que hemos hecho para idioms?
+    # ¿Hacer algo parecido a lo que hemos hecho para idiomas?
 
 
     def __repr__(self):
@@ -65,6 +65,7 @@ class Groups(db.Model):
             "is_active": self.active            
         }
     
+    # Consideración: necesitamos otra tabla de "Group_languages"? 
 
 class Events(db.Model):
     __tablename__ = 'events'
