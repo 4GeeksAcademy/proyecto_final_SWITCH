@@ -1,4 +1,3 @@
-
 /* FONTS */
 
 /* Nunito */
@@ -12,16 +11,13 @@
 /* Colors */
 
 /* Establece el color de fondo amarillo para toda la página */
-body {
+group-page{
     background-color: #ffc100;
-}
-
-/* Estilos generales */
-body {
     font-family: "Nunito", sans-serif;
     margin: 0;
     padding: 0;
 }
+
 header {
   display: flex;
   justify-content: space-between;
@@ -43,7 +39,7 @@ header {
 }
 
 /* Estilos para títulos dentro de los div contenedores */
-h2 {
+.tipoh2{
     font-size: 1.5em; /* Ejemplo de tamaño de fuente para pantallas grandes */
   
     @media (max-width: 768px) {

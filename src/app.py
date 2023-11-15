@@ -80,6 +80,83 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
+################################################################################################################################################################
+
+# GET ALL EVENTS
+
+# TODO APPLY FILTERING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+@app.route('/api/allEvents', methods=['GET'])
+def get_all_events():
+    # Retrieve all events from the database
+    all_events = Events.query.all()
+
+    # Convert the events to a list of dictionaries
+    events_list = []
+    for event in all_events:
+        event_dict = {
+            'name': event.name,
+            'description': event.description,
+            'start_time': event.start_time,
+            'end_time': event.end_time,
+            'location': event.location,
+            'event_capacity': event.event_capacity
+        }
+        events_list.append(event_dict)
+
+    # Print the events list for debugging
+    print("Events List:", events_list)
+
+    # Return the list of events as a JSON response
+    return jsonify(events_list), 200
+
+################################################################################################################################################################
+
+# CREATE NEW EVENT
+
+# CREATE NEW USER PROFILE (POST)
+@app.route('/api/CreateNewEvent', methods=['POST'])
+def create_new_event():
+    # Extraer data de JSON
+    body = request.get_json(silent=True)
+    # Handle Errors
+    if body is None:
+        return jsonify({'error': 'You must send information with the body'}), 400
+    if 'name' not in body:
+        return jsonify({'error': 'You must include the name of the event'}), 400
+    if 'description' not in body:
+        return jsonify({'error': 'You must include the description of the event'}), 400
+    if 'start_time' not in body:
+        return jsonify({'error': 'You must include the start_time of the event'}), 400
+    if 'end_time' not in body:
+        return jsonify({'error': 'You must include an end_time for the event'}), 400
+    if 'location' not in body:
+        return jsonify({'error': 'You must include a location for the event'}), 400
+    if 'event_capacity' not in body:
+        return jsonify({'error': 'You must include the event_capacity of the event'}), 400
+
+
+    # Check: name must be unique
+    if Events.query.filter_by(name=body['name']).first() is not None:
+        return jsonify({'error': 'This event name already exists'}), 400
+
+  # Create a new event object
+    new_event = Events(
+        name=body['name'],
+        description=body['description'],
+        start_time=body['start_time'],
+        end_time=body['end_time'],
+        location=body['location'],
+        event_capacity=body['event_capacity']
+    )
+
+    # Add the new event to the database
+    db.session.add(new_event)
+    db.session.commit()
+
+    # Return success response
+    return jsonify({'message': 'Event created successfully'}), 200
+
 #################################################################################################################################################################
 
 # CREATE NEW USER PROFILE (POST)
@@ -120,7 +197,9 @@ def create_new_user():
     gender = body.get('gender')
     photo_url = body.get('photo_url')
 
+    # BCrypting Password
     pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
+
     # Inserting New User into Database
     new_user = Users()
     # Required
@@ -181,9 +260,71 @@ def create_token():
     return jsonify(access_token=access_token), 200
 
 
-# Code de Vanesa 
-# https://github.com/4GeeksAcademy/Authentication-system-with-Python-Flask-and-React.js-vanesascode/blob/main/src/app.py
+#################################################################################################################################################################
 
+# UPDATE USER PROFILE (PUT)
+
+@app.route('/api/UpdateUserProfile/<int:id_user>', methods=["PUT"])
+def updateMember(id_user): 
+
+    # Find user by user_id
+    user = Users.query.get(id_user) # alternative: user_name?
+    # Handle Errors
+    if user is None: 
+        return jsonify({"Error:", "The user with id {} doesn't exist".format(id_user)}), 400
+
+    # Extraer data de JSON
+    body = request.get_json(silent=True)
+    # Handle Errors
+    if body is None:
+        return jsonify({'error': 'You must send information with the body'}), 400
+    # Member Profile Update
+    if 'first_name' in body:
+        user.first_name = body['first_name']
+    if 'last_name' in body:
+        user.last_name = body['last_name']
+    if 'user_name' in body:
+        user.user_name = body['user_name']
+    if 'email' in body:
+        user.email = body['email']
+    if 'password' in body:
+        user.password = body['password']
+    if 'city' in body:
+        user.city = body['city']
+    if 'role' in body:
+        user.role = body['role']
+    if 'gender' in body:
+        user.gender = body['gender']
+    if 'photo_url' in body:
+        user.photo_url = body['photo_url']
+ 
+    # Handle Password Update
+    if 'password' in body:
+        pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
+        user.password = pw_hash
+
+    # Commit changes to database
+    db.session.commit()
+
+    # Handle User Languages Update
+    languages = body.get('languages')
+    if languages is not None: 
+        # Remove existing languages
+        User_languages.query.filter_by(id_user=user.id_user).delete()
+        # Add new languages
+        for language in languages:
+            new_user_language = User_languages()
+            new_user_language.language = language
+            new_user_language.id_user = user.id_user
+
+            db.session.add(new_user_language)
+        
+        db.session.commit()
+
+    # Client-side Message
+    return jsonify({'msg': 'User Profile Successfully Updated'})
+
+#################################################################################################################################################################
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

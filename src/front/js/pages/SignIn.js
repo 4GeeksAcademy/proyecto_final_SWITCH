@@ -34,7 +34,7 @@ export const SignIn = () => {
     };
 
     return (
-        <div className="text-center mt-5 signin_max-width container ">
+        <div className="text-center mt-5 signin_max-width container">
 
             {!store.registrationSuccess &&
                 <h1 className="font-nunito fs-1 my-4">Acceso a tu cuenta</h1>
@@ -87,7 +87,7 @@ export const SignIn = () => {
                     </form>
 
                     <p className="mt-5 mb-5 extradark-grey fs-5 font-nunito ">
-                        Aún no te registrate? <Link to="/signup"> Haz click aquí! </Link>
+                        ¿Aún no te has registrado? <Link to="/createnewuserprofile"> Haz click aquí. </Link>
                     </p>
                 </div>
             )
