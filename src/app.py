@@ -262,7 +262,7 @@ def create_token():
 
 # UPDATE USER PROFILE (PUT)
 
-@app.route('/api/UpdateUserProfile/<int:id_user', methods=["PUT"])
+@app.route('/api/UpdateUserProfile/<int:id_user>', methods=["PUT"])
 def updateMember(id_user): 
 
     # Find user by user_id
