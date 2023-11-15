@@ -3,6 +3,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			navbar: "no token", // "token"  -------------- SOLO PARA TESTEAR
 			token: null,
+			userCreatedSuccess: false,
+			userCreatedFailure: false,
 			registrationSuccess: false,
 			registrationExists: false,
 			registrationEmpty: false,
@@ -43,27 +45,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setRegistrationWrong: (value) => {
 				setStore({ registrationWrong: value });
 			},
+			
 
 			/////////// CREATE USER IN DATABASE //////////////
 
-			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
-				
+			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) =>
+			{
+				const store = getStore();
+
 				// Testing Input
 				// return(console.log(firstName, lastName, userName, email, city, role, gender, languages, photo)) ✅
-				
-				// Converting boolean values for Python
-				// if (role === "true") {
-				// 	role = "True"
-				// }
-				// if (role === "false") {
-				// 	role = "False"
-				// }
-				// console.log(role)
 
-				// New User Fetch Request Body
+				// Variables for Fetch Request Body
+				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
 				const fetchBody = {
 					method: "POST",
-					mode: "no-cors", // CHANGE BACK TO CORS LATER -> CORS ERROR?
+					mode: "cors",
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -80,25 +77,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 						photo_url: photo_url
 					})
 				}
+				console.log("fetchUrl:", fetchUrl)
+				console.log("fetchBody:", fetchBody)
+
 				// Fetch Request 
 				try {
-					const response = await fetch(process.env.BACKEND_URL + "/api/CreateNewUserProfile", fetchBody);
+					const response = await fetch(fetchUrl, fetchBody);
+					console.log("response:", response)
 					const responseData = await response.json();
-					console.log(responseData)
+					console.log("responseData:", responseData)
 
 					// Handling Different Outcomes 
 					if(response.ok) {
-						alert("El nuevo usuario se ha creado con éxito")
-					} else {
+						setStore({userCreatedSuccess: true})
+					} 
+					if(!response.ok) {
 						const errorMessage = await response.text();
-						alert(`Ha habido un error en crear tu perfil. Inténtalo de nuevo. Detalles: ${errorMessage}`)
-					}	
-					return responseData				
+						console.log("errorMessage:", errorMessage);
+						setStore({userCreatedFailure: true})
+					}				
 				} catch (error) {
 					console.log('Error:', error)
 					throw error
 				}
 			},
+
+			/* 
+				PROBLEMAS: 
+				- CORs, autorización correcta entre frontend y backend
+					--> POST funciona en POSTMAN pero no aquí 
+				
+				TODO:
+				- Una vez la llamada funcione, hay que convertir "true" a True en el backend?
+				- Comprueba lo que ve el usuario en el frontend después de una llamada éxistoso/fallida
+					--> funcionan lo del 'setStore' y los useEffect en el archivo del formulario?
+
+			*/
 
 			/////////// REGISTER USER IN DATABASE //////////////
 
@@ -222,42 +236,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// FUNCIONES DE LA PLANTILLA
 
+			// exampleFunction: () => {
+			// 	getActions().changeColor(0, "green");
+			// },
 
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
+			// getMessage: async () => {
+			// 	try {
+			// 		// fetching data from the backend
+			// 		const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
+			// 		const data = await resp.json()
+			// 		setStore({ message: data.message })
+			// 		// don't forget to return something, that is how the async resolves
+			// 		return data;
+			// 	} catch (error) {
+			// 		console.log("Error loading message from backend", error)
+			// 	}
+			// },
 
-			getMessage: async () => {
-				try {
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
+			// changeColor: (index, color) => {
+			// 	//get the store
+			// 	const store = getStore();
 
-			//////////////////////////////////////////////////////////////////////
+			// 	//we have to loop the entire demo array to look for the respective index
+			// 	//and change its color
+			// 	const demo = store.demo.map((elm, i) => {
+			// 		if (i === index) elm.background = color;
+			// 		return elm;
+			// 	});
 
-
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
+			// 	//reset the global store
+			// 	setStore({ demo: demo });
+			// }
 		}
 	};
 };

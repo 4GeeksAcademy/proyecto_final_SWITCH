@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import "../../styles/createNewUserProfile.css";
@@ -19,12 +19,12 @@ export const CreateNewUserProfile = () => {
   const [newUserLanguages, setNewUserLanguages] = useState([]);
   const [newUserPhoto, setNewUserPhoto] = useState(""); // Duda: ¿Cómo gestionar input de un archivo?
 
-  // Checking Input Values
+  // CHECKING INPUT VALUES
   // function change(e) {
   //   console.log(e.target.value)
   // }
 
-  // Languages Array Function 
+  // LANGUAGES ARRAY FUNCTION  
   function languagesArray(language) {
     // console.log("Current array:", newUserLanguages) ✅
 
@@ -42,7 +42,7 @@ export const CreateNewUserProfile = () => {
     return
   }
 
-  // Form Submit Function 
+  // FORM SUBMIT FUNCTION  
   const handleSubmit = (e) => {
     e.preventDefault();
     actions.createNewUser(newUserFirstName, newUserLastName, newUserUserName, newUserEmail, 
@@ -50,28 +50,23 @@ export const CreateNewUserProfile = () => {
                           newUserLanguages, newUserPhoto)
   }
 
+  // USER SUCCESSFULLY CREATED
+  useEffect(() => {
+    store.userCreatedSuccess === true? 
+    alert("El nuevo usuario se ha creado con éxito")
+    : null
+  }, [store.userCreatedSuccess])
+
+  // USER NOT SUCCESSFULLY CREATED
+  useEffect(() => {
+    store.userCreatedFailure === true?
+    alert("Ha habido un error en crear tu perfil. Inténtalo de nuevo.")
+    : null
+  }, [store.userCreatedFailure])
+
+
   return (
     <>
-      {/* TODO: form submit + backend interaction 
-
-        0. ** Comprobar inputs de los últimos campos -> cómo salen? Idiomas con muchos inputs ...
-
-        1. ** onChange + onClick events para recoger datos entrados 
-            --> const [variable, setVariable] = useState("") para meter datos
-        
-        2. función que mando los inputs al fetch in store (handleSubmit)
-
-        2. función de fetch POST en store para enviar datos en un request al endpoint POST que creé
-            --> contiene url así: "process.env.BACKEND_URL + '/api/...'""
-            --> handling errors 
-            --> feedback: exitoso o no? / retornar algo 
-
-        3. <form onSubmit={handleSubmission} ...> 
-    
-      - Consejo: Usa la consola para probar y ver lo que pasa
-
-    */}
-
       {/* PAGE CONTAINER */}
       <div style={{ background: "#ffc100" }} className="py-3">
         <div className="container col-10 col-lg-8 col-xl-8 col-xxl-6 border border-2 border-dark rounded-2 bg-white">
