@@ -1,7 +1,11 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			events: [],
+			event: null,
 			token: null,
+			userCreatedSuccess: false,
+			userCreatedFailure: false,
 			registrationSuccess: false,
 			registrationExists: false,
 			registrationEmpty: false,
@@ -45,13 +49,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			},
+
 			///////////// MANAGE SEARCH RESULT FROM THE SEARCH BAR ///////////////////////
 
-			///////////// GET ALL EVENTS  (for now as a TEST) ///////////////////////
+			///////////// GET ALL EVENTS  ///////////////////////
 
 
 			// TODO APPLY FILTERING PARAMETER!!!!!!!!!!!!!!!!!!!!!
-			
+
 			searchEvents: () => {
 				// Perform a fetch request to retrieve all events
 				fetch(`${process.env.BACKEND_URL}/api/allEvents`)
@@ -62,6 +67,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return response.json();
 					})
 					.then((allEvents) => {
+						setStore({ events: allEvents });
 						console.log("All Events:", allEvents);
 					})
 					.catch((error) => {
@@ -69,10 +75,81 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 			},
 
+			///////////// GET A PARTICULAR ONE EVENT  ///////////////////////
+
+			searchEventById: (id) => {
+
+				fetch(`${process.env.BACKEND_URL}/api/searchEvent/${id}`)
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error('Error fetching event');
+						}
+						return response.json();
+					})
+					.then((event) => {
+						setStore({ event: event });
+						console.log("Event correctly fetched:", event);
+					})
+					.catch((error) => {
+						console.error("Error fetching individual event:", error);
+					});
+			},
 
 			/////////// CREATE USER IN DATABASE //////////////
 
-			// createUser: async () =>
+			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
+				const store = getStore();
+
+				role = (role === 'true') ? true : false
+
+				// Testing Input
+				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
+
+				// Variables for Fetch Request Body
+				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
+				const fetchBody = {
+					method: "POST",
+
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						first_name: firstName,
+						last_name: lastName,
+						user_name: userName,
+						email: email,
+						password: password,
+						city: city,
+						role: role,
+						gender: gender,
+						languages: languages,
+						photo_url: photo_url
+					})
+				}
+				// console.log("fetchUrl:", fetchUrl)
+				// console.log("fetchBody:", fetchBody)
+
+				// Fetch Request 
+				try {
+					const response = await fetch(fetchUrl, fetchBody);
+					// console.log("response:", response)
+					const responseData = await response.json();
+					// console.log("responseData:", responseData)
+
+					// Handling Different Outcomes 
+					if (response.ok) {
+						setStore({ userCreatedSuccess: true })
+					}
+					if (!response.ok) {
+						const errorMessage = await response.text();
+						console.log("errorMessage:", errorMessage);
+						setStore({ userCreatedFailure: true })
+					}
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+			},
 
 			/////////// REGISTER USER IN DATABASE //////////////
 
@@ -196,42 +273,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// FUNCIONES DE LA PLANTILLA
 
+			// exampleFunction: () => {
+			// 	getActions().changeColor(0, "green");
+			// },
 
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
+			// getMessage: async () => {
+			// 	try {
+			// 		// fetching data from the backend
+			// 		const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
+			// 		const data = await resp.json()
+			// 		setStore({ message: data.message })
+			// 		// don't forget to return something, that is how the async resolves
+			// 		return data;
+			// 	} catch (error) {
+			// 		console.log("Error loading message from backend", error)
+			// 	}
+			// },
 
-			getMessage: async () => {
-				try {
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
+			// changeColor: (index, color) => {
+			// 	//get the store
+			// 	const store = getStore();
 
-			//////////////////////////////////////////////////////////////////////
+			// 	//we have to loop the entire demo array to look for the respective index
+			// 	//and change its color
+			// 	const demo = store.demo.map((elm, i) => {
+			// 		if (i === index) elm.background = color;
+			// 		return elm;
+			// 	});
 
-
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
+			// 	//reset the global store
+			// 	setStore({ demo: demo });
+			// }
 		}
 	};
 };

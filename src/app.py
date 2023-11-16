@@ -36,7 +36,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')  
 jwt = JWTManager(app)
 
-# database condiguration
+# database configuration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("postgres://", "postgresql://")
@@ -95,6 +95,7 @@ def get_all_events():
     events_list = []
     for event in all_events:
         event_dict = {
+            'id': event.id_event,
             'name': event.name,
             'description': event.description,
             'start_time': event.start_time,
@@ -104,15 +105,51 @@ def get_all_events():
         }
         events_list.append(event_dict)
 
+    # Order the events list by start_time
+    events_list = sorted(events_list, key=lambda x: x['start_time'])
+
     # Print the events list for debugging
     print("Events List:", events_list)
 
     # Return the list of events as a JSON response
     return jsonify(events_list), 200
 
+
+################################################################################################################################################################
+
+# GET ONLY ONE EVENT
+
+@app.route('/api/searchevent/<int:id_event>', methods=['GET'])
+def get_event(id_event):
+    # Retrieve the event from the database based on the provided ID
+    event = Events.query.get(id_event)
+
+    # Check if the event exists
+    if not event:
+        return jsonify({'error': 'Event not found'}), 404
+
+    # Create a dictionary representation of the event
+    one_event = {
+        'id': event.id_event,
+        'name': event.name,
+        'description': event.description,
+        'start_time': event.start_time,
+        'end_time': event.end_time,
+        'location': event.location,
+        'event_capacity': event.event_capacity
+    }
+
+  # Print the events list for debugging
+    print("Events List:", one_event)
+
+    # Return the event as a JSON response
+    return jsonify(one_event), 200
+
 ################################################################################################################################################################
 
 # CREATE NEW EVENT
+
+
 
 # CREATE NEW USER PROFILE (POST)
 @app.route('/api/CreateNewEvent', methods=['POST'])
@@ -182,6 +219,8 @@ def create_new_user():
     if 'role' not in body:
         return jsonify({'error': 'You must specify the role of the user - member (true) or organizer (false)'}), 400
 
+    # Need to convert JS string "true" & "false" values to Python True & False?
+
     # Check: user_name must be unique
     if Users.query.filter_by(user_name=body['user_name']).first() is not None:
         return jsonify({'error': 'This user_name already exists'}), 400
@@ -195,7 +234,9 @@ def create_new_user():
     gender = body.get('gender')
     photo_url = body.get('photo_url')
 
+    # BCrypting Password
     pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
+
     # Inserting New User into Database
     new_user = Users()
     # Required
@@ -256,9 +297,71 @@ def create_token():
     return jsonify(access_token=access_token), 200
 
 
-# Code de Vanesa 
-# https://github.com/4GeeksAcademy/Authentication-system-with-Python-Flask-and-React.js-vanesascode/blob/main/src/app.py
+#################################################################################################################################################################
 
+# UPDATE USER PROFILE (PUT)
+
+@app.route('/api/UpdateUserProfile/<int:id_user>', methods=["PUT"])
+def updateMember(id_user): 
+
+    # Find user by user_id
+    user = Users.query.get(id_user) # alternative: user_name?
+    # Handle Errors
+    if user is None: 
+        return jsonify({"Error:", "The user with id {} doesn't exist".format(id_user)}), 400
+
+    # Extraer data de JSON
+    body = request.get_json(silent=True)
+    # Handle Errors
+    if body is None:
+        return jsonify({'error': 'You must send information with the body'}), 400
+    # Member Profile Update
+    if 'first_name' in body:
+        user.first_name = body['first_name']
+    if 'last_name' in body:
+        user.last_name = body['last_name']
+    if 'user_name' in body:
+        user.user_name = body['user_name']
+    if 'email' in body:
+        user.email = body['email']
+    if 'password' in body:
+        user.password = body['password']
+    if 'city' in body:
+        user.city = body['city']
+    if 'role' in body:
+        user.role = body['role']
+    if 'gender' in body:
+        user.gender = body['gender']
+    if 'photo_url' in body:
+        user.photo_url = body['photo_url']
+ 
+    # Handle Password Update
+    if 'password' in body:
+        pw_hash = bcrypt.generate_password_hash(body['password']).decode('utf-8')
+        user.password = pw_hash
+
+    # Commit changes to database
+    db.session.commit()
+
+    # Handle User Languages Update
+    languages = body.get('languages')
+    if languages is not None: 
+        # Remove existing languages
+        User_languages.query.filter_by(id_user=user.id_user).delete()
+        # Add new languages
+        for language in languages:
+            new_user_language = User_languages()
+            new_user_language.language = language
+            new_user_language.id_user = user.id_user
+
+            db.session.add(new_user_language)
+        
+        db.session.commit()
+
+    # Client-side Message
+    return jsonify({'msg': 'User Profile Successfully Updated'})
+
+#################################################################################################################################################################
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':

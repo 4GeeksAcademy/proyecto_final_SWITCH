@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import "../../styles/searchBar.css";
 import locationIcon from "../../img/home-location-icon.png";
 import searchIcon from "../../img/home-search-icon.png";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const HomeSearchBar = () => {
   const { store, actions } = useContext(Context);
@@ -10,23 +11,17 @@ export const HomeSearchBar = () => {
   const [searchLocation, setSearchLocation] = useState("");
   const [searchedResults, setSearchedResults] = useState([]);
 
-  // TODO APPLY FILTERING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-  // const filterPrompts = (searchEvent) => {
-  //   const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
-  //   return (
-  //     regex.test(store.organizer) ||
-  //     regex.test(store.member) ||
-  //     regex.test(store.event)
-  //   );
-  // };
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const searchResult = filterPrompts(searchEvent, searchLocation);
-    // setSearchedResults(searchResult);
-    // actions.searchEvents(searchedResults)
+
     actions.searchEvents();
+
+    if (location.pathname !== "/eventsearchjoin") {
+      navigate("/eventsearchjoin");
+    }
   };
 
   return (
@@ -44,7 +39,7 @@ export const HomeSearchBar = () => {
           <input
             className="mr-2 py-2 px-3 text-16 bg-light home-inputs w-100"
             type="search"
-            placeholder="Search for a group"
+            placeholder="Tipo de evento"
             aria-label="Search"
             onChange={(e) => setSearchEvent(e.target.value)}
             value={searchEvent}
@@ -62,19 +57,19 @@ export const HomeSearchBar = () => {
           <input
             className="py-2 px-3 text-16 bg-light home-inputs w-100"
             type="search"
-            placeholder="Location"
+            placeholder="Ciudad"
             aria-label="Search Location"
-            
+            onChange={(e) => setSearchLocation(e.target.value)}
             value={searchLocation}
           />
         </div>
 
         {/* SUBMIT BUTTON */}
         <button
-          className="btn rounded-3 rounded-end home-input-btn bg-dark-blue fw-bolder text-16 text-light px-4"
+          className="btn rounded-3 rounded-end home-input-btn bg-dark-blue fw-bolder fs-5 text-light px-4"
           type="submit"
         >
-          Find a Group
+          Encuentra tu evento
         </button>
       </form>
     </div>
