@@ -34,7 +34,7 @@ export const EventSearchJoin = () => {
 
                     </div>
 
-                    {/* BLUE BAR*/}
+                    {/* BLUE BUTTON*/}
                     <div className="bg-extralight-blue py-3 px-4 extradark-grey fs-5 d-flex flex-column justify-content-between align-items-center">
 
                         {event.description}
