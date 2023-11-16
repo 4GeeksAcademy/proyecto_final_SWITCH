@@ -95,6 +95,7 @@ def get_all_events():
     events_list = []
     for event in all_events:
         event_dict = {
+            'id': event.id_event,
             'name': event.name,
             'description': event.description,
             'start_time': event.start_time,
@@ -104,11 +105,43 @@ def get_all_events():
         }
         events_list.append(event_dict)
 
+    # Order the events list by start_time
+    events_list = sorted(events_list, key=lambda x: x['start_time'])
+
     # Print the events list for debugging
     print("Events List:", events_list)
 
     # Return the list of events as a JSON response
     return jsonify(events_list), 200
+
+
+################################################################################################################################################################
+
+# GET ONLY ONE EVENT
+
+
+# @app.route('/api/event/<int:id>', methods=['GET'])
+# def get_event(event_id):
+#     # Retrieve the event from the database based on the provided ID
+#     event = Events.query.get(event_id)
+
+#     # Check if the event exists
+#     if not event:
+#         return jsonify({'error': 'Event not found'}), 404
+
+#     # Create a dictionary representation of the event
+#     event_dict = {
+#         'id': event.id_event,
+#         'name': event.name,
+#         'description': event.description,
+#         'start_time': event.start_time,
+#         'end_time': event.end_time,
+#         'location': event.location,
+#         'event_capacity': event.event_capacity
+#     }
+
+#     # Return the event as a JSON response
+#     return jsonify(event_dict), 200
 
 ################################################################################################################################################################
 

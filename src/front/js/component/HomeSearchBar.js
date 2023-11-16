@@ -19,8 +19,8 @@ export const HomeSearchBar = () => {
 
     actions.searchEvents();
 
-    if (location.pathname !== "/searchresults") {
-      navigate("/searchresults");
+    if (location.pathname !== "/eventsearchjoin") {
+      navigate("/eventsearchjoin");
     }
   };
 
@@ -39,7 +39,7 @@ export const HomeSearchBar = () => {
           <input
             className="mr-2 py-2 px-3 text-16 bg-light home-inputs w-100"
             type="search"
-            placeholder="Search for a group"
+            placeholder="Tipo de evento"
             aria-label="Search"
             onChange={(e) => setSearchEvent(e.target.value)}
             value={searchEvent}
@@ -57,7 +57,7 @@ export const HomeSearchBar = () => {
           <input
             className="py-2 px-3 text-16 bg-light home-inputs w-100"
             type="search"
-            placeholder="Location"
+            placeholder="Ciudad"
             aria-label="Search Location"
             onChange={(e) => setSearchLocation(e.target.value)}
             value={searchLocation}
@@ -66,10 +66,10 @@ export const HomeSearchBar = () => {
 
         {/* SUBMIT BUTTON */}
         <button
-          className="btn rounded-3 rounded-end home-input-btn bg-dark-blue fw-bolder text-16 text-light px-4"
+          className="btn rounded-3 rounded-end home-input-btn bg-dark-blue fw-bolder fs-5 text-light px-4"
           type="submit"
         >
-          Find a Group
+          Encuentra tu evento
         </button>
       </form>
     </div>

@@ -11,6 +11,10 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import GroupPage from "./pages/GroupPage";
 import { SearchResults } from "./pages/searchResults";
+
+import { EventSearchJoin } from "./pages/EventSearchJoin";
+import EventPagePay from "./pages/EventPagePay";
+
 import { CreateNewUserProfile } from "./pages/CreateNewUserProfile";
 
 
@@ -38,6 +42,10 @@ const Layout = () => {
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<GroupPage />} path="/GroupPage" />
                         <Route element={<SearchResults />} path="/searchResults" />
+
+                        <Route element={<EventSearchJoin />} path="/EventSearchJoin" />
+                        <Route element={<EventPagePay />} path="/EventPagePay/:id" />
+
                         <Route element={<CreateNewUserProfile />} path="/CreateNewUserProfile" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
