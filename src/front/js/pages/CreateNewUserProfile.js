@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import "../../styles/index.css";
 import "../../styles/createNewUserProfile.css";
+import parejaTomaCafe from "../../img/pareja-toma-cafe.png";
 
 export const CreateNewUserProfile = () => {
   const { store, actions } = useContext(Context);
@@ -69,8 +70,11 @@ export const CreateNewUserProfile = () => {
     <>
       {/* PAGE CONTAINER */}
       <div style={{ background: "#ffc100" }} className="py-3">
-        <div className="container col-10 col-lg-8 col-xl-6 col-xxl-4">
-          <h1 className="formProfileHeader extradark-blue text-center mt-2">Crea tu Perfil</h1>
+        <div className="container col-10 col-md-8 col-lg-6 col-xxl-4">
+          <div className="formImageFlexbox">
+            <img src={parejaTomaCafe} className="formImage"/>
+          </div>
+          <h1 className="formProfileHeader extradark-blue text-center mt-2">Crea tu Perfil</h1> 
           {/* FORM */}
           <form id="createNewUserForm" onSubmit={handleSubmit}>
 
