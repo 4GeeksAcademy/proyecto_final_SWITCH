@@ -296,12 +296,39 @@ def create_token():
     access_token = create_access_token(identity=user.email)
     return jsonify(access_token=access_token), 200
 
+#################################################################################################################################################################
+
+# GET USER ID (POST)
+
+@app.route('/api/userId', methods=["POST"])
+def getUserId():
+
+    # Extract JSON Data
+    body = request.get_json(silent=True)
+    # Handle Errors
+    if body is None:
+        return jsonify({'error': 'You must send information with the body'}), 400
+    if 'email' not in body:
+        return jsonify({'error': 'You must include an email address in the body'}), 400
+
+    user = Users.query.filter_by(email=body['email']).first()
+    if user is None: 
+        return jsonify({"msg": "Incorrect email address"}), 404 
+    
+    user_serialized = user.serialize() 
+    
+    return jsonify({'userId': user_serialized['id']})
 
 #################################################################################################################################################################
 
-# UPDATE USER PROFILE (PUT)
+# GET USER DATA (GET)
 
-@app.route('/api/UpdateUserProfile/<int:id_user>', methods=["PUT"])
+
+#################################################################################################################################################################
+
+# EDIT USER PROFILE (PUT)
+
+@app.route('/api/EditUserProfile/<int:id_user>', methods=["PUT"])
 def updateMember(id_user): 
 
     # Find user by user_id
