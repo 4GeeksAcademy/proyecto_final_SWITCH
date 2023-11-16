@@ -51,11 +51,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			///////////// MANAGE SEARCH RESULT FROM THE SEARCH BAR ///////////////////////
 
-			///////////// GET ALL EVENTS  (for now as a TEST) ///////////////////////
+			///////////// GET ALL EVENTS  ///////////////////////
 
 
 			// TODO APPLY FILTERING PARAMETER!!!!!!!!!!!!!!!!!!!!!
-			
+
 			searchEvents: () => {
 				// Perform a fetch request to retrieve all events
 				fetch(`${process.env.BACKEND_URL}/api/allEvents`)
@@ -74,13 +74,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 			},
 
+			///////////// GET A PARTICULAR ONE EVENT  ///////////////////////
+
+			searchEventByName: (eventName) => {
+				// Perform a fetch request to retrieve the event by name
+				fetch(`${process.env.BACKEND_URL}/api/searchEvent/${eventName}`)
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error('Error fetching event');
+						}
+						return response.json();
+					})
+					.then((event) => {
+						setStore({ event: event });
+						console.log("Event:", event);
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			},
+
 			/////////// CREATE USER IN DATABASE //////////////
 
-			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) =>
-			{
+			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
 				const store = getStore();
-				
-				role = (role === 'true')? true : false
+
+				role = (role === 'true') ? true : false
 
 				// Testing Input
 				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
@@ -89,7 +108,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
 				const fetchBody = {
 					method: "POST",
-	
+
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -98,11 +117,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						last_name: lastName,
 						user_name: userName,
 						email: email,
-						password: password, 
+						password: password,
 						city: city,
-						role: role, 
-						gender: gender, 
-						languages: languages, 
+						role: role,
+						gender: gender,
+						languages: languages,
 						photo_url: photo_url
 					})
 				}
@@ -117,14 +136,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// console.log("responseData:", responseData)
 
 					// Handling Different Outcomes 
-					if(response.ok) {
-						setStore({userCreatedSuccess: true})
-					} 
-					if(!response.ok) {
+					if (response.ok) {
+						setStore({ userCreatedSuccess: true })
+					}
+					if (!response.ok) {
 						const errorMessage = await response.text();
 						console.log("errorMessage:", errorMessage);
-						setStore({userCreatedFailure: true})
-					}				
+						setStore({ userCreatedFailure: true })
+					}
 				} catch (error) {
 					console.log('Error:', error)
 					throw error
