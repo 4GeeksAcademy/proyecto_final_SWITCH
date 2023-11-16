@@ -18,12 +18,13 @@
 }
 
 .formProfileButton {
-    transition: transform 100ms;
+    transition: background-color 200ms;
+    font-size: 18px;
+    letter-spacing: 0.25px;
 }
 
 .formProfileButton:hover {
-    transform: translateY(-0.15rem);
-    box-shadow: 0px 5px 2px 0px rgba(0,0,0,0.75);
+   background-color: #018fa6;
 }
 
 .form-control:focus {

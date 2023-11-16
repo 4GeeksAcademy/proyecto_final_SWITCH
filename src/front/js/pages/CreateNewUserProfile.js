@@ -244,7 +244,7 @@ export const CreateNewUserProfile = () => {
             
             {/* SUBMIT BUTTON */}
             <div className="mb-3 d-flex justify-content-center">
-              <button type="submit" className="btn bg-extradark-blue text-white mx-auto fw-bold rounded-3 px-3 py-1 fs-5 mt-3 formProfileButton">Enviar</button>
+              <button type="submit" className="btn bg-dark-blue text-white mx-auto fw-bold rounded-3 px-3 py-1 mt-3 formProfileButton">Enviar</button>
             </div>
           </form>
         </div>
