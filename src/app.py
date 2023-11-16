@@ -119,33 +119,37 @@ def get_all_events():
 
 # GET ONLY ONE EVENT
 
+@app.route('/api/searchevent/<int:id_event>', methods=['GET'])
+def get_event(id_event):
+    # Retrieve the event from the database based on the provided ID
+    event = Events.query.get(id_event)
 
-# @app.route('/api/event/<int:id>', methods=['GET'])
-# def get_event(event_id):
-#     # Retrieve the event from the database based on the provided ID
-#     event = Events.query.get(event_id)
+    # Check if the event exists
+    if not event:
+        return jsonify({'error': 'Event not found'}), 404
 
-#     # Check if the event exists
-#     if not event:
-#         return jsonify({'error': 'Event not found'}), 404
+    # Create a dictionary representation of the event
+    one_event = {
+        'id': event.id_event,
+        'name': event.name,
+        'description': event.description,
+        'start_time': event.start_time,
+        'end_time': event.end_time,
+        'location': event.location,
+        'event_capacity': event.event_capacity
+    }
 
-#     # Create a dictionary representation of the event
-#     event_dict = {
-#         'id': event.id_event,
-#         'name': event.name,
-#         'description': event.description,
-#         'start_time': event.start_time,
-#         'end_time': event.end_time,
-#         'location': event.location,
-#         'event_capacity': event.event_capacity
-#     }
+  # Print the events list for debugging
+    print("Events List:", one_event)
 
-#     # Return the event as a JSON response
-#     return jsonify(event_dict), 200
+    # Return the event as a JSON response
+    return jsonify(one_event), 200
 
 ################################################################################################################################################################
 
 # CREATE NEW EVENT
+
+
 
 # CREATE NEW USER PROFILE (POST)
 @app.route('/api/CreateNewEvent', methods=['POST'])

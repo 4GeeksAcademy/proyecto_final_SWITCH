@@ -2,6 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			events: [],
+			event: null,
 			token: null,
 			userCreatedSuccess: false,
 			userCreatedFailure: false,
@@ -76,9 +77,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			///////////// GET A PARTICULAR ONE EVENT  ///////////////////////
 
-			searchEventByName: (eventName) => {
-				// Perform a fetch request to retrieve the event by name
-				fetch(`${process.env.BACKEND_URL}/api/searchEvent/${eventName}`)
+			searchEventById: (id) => {
+
+				fetch(`${process.env.BACKEND_URL}/api/searchEvent/${id}`)
 					.then((response) => {
 						if (!response.ok) {
 							throw new Error('Error fetching event');
@@ -87,10 +88,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.then((event) => {
 						setStore({ event: event });
-						console.log("Event:", event);
+						console.log("Event correctly fetched:", event);
 					})
 					.catch((error) => {
-						console.error("Error:", error);
+						console.error("Error fetching individual event:", error);
 					});
 			},
 
