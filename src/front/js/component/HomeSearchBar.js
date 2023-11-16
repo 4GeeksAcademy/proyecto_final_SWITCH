@@ -47,7 +47,7 @@ export const HomeSearchBar = () => {
             placeholder="Search for a group"
             aria-label="Search"
             onChange={(e) => setSearchEvent(e.target.value)}
-            value={searchGroup}
+            value={searchEvent}
           />
         </div>
 
@@ -64,7 +64,7 @@ export const HomeSearchBar = () => {
             type="search"
             placeholder="Location"
             aria-label="Search Location"
-            onChange={handleSearchLocationChange}
+            
             value={searchLocation}
           />
         </div>
