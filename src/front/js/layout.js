@@ -4,6 +4,7 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 import injectContext from "./store/appContext";
 
+
 // Pages 
 import { Home } from "./pages/home";
 import { SignIn } from "./pages/SignIn";
@@ -11,8 +12,8 @@ import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import GroupPage from "./pages/GroupPage";
 import UsersProfile from "./pages/UsersProfile";
+import OrganizerProfile from "./pages/PageOrganizerProfile";
 import { SearchResults } from "./pages/searchResults";
-
 import { EventSearchJoin } from "./pages/EventSearchJoin";
 import EventPagePay from "./pages/EventPagePay";
 
@@ -44,6 +45,7 @@ const Layout = () => {
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<GroupPage />} path="/GroupPage" />
                         <Route element={<UsersProfile />} path="/UsersProfile" />
+                        <Route element={<OrganizerProfile />} path="/OrganizerProfile" />
                         <Route element={<SearchResults />} path="/searchResults" />
 
                         <Route element={<EventSearchJoin />} path="/EventSearchJoin" />
