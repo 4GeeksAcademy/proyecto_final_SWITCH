@@ -300,7 +300,7 @@ def create_token():
 
 # GET USER ID (POST)
 
-@app.route('/api/userId', methods=["POST"])
+@app.route('/api/idUser', methods=["POST"])
 def getUserId():
 
     # Extract JSON Data
@@ -317,12 +317,24 @@ def getUserId():
     
     user_serialized = user.serialize() 
     
-    return jsonify({'userId': user_serialized['id']})
+    return jsonify({'idUser': user_serialized['id']})
 
 #################################################################################################################################################################
 
 # GET USER DATA (GET)
 
+@app.route('/api/UserData/<int:id_user>', methods=["GET"])
+def getUserData(id_user): 
+
+    # Find user by user_id
+    user = Users.query.get(id_user) 
+    # Handle Errors
+    if user is None: 
+        return jsonify({"Error:", "The user with id {} doesn't exist".format(id_user)}), 400
+
+    user_serialized = user.serialize() 
+    
+    return jsonify({'userData': user_serialized})
 
 #################################################################################################################################################################
 
@@ -332,7 +344,7 @@ def getUserId():
 def updateMember(id_user): 
 
     # Find user by user_id
-    user = Users.query.get(id_user) # alternative: user_name?
+    user = Users.query.get(id_user) 
     # Handle Errors
     if user is None: 
         return jsonify({"Error:", "The user with id {} doesn't exist".format(id_user)}), 400

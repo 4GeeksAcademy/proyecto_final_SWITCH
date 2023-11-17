@@ -4,7 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			events: [],
 			event: null,
 			token: null,
-			userId: "",
+			id_user: "",
 			userCreatedSuccess: false,
 			userCreatedFailure: false,
 			registrationSuccess: false,
@@ -249,14 +249,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			/////////// GET USER ID //////////////
+			/////////// GET ID USER //////////////
 
 			getUserID: async (email) => {
 				const store = getStore();
-
 				// console.log("email:", email) 
+
 				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + "/api/userId";
+				const fetchUrl = process.env.BACKEND_URL + "/api/idUser";
 				const fetchBody = {
 					method: "POST",
 					headers: {
@@ -279,7 +279,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					// Handling Different Outcomes 
 					if (response.ok) {
-						setStore({ userId: responseData.userId })
+						setStore({ id_user: responseData.id_user })
 					}
 					if (!response.ok) {
 						const errorMessage = await response.text();
@@ -290,7 +290,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error
 				}
 
-				// console.log("store-userId:", store.userId)
+				console.log("store_id_user:", store.id_user) 
 			},
 
 			/////////// MAINTAIN TOKEN //////////////
