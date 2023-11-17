@@ -4,7 +4,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			events: [],
 			event: null,
 			token: null,
-			id_user: "",
+			id_user: null,
+			member: false,
+			organizer: false,
 			userCreatedSuccess: false,
 			userCreatedFailure: false,
 			registrationSuccess: false,
@@ -251,7 +253,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			/////////// GET ID USER //////////////
 
-			getUserID: async (email) => {
+			getId_User: async (email) => {
 				const store = getStore();
 				// console.log("email:", email) 
 
@@ -275,11 +277,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// console.log("response:", response)
 					const responseData = await response.json();
 					// console.log("responseData:", responseData)
-					// console.log("userId?", responseData.userId)
+					// console.log("userId?", responseData.erId)
 
 					// Handling Different Outcomes 
 					if (response.ok) {
-						setStore({ id_user: responseData.id_user })
+						setStore({ id_user: responseData.idUser })
 					}
 					if (!response.ok) {
 						const errorMessage = await response.text();

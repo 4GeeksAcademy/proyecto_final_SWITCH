@@ -12,20 +12,20 @@ export const FormEditUser = () => {
   const { store, actions } = useContext(Context);
   
   // Get ID of User from flux.js
-  let stored_id_user = store.id_user
+  let stored_id_user = store.id_user;
 
   // Store Collected User Data
-  const {userData, setUserData} = useState({
-    firstName: "",
-    lastName: "",
-    userName: "",
-    email: "",
-    password: "",
-    city: "",
-    role: "",
-    gender: "",
-    languages: [],
-    photo: "",
+  const [userData, setUserData] = useState({
+    firstName: "Cargando...",
+    lastName: "Cargando...",
+    userName: "Cargando...",
+    email: "Cargando...",
+    password: "Cargando...",
+    city: "Cargando...",
+    role: "Cargando...",
+    gender: "Cargando...",
+    languages: "Cargando...",
+    photo: "Cargando...",
   })
 
   // Form Variables
@@ -98,10 +98,10 @@ export const FormEditUser = () => {
 
   // FETCH GET: Get User's Data 'onMount'
   useEffect(() => {
-    async function fetchUserData(userId) {
-      console.log("userId:", userId)
+    async function fetchUserData(idUser) {
+      console.log("idUser:", idUser)
       try {
-        const response = await fetch((`${process.env.BACKEND_URL}/api/UserData/${userId}`))
+        const response = await fetch((`${process.env.BACKEND_URL}/api/UserData/${idUser}`))
         console.log("response:", response);
         if (!response.ok) {
           const errorMessage = await response.text();
@@ -112,16 +112,16 @@ export const FormEditUser = () => {
 
         /* Receive data + set variables where data is stored */
         setUserData({
-          firstName: responseData.first_name,
-          lastName: responseData.last_name,
-          userName: responseData.user_name,
-          email: responseData.email,
-          password: responseData.password,
-          city: responseData.city,
-          role: responseData.role,
-          gender: responseData.gender,
+          firstName: responseData.userData.first_name,
+          lastName: responseData.userData.last_name,
+          userName: responseData.userData.user_name,
+          email: responseData.userData.email,
+          password: responseData.userData.password,
+          city: responseData.userData.city,
+          role: responseData.userData.role,
+          gender: responseData.userData.gender,
           // languages: responseData.languages, --> languages está en otra table?!
-          photo: responseData.photo_url,
+          photo: responseData.userData.photo_url,
         })
   
       } catch (error) {
@@ -182,7 +182,7 @@ export const FormEditUser = () => {
               <label htmlFor="first_name" className="form-label extradark-blue fw-bold">Nombre<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="first_name" name="first_name" required
                 value={userData.firstName}
-                onChange={(e) => setUserData({[firstName]: e.target.value})}
+                onChange={(e) => setUserData({["firstName"]: e.target.value})}
                 // before = onChange={(e) => setUserFirstName(e.target.value)}
               />
               {/* {console.log(userFirstName)} */}
@@ -193,7 +193,7 @@ export const FormEditUser = () => {
               <label htmlFor="last_name" className="form-label extradark-blue fw-bold">Apellido(s)<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="last_name" name="last_name" required
                 value={userData.lastName}
-                onChange={(e) => setUserData({[lastName]: e.target.value})}
+                onChange={(e) => setUserData({["lastName"]: e.target.value})}
               />
                {/* {console.log(userLastName)} */}
             </div>
@@ -203,7 +203,7 @@ export const FormEditUser = () => {
               <label htmlFor="user_name" className="form-label extradark-blue fw-bold">Nombre de Usuario<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="user_name" name="user_name" required
                 value={userData.userName}
-                onChange={(e) => setUserData({[userName]: e.target.value})}
+                onChange={(e) => setUserData({["userName"]: e.target.value})}
               />
                {/* {console.log(userUserName)} */}
             </div>
@@ -213,7 +213,7 @@ export const FormEditUser = () => {
               <label htmlFor="email" className="form-label extradark-blue fw-bold">Correo Electrónico<span className="requiredAsterisk">*</span></label>
               <input type="email" className="form-control" id="email" name="email" required
                 value={userData.email}
-                onChange={(e) => setUserData({[email]: e.target.value})}
+                onChange={(e) => setUserData({["email"]: e.target.value})}
               />
                {/* {console.log(userEmail)} */}
             </div>
@@ -223,7 +223,7 @@ export const FormEditUser = () => {
               <label htmlFor="password" className="form-label extradark-blue fw-bold">Contraseña<span className="requiredAsterisk">*</span></label>
               <input type="password" className="form-control" id="password" name="password" required
                 value={userData.password}
-                onChange={(e) => setUserData({[password]: e.target.value})}
+                onChange={(e) => setUserData({["password"]: e.target.value})}
               />
                {/* {console.log(userPassword)} */}
             </div>
@@ -233,7 +233,7 @@ export const FormEditUser = () => {
               <label htmlFor="city" className="form-label extradark-blue fw-bold">Ciudad<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="city" name="city" required
                 value={userData.city}
-                onChange={(e) => setUserData({[city]: e.target.value})}
+                onChange={(e) => setUserData({["city"]: e.target.value})}
               />
               {/* {console.log(userCity)} */}
             </div>
@@ -246,7 +246,7 @@ export const FormEditUser = () => {
                       <div className="form-check mb-2">
                           <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
                             checked // TRUE CHECKED
-                            onClick={(e) => setUserData({[role]: e.target.value})}
+                            onClick={(e) => setUserData({["role"]: e.target.value})}
                           />
                           <label className="form-check-label extradark-blue" htmlFor="radioMember">
                             <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
@@ -254,7 +254,7 @@ export const FormEditUser = () => {
                         </div>
                         <div className="form-check">
                           <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false" 
-                            onClick={(e) => setUserData({[role]: e.target.value})}
+                            onClick={(e) => setUserData({["role"]: e.target.value})}
                           />
                           <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
                             <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
@@ -264,7 +264,7 @@ export const FormEditUser = () => {
                   : <>
                       <div className="form-check mb-2">
                           <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
-                            onClick={(e) => setUserData({[role]: e.target.value})}
+                            onClick={(e) => setUserData({["role"]: e.target.value})}
                           />
                           <label className="form-check-label extradark-blue" htmlFor="radioMember">
                             <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
@@ -273,7 +273,7 @@ export const FormEditUser = () => {
                         <div className="form-check">
                           <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false" 
                             checked // FALSE CHECKED
-                            onClick={(e) => setUserData({[role]: e.target.value})}
+                            onClick={(e) => setUserData({["role"]: e.target.value})}
                           />
                           <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
                             <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
@@ -288,7 +288,7 @@ export const FormEditUser = () => {
             <div className="mb-3">
               <label className="form-label extradark-blue fw-bold">Género</label>
               <select className="form-select" name="gender" defaultValue={userData.gender} 
-                onChange={(e) => setUserData({[gender]: e.target.value})}
+                onChange={(e) => setUserData({["gender"]: e.target.value})}
               >
                 <option disabled>Seleccionar tu género</option>
                 <option value="male">Hombre</option>
