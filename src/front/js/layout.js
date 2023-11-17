@@ -18,6 +18,7 @@ import { EventSearchJoin } from "./pages/EventSearchJoin";
 import EventPagePay from "./pages/EventPagePay";
 
 import { CreateNewUserProfile } from "./pages/CreateNewUserProfile";
+import { EditUserProfile } from "./pages/EditUserProfile"
 
 
 // Components
@@ -52,6 +53,8 @@ const Layout = () => {
                         <Route element={<EventPagePay />} path="/EventPagePay/:id" />
 
                         <Route element={<CreateNewUserProfile />} path="/CreateNewUserProfile" />
+                        <Route element={<EditUserProfile />} path="/EditUserProfile" />
+
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

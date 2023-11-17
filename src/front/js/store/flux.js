@@ -4,6 +4,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			events: [],
 			event: null,
 			token: null,
+			id_user: null,
+			member: false,
+			organizer: false,
 			userCreatedSuccess: false,
 			userCreatedFailure: false,
 			registrationSuccess: false,
@@ -109,7 +112,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
 				const fetchBody = {
 					method: "POST",
-
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -247,6 +249,50 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("there has been an error logging in", error);
 					setStore({ registrationDoesntExist: true });
 				}
+			},
+
+			/////////// GET ID USER //////////////
+
+			getId_User: async (email) => {
+				const store = getStore();
+				// console.log("email:", email) 
+
+				// Variables for Fetch Request Body
+				const fetchUrl = process.env.BACKEND_URL + "/api/idUser";
+				const fetchBody = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						email: email,
+					})
+				}
+				// console.log("fetchUrl:", fetchUrl)
+				// console.log("fetchBody:", fetchBody)
+
+				// Fetch Request 
+				try {
+					const response = await fetch(fetchUrl, fetchBody);
+					// console.log("response:", response)
+					const responseData = await response.json();
+					// console.log("responseData:", responseData)
+					// console.log("userId?", responseData.erId)
+
+					// Handling Different Outcomes 
+					if (response.ok) {
+						setStore({ id_user: responseData.idUser })
+					}
+					if (!response.ok) {
+						const errorMessage = await response.text();
+						console.log("errorMessage:", errorMessage);
+					}
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+
+				console.log("store_id_user:", store.id_user) 
 			},
 
 			/////////// MAINTAIN TOKEN //////////////

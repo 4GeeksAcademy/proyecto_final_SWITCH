@@ -9,7 +9,7 @@ def setup_commands(app):
     """
     El commando (dentro de pipenv shell) es "flask insert-test-<palabara>" 
     más un número que significa la cantidad de ese tipo de dato que quieres 
-    insertar en la BBD from the command line
+    insertar en la BBDD from the command line
     """
     # Crear Nuevos Miembros
     @app.cli.command("insert-test-members") # name of our command

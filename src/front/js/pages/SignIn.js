@@ -22,6 +22,7 @@ export const SignIn = () => {
 
         // CONDITIONALS with FRONTEND messages (below in the jsx):
         setTimeout(() => {
+            actions.getId_User(email);
             actions.setRegistrationInProgress(false);
             if (store.registrationSuccess) {
                 actions.setRegistrationSuccess(false);
