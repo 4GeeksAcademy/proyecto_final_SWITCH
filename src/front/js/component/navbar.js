@@ -109,14 +109,20 @@ export const Navbar = () => {
             < div className="ml-auto ">
 
 
-              {/*BUTTON ORGANIZERS*/}
+              {/*BUTTON PROFILE PAGE*/}
               <div className="d-xl-block d-none">
-                <Link to="/profile">
-
-                  <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
-
-                </Link>
-
+                {store.member === true
+                  ? <Link to="/UsersProfile">
+                    <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
+                  </Link>
+                  : null
+                }
+                {store.organizer === true
+                  ? <Link to="/PageOrganizerProfile">
+                    <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
+                  </Link>
+                  : null
+                }
 
                 {/*BUTTON CERRAR SESION*/}
 
