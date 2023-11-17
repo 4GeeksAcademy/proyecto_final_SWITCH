@@ -11,9 +11,9 @@ import { SignIn } from "./pages/SignIn";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import GroupPage from "./pages/GroupPage";
+import UsersProfile from "./pages/UsersProfile";
 import OrganizerProfile from "./pages/PageOrganizerProfile";
 import { SearchResults } from "./pages/searchResults";
-
 import { EventSearchJoin } from "./pages/EventSearchJoin";
 import EventPagePay from "./pages/EventPagePay";
 
@@ -23,6 +23,7 @@ import { CreateNewUserProfile } from "./pages/CreateNewUserProfile";
 // Components
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+
 
 //create your first component
 const Layout = () => {
@@ -43,6 +44,7 @@ const Layout = () => {
                         <Route element={<SignIn />} path="/signin" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<GroupPage />} path="/GroupPage" />
+                        <Route element={<UsersProfile />} path="/UsersProfile" />
                         <Route element={<OrganizerProfile />} path="/OrganizerProfile" />
                         <Route element={<SearchResults />} path="/searchResults" />
 
