@@ -4,6 +4,7 @@ import '../../img/LaTertulia.png'
 
 function GroupPage() {
   return (
+    <div className="contenedorGeneral">
     <div className="group-page"> 
       <header>
         <h1 className="fw-bold text-48 dark-blue font-nunito">Grupo de Intercambio de Idiomas de Madrid “La Tertulia”</h1>
@@ -41,6 +42,7 @@ function GroupPage() {
           <img src="LaTertulia.png" alt="Imagen del Group Page" />
         </div>
       </div>
+    </div>
     </div>
   );
 }
