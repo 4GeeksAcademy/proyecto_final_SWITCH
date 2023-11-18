@@ -2,6 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			events: [],
+			filteredEvents: [],
 			event: null,
 			token: null,
 			id_user: null,
@@ -15,7 +16,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			registrationInProgress: false,
 			registrationDoesntExist: false,
 			registrationWrong: false,
-
 			message: null,
 			demo: [
 				{
@@ -48,19 +48,50 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			setRegistrationWrong: (value) => {
 				setStore({ registrationWrong: value });
-
-
-
 			},
 
-			///////////// MANAGE SEARCH RESULT FROM THE SEARCH BAR ///////////////////////
-
-			///////////// GET ALL EVENTS  ///////////////////////
+			///////////// Función para guardar inputs de la barra de busqueda ///////////////////////
 
 
-			// TODO APPLY FILTERING PARAMETER!!!!!!!!!!!!!!!!!!!!!
+			saveInputs: (value, targetName) => {
+				setStore({ [targetName]: value });
+			},
 
-			searchEvents: () => {
+			///////////// GET FILTERED EVENTS ///////////////////////
+
+
+
+			searchFilteredEvents: (city, eventName) => {
+				console.log("event as parameter of the searchFilteredEvents function:", eventName)
+				console.log("city as parameter of the searchFilteredEvents function:", city)
+				fetch(`${process.env.BACKEND_URL}/api/allEvents`)
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error('Error fetching events');
+						}
+						return response.json();
+					})
+					.then((allEvents) => {
+						let filteredEvents = allEvents;
+						if (city !== null && eventName !== null) {
+							filteredEvents = allEvents.filter(el => {
+								const eventLocation = el.location.toLowerCase();
+								const eventNameLowerCase = el.name.toLowerCase();
+								return eventLocation.includes(city.toLowerCase()) && eventNameLowerCase.includes(eventName.toLowerCase());
+							});
+						}
+						console.log("filtered Events in the searchFilteredEvents function: ", filteredEvents);
+						setStore({ events: filteredEvents });
+
+					})
+					.catch((error) => {
+						console.error("Error:", error);
+					});
+			},
+
+			/////////////////////////  GET ALL THE EVENTS ///////////////////////
+
+			searchAllEvents: () => {
 				// Perform a fetch request to retrieve all events
 				fetch(`${process.env.BACKEND_URL}/api/allEvents`)
 					.then((response) => {
@@ -71,7 +102,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.then((allEvents) => {
 						setStore({ events: allEvents });
-						console.log("All Events:", allEvents);
+						// console.log("All Events:", allEvents);
 					})
 					.catch((error) => {
 						console.error("Error:", error);

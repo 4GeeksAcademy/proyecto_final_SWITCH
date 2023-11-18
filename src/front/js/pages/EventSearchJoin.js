@@ -7,7 +7,6 @@ import { HomeSearchBar } from "../component/HomeSearchBar";
 export const EventSearchJoin = () => {
     const { store, actions } = useContext(Context);
 
-
     return (
         < div className="container">
             {/* SEARCH BAR */}
@@ -15,12 +14,11 @@ export const EventSearchJoin = () => {
             </div>
 
             {/* RESULTS OF EVENTS */}
-            {store.events.map((event) => (
+            {store.events && store.events.map((event) => (
                 <div className="rounded " key={event.name}>
 
                     {/* YELLOW BAR*/}
                     <div className="mt-4 bg-warning fs-5 " >
-
 
                         <div className=" p-3 d-flex justify-content-between align-items-center gap-5 ">
                             <span className="px-3 fw-bold">
@@ -52,6 +50,7 @@ export const EventSearchJoin = () => {
                 </div>
             ))}
 
+            {!store.events && <p>Sorry</p>}
         </div>
     );
 };
