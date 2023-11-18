@@ -15,12 +15,12 @@ function EventPagePay() {
 
   // GET THE INFO OF JUST ONE PARTICULAR EVENT
 
-  console.log("this is the id of the event", id) ////////// THE ID IS GETTING HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  console.log("this is the id of the event", id)
 
 
   async function searchEventById(id) {
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/searchEvent/${id}`);
+      const response = await fetch(`${process.env.BACKEND_URL}/api/searchevent/${id}`);
       if (!response.ok) {
         throw new Error('Error fetching event');
       }
@@ -37,43 +37,86 @@ function EventPagePay() {
   }, [id]);
 
 
-  console.log("individual event data", eventData) ////////// IT'S ALWAYS NULL, WHY ??????????????????????????????  
+  console.log("Event data to be rendered on page:", eventData)
 
   return (
-    <div className="group-page">
 
-      <header>
-        <h1 className="fw-bold text-48 dark-blue font-nunito">Aquí va la info del evento número: {id}</h1>
+    <div className="group-page" >
+
+      {/**TITULO */}
+      <header className="mt-5">
+        {eventData && <h1 className="fw-bold text-48 dark-blue font-nunito">{eventData.name}</h1>}
       </header>
 
       <div className="main-content">
         <div className="contenedores">
+
+          {/**LOCALIZACION */}
+
+          <div className="descripcion">
+            <h2 className="tipoh2">Donde:</h2>
+            {eventData && <p className="extradark-grey fs-5">
+              {eventData.location}
+            </p>}
+          </div>
+
+          {/**DESCRIPCION */}
+
           <div className="descripcion">
             <h2 className="tipoh2">Descripción:</h2>
-            <p className="extradark-grey">
-              Bienvenidos a nuestras tardes de intercambio!. ¡Aquí podrás conocer gente nueva para practicar tu
-              inglés, español o cualquier otro idioma que encuentres en nuestro bar! El inglés y el español son los
-              idiomas principales, pero si tienes o quieres otro idioma, no dudes en venir, ¡nunca sabes a quién
-              conocerás!. Su anfitriona es Stefanie, dueña del bar y profesora de inglés, además de productora y
-              presentadora de televisión en Irlanda del Norte. ¡Ven a conversar de forma natural divertida y aprende
-              gramática o practica tu pronunciación! ¡Conocerás gente nueva de diferentes culturas! ¡Te esperamos!
-            </p>
+            {eventData && <p className="extradark-grey fs-5">
+              {eventData.description}
+            </p>}
           </div>
+
+          {/**COMIENZO */}
+
+          <div className="descripcion">
+            <h2 className="tipoh2">Comienzo:</h2>
+            {eventData && <p className="extradark-grey fs-5">
+              {new Date(eventData.start_time).toLocaleDateString()}
+            </p>}
+          </div>
+
+
+
+          {/**FINALIZACION */}
+
+          <div className="descripcion">
+            <h2 className="tipoh2">Finalización:</h2>
+            {eventData && <p className="extradark-grey fs-5">
+              {new Date(eventData.end_time).toLocaleDateString()}
+            </p>}
+          </div>
+
+          {/**LOCALIZACION */}
+
+          <div className="organizador">
+            <h2 className="tipoh2">Límite de asistentes:</h2>
+            {eventData && <p className="extradark-grey fs-5">{eventData.event_capacity}</p>}
+          </div>
+
+          {/**Organizador */}
 
           <div className="organizador">
             <h2 className="tipoh2">Organizador:</h2>
-            <p className="extradark-grey">Stefanie Houston</p>
+            <p className="extradark-grey fs-5">{ }</p>
           </div>
 
+          {/**Miembros Apuntados */}
+
           <div className="miembros">
-            <h2 className="tipoh2">Miembros:</h2>
-            <p className="extradark-grey">Lista de miembros o información relevante.</p>
+            <h2 className="tipoh2">Miembros Apuntados:</h2>
+            <p className="extradark-grey fs-5">{ }</p>
           </div>
+
+          {/**precio */}
 
           <div className="miembros">
             <h2 className="tipoh2">Precio:</h2>
-            <p className="extradark-grey">5€</p>
+            <p className="extradark-grey fs-5">5€</p>
           </div>
+
           {/* BLUE BUTTON*/}
           <div className="py-3 px-4 extradark-grey fs-5 d-flex flex-column justify-content-between align-items-center">
 

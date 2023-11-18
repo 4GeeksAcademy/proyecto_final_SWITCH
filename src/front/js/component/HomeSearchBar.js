@@ -15,13 +15,23 @@ export const HomeSearchBar = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
+
+    actions.saveInputs(searchEvent, "event")
+    actions.saveInputs(searchLocation, "city")
+
+    console.log("parameters stored in store, before going as parameters in the searchFilteredEvents function:", store.event, store.city)
+
     e.preventDefault();
+    navigate("/eventsearchjoin");
 
-    actions.searchEvents();
+    actions.searchFilteredEvents(store.city, store.event)
 
-    if (location.pathname !== "/eventsearchjoin") {
-      navigate("/eventsearchjoin");
-    }
+    setSearchEvent("")
+    setSearchLocation("")
+
+    actions.saveInputs(null, "event")
+    actions.saveInputs(null, "city")
+
   };
 
   return (
@@ -59,6 +69,7 @@ export const HomeSearchBar = () => {
             type="search"
             placeholder="Ciudad"
             aria-label="Search Location"
+            // onChange={(e) => actions.saveInputs(e.target.value, "city")}
             onChange={(e) => setSearchLocation(e.target.value)}
             value={searchLocation}
           />
