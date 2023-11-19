@@ -338,6 +338,24 @@ def getUserData(id_user):
 
 #################################################################################################################################################################
 
+# GET USER LANGUAGES (GET)
+
+@app.route('/api/UserLanguages/<int:id_user>', methods=["GET"])
+def getUserLanguages(id_user): 
+
+    # Find user in languages table by user_id
+    user_languages = User_languages.query.filter_by(id_user=id_user).all() 
+    # Handle Errors
+    if user_languages is None: 
+        return jsonify({"Error:", "The user with id {} doesn't exist".format(id_user)}), 400
+
+    # For each instance of "language" found in "user_languages" we apply the serialize method to it 
+    languages_serialized = [language.serialize() for language in user_languages] 
+    
+    return jsonify({'userLanguages': languages_serialized})
+
+#################################################################################################################################################################
+
 # EDIT USER PROFILE (PUT)
 
 @app.route('/api/EditUserProfile/<int:id_user>', methods=["PUT"])
@@ -389,11 +407,10 @@ def updateMember(id_user):
         User_languages.query.filter_by(id_user=user.id_user).delete()
         # Add new languages
         for language in languages:
-            new_user_language = User_languages()
-            new_user_language.language = language
-            new_user_language.id_user = user.id_user
-
-            db.session.add(new_user_language)
+            user_language = User_languages()
+            user_language.language = language
+            user_language.id_user = user.id_user
+            db.session.add(user_language)
         
         db.session.commit()
 

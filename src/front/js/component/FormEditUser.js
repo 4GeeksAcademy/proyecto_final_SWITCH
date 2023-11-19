@@ -6,15 +6,15 @@ import "../../styles/createNewUserProfile.css";
 import parejaTomaCafe from "../../img/pareja-toma-cafe.png";
 
 export const FormEditUser = () => {
-  
+
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // VARIABLES 
   const { store, actions } = useContext(Context);
-  
+
   // Get ID of User from flux.js
   let stored_id_user = store.id_user;
 
-  // Store Collected User Data
+  // STORE COLLECTED USER DATA
   const [userData, setUserData] = useState({
     firstName: "Cargando...",
     lastName: "Cargando...",
@@ -24,21 +24,24 @@ export const FormEditUser = () => {
     city: "Cargando...",
     role: "Cargando...",
     gender: "Cargando...",
-    languages: "Cargando...",
+    languages: [],
     photo: "Cargando...",
   })
 
-  // Form Variables
-  const [userFirstName, setUserFirstName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
-  const [userUserName, setUserUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-  const [userCity, setUserCity] = useState("");
-  const [userRole, setUserRole] = useState("");
-  const [userGender, setUserGender] = useState("");
-  const [userLanguages, setUserLanguages] = useState([]);
-  const [userPhoto, setUserPhoto] = useState(""); // Duda: ¿Cómo gestionar input de un archivo?
+  // LANGUAGES ENGLISH/SPANISH OBJECT FOR MAPPING
+  const allLanguages = ["english", "spanish", "french", "italian", "german", "portuguese", "russian", "arabic", "japanese", "chinese"];
+  const languageMapping = {
+    english: "Inglés",
+    spanish: "Español",
+    french: "Francés",
+    italian: "Italiano",
+    german: "Alemán",
+    portuguese: "Portugués",
+    russian: "Ruso",
+    arabic: "Árabe",
+    japanese: "Japonés",
+    chinese: "Chino",
+  };
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // FUNCTIONS
@@ -48,132 +51,110 @@ export const FormEditUser = () => {
   //   console.log(e.target.value)
   // }
 
-  /****************
-    DUDA: 
-    - Necesito averiguar cómo consigo los datos de los idiomas primero (see: duda-fetch)
-    - Luego, de dónde saco los idiomas (userData o userLanguages?)
-    - Languages Array Function: actualiza para reflexionar cambios de arriba  
-
-  *****************/
-
-  // LANGUAGES ARRAY FUNCTION  
-  function languagesArray(language) {
-    // console.log("Current array:", newUserLanguages) 
-
-    // If already in array, remove language
-    if (userLanguages.includes(language)) {
-      let langIndex = userLanguages.indexOf(language);
-      userLanguages.splice(langIndex, 1);
-      setUserLanguages([...userLanguages]);
-      // console.log("Post-update Array:", newUserLanguages) 
-      return
-    } 
-    // If first time in array, simply add language
-    setUserLanguages([...userLanguages, language])
-    // console.log("New lang added:", newUserLanguages) 
-    return
+  function editLanguagesArray(language) {
+    // Directly set userData variable by getting previous useState's state
+    // (automatically saved by React) and updating it with new state
+    setUserData(prevUserData => {
+      // Previous state before component update 
+      let storedLanguagesArray = prevUserData ? [...prevUserData.languages] : [];
+      // If already in array, remove language
+      if (storedLanguagesArray.includes(language)) {
+        let langIndex = storedLanguagesArray.indexOf(language);
+        storedLanguagesArray.splice(langIndex, 1);
+      } else { // If first time in array, simply add language to it
+        storedLanguagesArray.push(language)
+      }
+      console.log("Post-update Array:", storedLanguagesArray)
+      return { ...prevUserData, languages: storedLanguagesArray }
+    })
   }
 
-   /****************
-    TODO: Update variables below + create "updateUser" function in flux (PUT Fetch)
-   ****************/
-
-  // FORM SUBMIT FUNCTION  
+   // FORM SUBMIT FUNCTION  
   const handleSubmit = (e) => {
     e.preventDefault();
-    actions.updateUser(newUserFirstName, newUserLastName, newUserUserName, newUserEmail, 
-                          newUserPassword, newUserCity, newUserRole, newUserGender,
-                          newUserLanguages, newUserPhoto)
+    actions.updateUser(userData.firstName, userData.lastName, 
+      userData.userName, userData.email,userData.password, 
+      userData.city, userData.role, userData.gender,
+      userData.languages, userData.photo)
   }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // USE_EFFECTS
 
-  /****************
-   TODO: 
-   Check: store.userId todavía pierde su valor después de cambio de página?
-   (cambié endpoint from PUT to GET!)
-  ****************/
-
-
-  // FETCH GET: Get User's Data 'onMount'
+  // FETCH GET: Get User's Data + Languages 'onMount'
   useEffect(() => {
     async function fetchUserData(idUser) {
       console.log("idUser:", idUser)
       try {
-        const response = await fetch((`${process.env.BACKEND_URL}/api/UserData/${idUser}`))
-        console.log("response:", response);
-        if (!response.ok) {
-          const errorMessage = await response.text();
+        ////////// 1. FETCH USER DATA
+        const userDataResponse = await fetch((`${process.env.BACKEND_URL}/api/UserData/${idUser}`))
+        // console.log("User Data response:", userDataResponse);
+        if (!userDataResponse.ok) {
+          const errorMessage = await userDataResponse.text();
           console.log("errorMessage:", errorMessage);
         }
-        const responseData = await response.json(); 
-        console.log("responseData:", responseData)
+        const userData = await userDataResponse.json();
+        // console.log("UserData:", userData)
 
-        /* Receive data + set variables where data is stored */
+        ////////// 2. FETCH USER LANGUAGES
+        const userLanguagesResponse = await fetch((`${process.env.BACKEND_URL}/api/UserLanguages/${idUser}`))
+        // console.log("User Data response:", userLanguagesResponse);
+        if (!userLanguagesResponse.ok) {
+          const errorMessage = await userLanguagesResponse.text();
+          console.log("errorMessage:", errorMessage);
+        }
+        const userLanguages = await userLanguagesResponse.json();
+        // console.log("UserLanguages:", userLanguages)
+
+        // Extracts just the language data from 'userLanguages' response (which contains an array of objects)
+        const checkedLanguages = userLanguages.userLanguages.map(item => item.language)
+
+        /* 3. MANAGE RECIEVED DATA + LANGUAGES
+        -> Set the variables which the form accesses in order to display the user info on page */
         setUserData({
-          firstName: responseData.userData.first_name,
-          lastName: responseData.userData.last_name,
-          userName: responseData.userData.user_name,
-          email: responseData.userData.email,
-          password: responseData.userData.password,
-          city: responseData.userData.city,
-          role: responseData.userData.role,
-          gender: responseData.userData.gender,
-          // languages: responseData.languages, --> languages está en otra table?!
-          photo: responseData.userData.photo_url,
+          firstName: userData.userData.first_name,
+          lastName: userData.userData.last_name,
+          userName: userData.userData.user_name,
+          email: userData.userData.email,
+          password: userData.userData.password,
+          city: userData.userData.city,
+          role: userData.userData.role,
+          gender: userData.userData.gender,
+          languages: checkedLanguages,
+          photo: userData.userData.photo_url,
         })
-  
       } catch (error) {
         console.error("Error:", error)
         throw error
       }
-
-      /***********************
-        DUDA:
-        - Crear una segunda fetch aquí tomando idUser para llamar languages de usuario 
-          en User_languages?
-
-        - En app.py - endpoint "GET USER LANGUAGES" 
-          --> @app.route('/api/UserData/languages/<int:id_user>', methods=["GET"]))
-          --> languages = User_languages.query.get(id_user)
-
-        - Luego hay que marcar las casillas con los idiomas relevantes? -
-         -> si languages.includes(...) añada "checked" al elemento?
-      
-      **************************/
     }
     fetchUserData(stored_id_user)
   }, [])
 
-  /*******************
-  TODO: UPDATE BELOW WITH "userUpdated" varieties -> update function in flux 
-  *******************/
-
-  // USER SUCCESSFULLY CREATED
+  // USER SUCCESSFULLY UPDATED
   useEffect(() => {
-    store.userCreatedSuccess === true? 
-    alert("El nuevo usuario se ha creado con éxito")
-    : null
-  }, [store.userCreatedSuccess])
+    store.userUpdatedSuccess === true ?
+      alert("El nuevo usuario se ha actualizado con éxito")
+      : null
+  }, [store.userUpdatedSuccess])
 
-  // USER NOT SUCCESSFULLY CREATED
+  // USER NOT SUCCESSFULLY Updated
   useEffect(() => {
-    store.userCreatedFailure === true?
-    alert("Ha habido un error en crear tu perfil. Inténtalo de nuevo.")
-    : null
-  }, [store.userCreatedFailure])
+    store.userUpdatedFailure === true ?
+      alert("Ha habido un error en actualizar tu perfil. Inténtalo de nuevo.")
+      : null
+  }, [store.userUpdatedFailure])
 
-  
+
   return (
     <>
       {/* PAGE CONTAINER */}
       <div style={{ background: "#ffc100" }} className="py-3">
         <div className="container col-10 col-md-8 col-lg-6 col-xxl-4">
           <div className="formImageFlexbox">
-            <img src={parejaTomaCafe} className="formImage"/>
+            <img src={parejaTomaCafe} className="formImage" />
           </div>
-          <h1 className="formProfileHeader extradark-blue text-center mt-2">Edita tu Perfil</h1> 
+          <h1 className="formProfileHeader extradark-blue text-center mt-2">Edita tu Perfil</h1>
           {/* FORM */}
           <form id="createNewUserForm" onSubmit={handleSubmit}>
 
@@ -182,10 +163,9 @@ export const FormEditUser = () => {
               <label htmlFor="first_name" className="form-label extradark-blue fw-bold">Nombre<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="first_name" name="first_name" required
                 value={userData.firstName}
-                onChange={(e) => setUserData({["firstName"]: e.target.value})}
-                // before = onChange={(e) => setUserFirstName(e.target.value)}
+                onChange={(e) => setUserData({ ["firstName"]: e.target.value })}
               />
-              {/* {console.log(userFirstName)} */}
+              {/* {console.log(userData.firstName)} */}
             </div>
 
             {/* LAST NAME */}
@@ -193,9 +173,9 @@ export const FormEditUser = () => {
               <label htmlFor="last_name" className="form-label extradark-blue fw-bold">Apellido(s)<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="last_name" name="last_name" required
                 value={userData.lastName}
-                onChange={(e) => setUserData({["lastName"]: e.target.value})}
+                onChange={(e) => setUserData({ ["lastName"]: e.target.value })}
               />
-               {/* {console.log(userLastName)} */}
+              {/* {console.log(userData.lastName)} */}
             </div>
 
             {/* USER NAME */}
@@ -203,9 +183,9 @@ export const FormEditUser = () => {
               <label htmlFor="user_name" className="form-label extradark-blue fw-bold">Nombre de Usuario<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="user_name" name="user_name" required
                 value={userData.userName}
-                onChange={(e) => setUserData({["userName"]: e.target.value})}
+                onChange={(e) => setUserData({ ["userName"]: e.target.value })}
               />
-               {/* {console.log(userUserName)} */}
+              {/* {console.log(userData.email)} */}
             </div>
 
             {/* EMAIL */}
@@ -213,9 +193,9 @@ export const FormEditUser = () => {
               <label htmlFor="email" className="form-label extradark-blue fw-bold">Correo Electrónico<span className="requiredAsterisk">*</span></label>
               <input type="email" className="form-control" id="email" name="email" required
                 value={userData.email}
-                onChange={(e) => setUserData({["email"]: e.target.value})}
+                onChange={(e) => setUserData({ ["email"]: e.target.value })}
               />
-               {/* {console.log(userEmail)} */}
+              {/* {console.log(userData.email)} */}
             </div>
 
             {/* PASSWORD */}
@@ -223,9 +203,9 @@ export const FormEditUser = () => {
               <label htmlFor="password" className="form-label extradark-blue fw-bold">Contraseña<span className="requiredAsterisk">*</span></label>
               <input type="password" className="form-control" id="password" name="password" required
                 value={userData.password}
-                onChange={(e) => setUserData({["password"]: e.target.value})}
+                onChange={(e) => setUserData({ ["password"]: e.target.value })}
               />
-               {/* {console.log(userPassword)} */}
+              {/* {console.log(userData.password)} */}
             </div>
 
             {/* CITY */}
@@ -233,158 +213,121 @@ export const FormEditUser = () => {
               <label htmlFor="city" className="form-label extradark-blue fw-bold">Ciudad<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="city" name="city" required
                 value={userData.city}
-                onChange={(e) => setUserData({["city"]: e.target.value})}
+                onChange={(e) => setUserData({ ["city"]: e.target.value })}
               />
-              {/* {console.log(userCity)} */}
+              {/* {console.log(userData.city)} */}
             </div>
 
             {/* ROLE */}
             <fieldset className="mb-3">
               <legend className="col-form-label col-12 pt-0 extradark-blue fw-bold">Tipo de Usuario<span className="requiredAsterisk">*</span></legend>
-                {userData.role === true
-                  ? <>
-                      <div className="form-check mb-2">
-                          <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
-                            checked // TRUE CHECKED
-                            onClick={(e) => setUserData({["role"]: e.target.value})}
-                          />
-                          <label className="form-check-label extradark-blue" htmlFor="radioMember">
-                            <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false" 
-                            onClick={(e) => setUserData({["role"]: e.target.value})}
-                          />
-                          <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
-                            <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
-                          </label>
-                      </div>
-                    </>
-                  : <>
-                      <div className="form-check mb-2">
-                          <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
-                            onClick={(e) => setUserData({["role"]: e.target.value})}
-                          />
-                          <label className="form-check-label extradark-blue" htmlFor="radioMember">
-                            <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
-                          </label>
-                        </div>
-                        <div className="form-check">
-                          <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false" 
-                            checked // FALSE CHECKED
-                            onClick={(e) => setUserData({["role"]: e.target.value})}
-                          />
-                          <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
-                            <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
-                          </label>
-                      </div>
-                    </>
-                }
-                {/* {console.log(userRole)}  */}
+              {/* TERNARY */}
+              {userData.role === true
+                // TRUE CHECKED
+                ? <>
+                  <div className="form-check mb-2">
+                    <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
+                      checked
+                      onClick={(e) => setUserData({ ["role"]: e.target.value })}
+                    />
+                    <label className="form-check-label extradark-blue" htmlFor="radioMember">
+                      <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
+                      onClick={(e) => setUserData({ ["role"]: e.target.value })}
+                    />
+                    <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
+                      <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
+                    </label>
+                  </div>
+                </>
+                : <>
+                  {/* FALSE CHECKED */}
+                  <div className="form-check mb-2">
+                    <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
+                      onClick={(e) => setUserData({ ["role"]: e.target.value })}
+                    />
+                    <label className="form-check-label extradark-blue" htmlFor="radioMember">
+                      <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
+                      checked
+                      onClick={(e) => setUserData({ ["role"]: e.target.value })}
+                    />
+                    <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
+                      <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
+                    </label>
+                  </div>
+                </>
+              }
+              {/* {console.log(userData.role)}  */}
             </fieldset>
 
             {/* GENDER */}
             <div className="mb-3">
               <label className="form-label extradark-blue fw-bold">Género</label>
-              <select className="form-select" name="gender" defaultValue={userData.gender} 
-                onChange={(e) => setUserData({["gender"]: e.target.value})}
+              <select className="form-select" name="gender" defaultValue={userData.gender}
+                onChange={(e) => setUserData({ ["gender"]: e.target.value })}
               >
                 <option disabled>Seleccionar tu género</option>
                 <option value="male">Hombre</option>
                 <option value="female">Mujer</option>
                 <option value="other">Otro</option>
               </select>
-              {/* {console.log(userGender)} */}
+              {/* {console.log(userData.gender)} */}
             </div>
 
+            {/* PROBLEMA
+                - Array empieza vacía y no se puede hacer un map de un array vacía entonces me devuelve:
+                "Uncaught TypeError: Cannot read properties of undefined (reading 'includes')".
+                - ¿Qué hago para que el map se ejecuta cuando los valores lleguen a la propiedad
+                "languages" dentro de "userData"?
+            
+            */}
             {/* LANGUAGES */}
             <div className="mb-3">
               <label className="form-label extradark-blue fw-bold">Idiomas</label>
-              <div className="form-check">
-                {/********************
-                 IDEA OF HOW TO DISPLAY RECEIVED LANG DATA 
-                 ********************/}
-                {/* {
-                  userData.languages.includes("english")
-                  ? <input className="form-check-input" type="checkbox" value="english" id="english" name="languages[]" 
-                      checked // CHECKED
-                      onChange={(e) => languagesArray(e.target.value)}
+              {userData.languages && allLanguages.map(language => (
+                <div className="form-check" key={language}>
+                  {userData.languages.includes(language)
+                  ? <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={language}
+                    id={language}
+                    name="languages[]"
+                    checked //CHECKED
+                    onChange={() => editLanguagesArray(language)}
                     />
-                  : <input className="form-check-input" type="checkbox" value="english" id="english" name="languages[]" 
-                      onChange={(e) => languagesArray(e.target.value)}
+                  : <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={language}
+                    id={language}
+                    name="languages[]"
+                    onChange={() => editLanguagesArray(language)}
                     />
-                } */}
-                <input className="form-check-input" type="checkbox" value="english" id="english" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="english">Inglés</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="spanish" id="spanish" name="languages[]"
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="spanish">Español</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="french" id="french" name="languages[]"
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="french">Francés</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="italian" id="italian" name="languages[]"
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="italian">Italiano</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="german" id="german" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="german">Alemán</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="portuguese" id="portuguese" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="portuguese">Portugués</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="russian" id="russian" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="russian">Ruso</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="arabic" id="arabic" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="arabic">Árabe</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="japanese" id="japanese" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="japanese">Japonés</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="chinese" id="chinese" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="chinese">Chino</label>
-              </div>
+                  }
+                  <label className="form-check-label extradark-blue fw-bold" htmlFor={language}>
+                    {languageMapping[language]}
+                  </label>
+                </div>
+              ))}
             </div>
 
             {/* PHOTO FILE */}
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label extradark-blue fw-bold">Imagen de perfil</label>
-              <input className="form-control" type="file" id="formFile" name="photo" 
-                onChange={(e) => setUserPhoto(e.target.files[0])}
+              <input className="form-control" type="file" id="formFile" name="photo"
+                onChange={(e) => setUserData({ ["photo"]: e.target.files[0] })}
               />
-              {/* {console.log(userPhoto)} */}
+              {/* {console.log(userData.photo)} */}
             </div>
-            
+
             {/* SUBMIT BUTTON */}
             <div className="mb-3 d-flex justify-content-center">
               <button type="submit" className="btn bg-dark-blue text-white mx-auto fw-bold rounded-3 px-3 py-1 mt-3 formProfileButton">Actualizar</button>

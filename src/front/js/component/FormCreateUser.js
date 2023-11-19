@@ -25,6 +25,21 @@ export const FormCreateUser = () => {
   //   console.log(e.target.value)
   // }
 
+  // LANGUAGES ENGLISH/SPANISH OBJECT FOR MAPPING
+  const allLanguages = ["english", "spanish", "french", "italian", "german", "portuguese", "russian", "arabic", "japanese", "chinese"];
+  const languageMapping = {
+    english: "Inglés",
+    spanish: "Español",
+    french: "Francés",
+    italian: "Italiano",
+    german: "Alemán",
+    portuguese: "Portugués",
+    russian: "Ruso",
+    arabic: "Árabe",
+    japanese: "Japonés",
+    chinese: "Chino",
+  };
+
   // LANGUAGES ARRAY FUNCTION  
   function languagesArray(language) {
     // console.log("Current array:", newUserLanguages) ✅
@@ -36,7 +51,7 @@ export const FormCreateUser = () => {
       setNewUserLanguages([...newUserLanguages]);
       // console.log("Post-update Array:", newUserLanguages) ✅
       return
-    } 
+    }
     // If first time in array, simply add language
     setNewUserLanguages([...newUserLanguages, language])
     // console.log("New lang added:", newUserLanguages) ✅
@@ -46,23 +61,23 @@ export const FormCreateUser = () => {
   // FORM SUBMIT FUNCTION  
   const handleSubmit = (e) => {
     e.preventDefault();
-    actions.createNewUser(newUserFirstName, newUserLastName, newUserUserName, newUserEmail, 
-                          newUserPassword, newUserCity, newUserRole, newUserGender,
-                          newUserLanguages, newUserPhoto)
+    actions.createNewUser(newUserFirstName, newUserLastName, newUserUserName, newUserEmail,
+      newUserPassword, newUserCity, newUserRole, newUserGender,
+      newUserLanguages, newUserPhoto)
   }
 
   // USER SUCCESSFULLY CREATED
   useEffect(() => {
-    store.userCreatedSuccess === true? 
-    alert("El nuevo usuario se ha creado con éxito")
-    : null
+    store.userCreatedSuccess === true ?
+      alert("El nuevo usuario se ha creado con éxito")
+      : null
   }, [store.userCreatedSuccess])
 
   // USER NOT SUCCESSFULLY CREATED
   useEffect(() => {
-    store.userCreatedFailure === true?
-    alert("Ha habido un error en crear tu perfil. Inténtalo de nuevo.")
-    : null
+    store.userCreatedFailure === true ?
+      alert("Ha habido un error en crear tu perfil. Inténtalo de nuevo.")
+      : null
   }, [store.userCreatedFailure])
 
 
@@ -72,9 +87,9 @@ export const FormCreateUser = () => {
       <div style={{ background: "#ffc100" }} className="py-3">
         <div className="container col-10 col-md-8 col-lg-6 col-xxl-4">
           <div className="formImageFlexbox">
-            <img src={parejaTomaCafe} className="formImage"/>
+            <img src={parejaTomaCafe} className="formImage" />
           </div>
-          <h1 className="formProfileHeader extradark-blue text-center mt-2">Crea tu Perfil</h1> 
+          <h1 className="formProfileHeader extradark-blue text-center mt-2">Crea tu Perfil</h1>
           {/* FORM */}
           <form id="createNewUserForm" onSubmit={handleSubmit}>
 
@@ -93,7 +108,7 @@ export const FormCreateUser = () => {
               <input type="text" className="form-control" id="last_name" name="last_name" required
                 onChange={(e) => setNewUserLastName(e.target.value)}
               />
-               {/* {console.log(newUserLastName)} ✅*/}
+              {/* {console.log(newUserLastName)} ✅*/}
             </div>
 
             {/* USER NAME */}
@@ -102,7 +117,7 @@ export const FormCreateUser = () => {
               <input type="text" className="form-control" id="user_name" name="user_name" required
                 onChange={(e) => setNewUserUserName(e.target.value)}
               />
-               {/* {console.log(newUserUserName)} ✅*/}
+              {/* {console.log(newUserUserName)} ✅*/}
             </div>
 
             {/* EMAIL */}
@@ -111,7 +126,7 @@ export const FormCreateUser = () => {
               <input type="email" className="form-control" id="email" name="email" required
                 onChange={(e) => setNewUserEmail(e.target.value)}
               />
-               {/* {console.log(newUserEmail)} ✅*/}
+              {/* {console.log(newUserEmail)} ✅*/}
             </div>
 
             {/* PASSWORD */}
@@ -120,7 +135,7 @@ export const FormCreateUser = () => {
               <input type="password" className="form-control" id="password" name="password" required
                 onChange={(e) => setNewUserPassword(e.target.value)}
               />
-               {/* {console.log(newUserPassword)} ✅*/}
+              {/* {console.log(newUserPassword)} ✅*/}
             </div>
 
             {/* CITY */}
@@ -144,7 +159,7 @@ export const FormCreateUser = () => {
                 </label>
               </div>
               <div className="form-check">
-                <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false" 
+                <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
                   onClick={(e) => setNewUserRole(e.target.value)}
                 />
                 <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
@@ -157,7 +172,7 @@ export const FormCreateUser = () => {
             {/* GENDER */}
             <div className="mb-3">
               <label className="form-label extradark-blue fw-bold">Género</label>
-              <select className="form-select" name="gender" defaultValue={"Seleccionar tu género"} 
+              <select className="form-select" name="gender" defaultValue={"Seleccionar tu género"}
                 onChange={(e) => setNewUserGender(e.target.value)}
               >
                 <option disabled>Seleccionar tu género</option>
@@ -171,77 +186,32 @@ export const FormCreateUser = () => {
             {/* LANGUAGES */}
             <div className="mb-3">
               <label className="form-label extradark-blue fw-bold">Idiomas</label>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="english" id="english" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="english">Inglés</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="spanish" id="spanish" name="languages[]"
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="spanish">Español</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="french" id="french" name="languages[]"
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="french">Francés</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="italian" id="italian" name="languages[]"
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="italian">Italiano</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="german" id="german" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="german">Alemán</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="portuguese" id="portuguese" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="portuguese">Portugués</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="russian" id="russian" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="russian">Ruso</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="arabic" id="arabic" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="arabic">Árabe</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="japanese" id="japanese" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="japanese">Japonés</label>
-              </div>
-              <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="chinese" id="chinese" name="languages[]" 
-                  onChange={(e) => languagesArray(e.target.value)}
-                />
-                <label className="form-check-label extradark-blue fw-bold" htmlFor="chinese">Chino</label>
-              </div>
+              {allLanguages.map(language => (
+                <div className="form-check" key={language}>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value={language}
+                    id={language}
+                    name="languages[]"
+                    onChange={() => languagesArray(language)}
+                  />
+                  <label className="form-check-label extradark-blue fw-bold" htmlFor={language}>
+                    {languageMapping[language]}
+                  </label>
+                </div>
+              ))}
             </div>
 
             {/* PHOTO FILE */}
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label extradark-blue fw-bold">Imagen de perfil</label>
-              <input className="form-control" type="file" id="formFile" name="photo" 
+              <input className="form-control" type="file" id="formFile" name="photo"
                 onChange={(e) => setNewUserPhoto(e.target.files[0])}
               />
               {/* {console.log(newUserPhoto)} ✅ */}
             </div>
-            
+
             {/* SUBMIT BUTTON */}
             <div className="mb-3 d-flex justify-content-center">
               <button type="submit" className="btn bg-dark-blue text-white mx-auto fw-bold rounded-3 px-3 py-1 mt-3 formProfileButton">Enviar</button>
