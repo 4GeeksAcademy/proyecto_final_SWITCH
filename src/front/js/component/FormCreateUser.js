@@ -1,12 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../../styles/index.css";
 import "../../styles/createNewUserProfile.css";
 import parejaTomaCafe from "../../img/pareja-toma-cafe.png";
 
 export const FormCreateUser = () => {
+
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // VARIABLES
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
 
   // Form Variables
   const [newUserFirstName, setNewUserFirstName] = useState("");
@@ -40,21 +44,24 @@ export const FormCreateUser = () => {
     chinese: "Chino",
   };
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // FUNCTIONS 
+
   // LANGUAGES ARRAY FUNCTION  
   function languagesArray(language) {
-    // console.log("Current array:", newUserLanguages) ✅
+    // console.log("Current array:", newUserLanguages) 
 
     // If already in array, remove language
     if (newUserLanguages.includes(language)) {
       let langIndex = newUserLanguages.indexOf(language);
       newUserLanguages.splice(langIndex, 1);
       setNewUserLanguages([...newUserLanguages]);
-      // console.log("Post-update Array:", newUserLanguages) ✅
+      // console.log("Post-update Array:", newUserLanguages) 
       return
     }
     // If first time in array, simply add language
     setNewUserLanguages([...newUserLanguages, language])
-    // console.log("New lang added:", newUserLanguages) ✅
+    // console.log("New lang added:", newUserLanguages) 
     return
   }
 
@@ -66,20 +73,30 @@ export const FormCreateUser = () => {
       newUserLanguages, newUserPhoto)
   }
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // USEEFFECT
+
   // USER SUCCESSFULLY CREATED
   useEffect(() => {
-    store.userCreatedSuccess === true ?
-      alert("El nuevo usuario se ha creado con éxito")
-      : null
+    if (store.userCreatedSuccess === true) {
+      alert("El nuevo usuario se ha creado con éxito");
+      store.userCreatedSuccess = null;
+      navigate("/")
+      /* Change to Profile Page? --> Would have to have conditionals based on 
+      store.member/organizer like in "FormEditUser" component */
+    }
   }, [store.userCreatedSuccess])
 
   // USER NOT SUCCESSFULLY CREATED
   useEffect(() => {
-    store.userCreatedFailure === true ?
-      alert("Ha habido un error en crear tu perfil. Inténtalo de nuevo.")
-      : null
+    if (store.userCreatedFailure === true) {
+      alert("Ha habido un error en crear tu perfil. Inténtalo de nuevo.");
+      store.userCreatedFailure = null;
+    }
   }, [store.userCreatedFailure])
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // COMPONENT
 
   return (
     <>

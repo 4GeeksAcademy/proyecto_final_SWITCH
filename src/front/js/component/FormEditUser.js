@@ -103,11 +103,11 @@ export const FormEditUser = () => {
           const errorMessage = await userLanguagesResponse.text();
           console.log("errorMessage:", errorMessage);
         }
-        const userLanguages = await userLanguagesResponse.json();
-        // console.log("UserLanguages:", userLanguages)
+        const userLanguagesData = await userLanguagesResponse.json();
+        // console.log("UserLanguagesData:", userLanguagesData)
 
-        // Extracts just the language data from 'userLanguages' response (which contains an array of objects)
-        const checkedLanguages = userLanguages.userLanguages.map(item => item.language)
+        // Extracts just the language data from 'userLanguagesResponse' (which contains an array of objects)
+        const checkedLanguages = userLanguagesData.userLanguages.map(item => item.language)
 
         /* 3. MANAGE RECIEVED DATA + LANGUAGES
         -> Set the variables which the form accesses in order to display the user info on page */
@@ -133,18 +133,28 @@ export const FormEditUser = () => {
 
   // USER SUCCESSFULLY UPDATED
   useEffect(() => {
-    store.userUpdatedSuccess === true ?
-      alert("El nuevo usuario se ha actualizado con éxito")
-      : null
+    if(store.userUpdatedSuccess === true) {
+      alert("El nuevo usuario se ha actualizado con éxito");
+      store.userUpdatedSuccess = null;
+      // REDIRECT USER
+      if(store.member === true) {
+        navigate(`/UsersProfile/${stored_id_user}`)
+      }
+      if (store.organizer === true) {
+        navigate(`/OrganizerProfile/${stored_id_user}`)
+      }
+    }
   }, [store.userUpdatedSuccess])
 
-  // USER NOT SUCCESSFULLY Updated
+  // USER NOT SUCCESSFULLY UPDATED
   useEffect(() => {
-    store.userUpdatedFailure === true ?
-      alert("Ha habido un error en actualizar tu perfil. Inténtalo de nuevo.")
-      : null
-  }, [store.userUpdatedFailure])
+    if(store.userUpdatedFailutre === true) {
+      alert("Ha habido un error en actualizar tu perfil. Inténtalo de nuevo.");
+      store.userUpdatedFailure = null;
+  }}, [store.userUpdatedFailure])
 
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // COMPONENT
 
   return (
     <>

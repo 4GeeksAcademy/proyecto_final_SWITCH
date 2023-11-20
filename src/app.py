@@ -298,10 +298,10 @@ def create_token():
 
 #################################################################################################################################################################
 
-# GET ID USER (POST)
+# GET ID USER & ROLE (POST)
 
-@app.route('/api/idUser', methods=["POST"])
-def getUserId():
+@app.route('/api/idUserAndRole', methods=["POST"])
+def getUserIdAndRole():
 
     # Extract JSON Data
     body = request.get_json(silent=True)
@@ -317,7 +317,7 @@ def getUserId():
     
     user_serialized = user.serialize() 
     
-    return jsonify({'idUser': user_serialized['id']})
+    return jsonify({'idUser': user_serialized['id'], "role": user_serialized['role']})
 
 #################################################################################################################################################################
 

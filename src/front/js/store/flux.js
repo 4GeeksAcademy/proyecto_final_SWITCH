@@ -284,14 +284,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			/////////// GET ID USER //////////////
+			/////////// GET ID USER & ROLE //////////////
 
-			getId_User: async (email) => {
+			getIdUserAndRole: async (email) => {
 				const store = getStore();
 				// console.log("email:", email) 
 
 				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + "/api/idUser";
+				const fetchUrl = process.env.BACKEND_URL + "/api/idUserAndRole";
 				const fetchBody = {
 					method: "POST",
 					headers: {
@@ -310,16 +310,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// console.log("response:", response)
 					const responseData = await response.json();
 					// console.log("responseData:", responseData)
-					// console.log("userId?", responseData.erId)
+					// console.log("userId?", responseData.Id)
 
 					// Handling Different Outcomes 
 					if (response.ok) {
-						setStore({ id_user: responseData.idUser })
+						setStore({ id_user: responseData.idUser });
 					}
 					if (!response.ok) {
 						const errorMessage = await response.text();
 						console.log("errorMessage:", errorMessage);
 					}
+					if (responseData.role){
+						setStore({member: true})
+						// console.log("member:", store.member)
+					}
+					if (!responseData.role){
+						setStore({organizer: true})
+						// console.log("organizer:", store.organizer)
+					} 
 				} catch (error) {
 					console.log('Error:', error)
 					throw error
