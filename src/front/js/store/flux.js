@@ -186,52 +186,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			/////////// REGISTER USER IN DATABASE //////////////
-
-			register: async (email, password) => {
-				const store = getStore();
-
-				if (!email || !password) {
-					setStore({ registrationEmpty: true });
-					throw new Error("Email and password are required");
-				}
-				const requestOptions = {
-					method: "Post",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						email: email,
-						password: password,
-						is_active: true,
-					}),
-				};
-
-				try {
-					const resp = await fetch(
-						process.env.BACKEND_URL + "/api/user",
-						requestOptions
-					);
-
-					if (resp.status !== 200) {
-						alert("Email or password are wrong");
-						return false;
-					} else {
-						setStore({ registrationSuccess: true });
-					}
-
-					const data = await resp.json();
-					console.log("this came from the backend", data);
-
-					// sessionStorage.setItem("token", data.access_token); //I know it's access_token cos I saw it in Postman/Google Network tool
-					// setStore({ token: data.access_token });
-					return true;
-				} catch (error) {
-					console.log("there has been an error signing up");
-					setStore({ registrationExists: true });
-				}
-			},
-
 			/////////// CHECK IF USER IN DATABASE + GET TOKEN //////////////
 
 			login: async (email, password) => {
@@ -320,14 +274,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const errorMessage = await response.text();
 						console.log("errorMessage:", errorMessage);
 					}
-					if (responseData.role){
-						setStore({member: true})
+					if (responseData.role) {
+						setStore({ member: true })
 						// console.log("member:", store.member)
 					}
-					if (!responseData.role){
-						setStore({organizer: true})
+					if (!responseData.role) {
+						setStore({ organizer: true })
 						// console.log("organizer:", store.organizer)
-					} 
+					}
 				} catch (error) {
 					console.log('Error:', error)
 					throw error
@@ -391,7 +345,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error
 				}
 			},
-			
+
 
 			/////////// MAINTAIN TOKEN //////////////
 
