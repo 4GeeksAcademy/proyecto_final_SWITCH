@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../../styles/martha.css';
 import '../../img/bocadillos.png';
+import { Context } from "../store/appContext"
 
 const OrganizerProfile = () => {
+  const {store, actions} = useContext (Context)
   const [userData, setUserData] = useState({
     userName: "",
     nombre: "",
@@ -30,19 +32,19 @@ const OrganizerProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(process.env.BACKEND_URL + '/api/user/');
+        const response = await fetch(process.env.BACKEND_URL + `/api/userData/${store.id_user}`);
 
         if (response.ok) {
           const data = await response.json();
 
           setUserData({
-            userName: data.user.user_name,
-            nombre: data.user.first_name,
-            apellido: data.user.last_name,
-            email: data.user.email,
-            sexo: data.user.gender,
-            ciudad: data.user.city,
-            rol: data.user.role,
+            userName: data.userData.user_name,
+            nombre: data.userData.first_name,
+            apellido: data.userData.last_name,
+            email: data.userData.email,
+            sexo: data.userData.gender,
+            ciudad: data.userData.city,
+            rol: data.userData.role,
 
           });
         } else {
