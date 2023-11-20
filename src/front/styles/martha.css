@@ -13,6 +13,11 @@
 /* Establece el color de fondo amarillo para toda la página */
 
 
+.contenedorGeneral{
+  background-color: #ffc100;
+
+}
+
 group-page{
     font-family: "Nunito", sans-serif;
     margin: 0;
@@ -32,7 +37,7 @@ header {
 }
 
 /* Estilos para los div contenedores */
-.descripcion, .organizador, .miembros, .eventos {
+.descripcion, .organizador, .miembros, .eventos, .buttons-group-container {
     width: 90%;
     margin: 10px;
     padding: 10px;    
@@ -54,7 +59,7 @@ header {
 }
 
 .imagen-lateral {
-  max-width: 100%;
+  max-width: auto;
   height: auto;  
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /*sombra */
   margin-right: 20px; 
@@ -149,15 +154,32 @@ header {
   background-color: #000080;
   color: #fff;
   margin-right: 10px;
+  
 
   /* Cambios al pasar el ratón */
   transition: background-color 0.3s; /* Transición suave de color */
 }
 
 .custom-button:hover {
-  background-color: #01319d; /* Cambio de color al pasar el ratón */
+  background-color: #018FA6; /* Cambio de color al pasar el ratón */
 }
 
+.custom-buttonEvent {
+  margin-top: 5px;
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #000080;
+  color: #fff;
+  transition: background-color 0.3s; /* Transición suave de color */
+  
+}
+
+.custom-buttonEvent:hover {
+  background-color: #018FA6; /* Cambio de color al pasar el ratón */
+}
 
 /* Importa Font Awesome para los íconos */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
