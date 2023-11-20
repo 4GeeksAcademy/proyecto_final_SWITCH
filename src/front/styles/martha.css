@@ -12,13 +12,14 @@
 
 /* Establece el color de fondo amarillo para toda la página */
 
-
-.contenedorGeneral{
+.contenedorGeneral
+{
   background-color: #ffc100;
-
 }
 
-group-page{
+
+
+group-page{  
     font-family: "Nunito", sans-serif;
     margin: 0;
     padding: 0;

@@ -76,7 +76,7 @@ export const Navbar = () => {
                   {isNavbarOpen && (
                     <div className="bg-dark-blue d-flex navbar-desplegable flex-column rounded p-3 fs-4 align-items-start justify-content-start navbar-desplegable-go-up-when-open ">
                       {/*BUTTON register*/}
-                      <Link to="/sign-up" className="text-decoration-none">
+                      <Link to="/createnewuserprofile" className="text-decoration-none">
                         <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue ">
                           Registro
                         </div>
@@ -112,13 +112,13 @@ export const Navbar = () => {
               {/*BUTTON PROFILE PAGE*/}
               <div className="d-xl-block d-none">
                 {store.member === true
-                  ? <Link to="/UsersProfile">
+                  ? <Link to={`/UsersProfile/${store.id_user}`}>
                     <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
                   </Link>
                   : null
                 }
                 {store.organizer === true
-                  ? <Link to="/PageOrganizerProfile">
+                  ? <Link to={`/OrganizerProfile/${store.id_user}`}>
                     <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
                   </Link>
                   : null
