@@ -162,5 +162,5 @@ class User_languages(db.Model):
         return {
             "id": self.id_user_language,
             "user": self.id_user,
-            "language": self.language       
+            "language": self.language.value       
         }

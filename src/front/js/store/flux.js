@@ -10,6 +10,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			organizer: false,
 			userCreatedSuccess: false,
 			userCreatedFailure: false,
+			userUpdatedSuccess: false,
+			userUpdatedFailure: false,
 			registrationSuccess: false,
 			registrationExists: false,
 			registrationEmpty: false,
@@ -17,18 +19,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 			registrationDoesntExist: false,
 			registrationWrong: false,
 			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			// demo: [
+			// 	{
+			// 		title: "FIRST",
+			// 		background: "white",
+			// 		initial: "white"
+			// 	},
+			// 	{
+			// 		title: "SECOND",
+			// 		background: "white",
+			// 		initial: "white"
+			// 	}
+			// ]
 		},
 		actions: {
 			setRegistrationEmpty: (value) => {
@@ -282,14 +284,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			/////////// GET ID USER //////////////
+			/////////// GET ID USER & ROLE //////////////
 
-			getId_User: async (email) => {
+			getIdUserAndRole: async (email) => {
 				const store = getStore();
 				// console.log("email:", email) 
 
 				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + "/api/idUser";
+				const fetchUrl = process.env.BACKEND_URL + "/api/idUserAndRole";
 				const fetchBody = {
 					method: "POST",
 					headers: {
@@ -308,23 +310,88 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// console.log("response:", response)
 					const responseData = await response.json();
 					// console.log("responseData:", responseData)
-					// console.log("userId?", responseData.erId)
+					// console.log("userId?", responseData.Id)
 
 					// Handling Different Outcomes 
 					if (response.ok) {
-						setStore({ id_user: responseData.idUser })
+						setStore({ id_user: responseData.idUser });
 					}
 					if (!response.ok) {
 						const errorMessage = await response.text();
 						console.log("errorMessage:", errorMessage);
 					}
+					if (responseData.role){
+						setStore({member: true})
+						// console.log("member:", store.member)
+					}
+					if (!responseData.role){
+						setStore({organizer: true})
+						// console.log("organizer:", store.organizer)
+					} 
 				} catch (error) {
 					console.log('Error:', error)
 					throw error
 				}
 
-				console.log("store_id_user:", store.id_user) 
+				// console.log("store_id_user:", store.id_user) 
 			},
+
+			/////////// UPDATE USER IN DATABASE //////////////
+
+			updateUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
+				const store = getStore();
+
+				role = (role === 'true') ? true : false
+				let id_user = store.id_user
+
+				// Testing Input
+				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
+
+				// Variables for Fetch Request Body
+				const fetchUrl = process.env.BACKEND_URL + `api/EditUserProfile/${id_user}`;
+				const fetchBody = {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						first_name: firstName,
+						last_name: lastName,
+						user_name: userName,
+						email: email,
+						password: password,
+						city: city,
+						role: role,
+						gender: gender,
+						languages: languages,
+						photo_url: photo_url
+					})
+				}
+				// console.log("fetchUrl:", fetchUrl)
+				// console.log("fetchBody:", fetchBody)
+
+				// Fetch Request 
+				try {
+					const response = await fetch(fetchUrl, fetchBody);
+					console.log("response:", response)
+					const responseData = await response.json();
+					console.log("responseData:", responseData)
+
+					// Handling Different Outcomes 
+					if (response.ok) {
+						setStore({ userUpdatedSuccess: true })
+					}
+					if (!response.ok) {
+						const errorMessage = await response.text();
+						console.log("errorMessage:", errorMessage);
+						setStore({ userUpdatedFailure: true })
+					}
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+			},
+			
 
 			/////////// MAINTAIN TOKEN //////////////
 

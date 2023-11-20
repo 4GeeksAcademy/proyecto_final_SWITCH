@@ -46,8 +46,8 @@ const Layout = () => {
                         <Route element={<SignIn />} path="/signin" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<GroupPage />} path="/GroupPage" />
-                        <Route element={<UsersProfile />} path="/UsersProfile" />
-                        <Route element={<OrganizerProfile />} path="/OrganizerProfile" />
+                        <Route element={<UsersProfile />} path="/UsersProfile/:id" />
+                        <Route element={<OrganizerProfile />} path="/OrganizerProfile/:id" />
                         <Route element={<SearchResults />} path="/searchResults" />
 
                         <Route element={<EventSearchJoin />} path="/EventSearchJoin" />

@@ -24,8 +24,7 @@ const OrganizerProfile = () => {
   };
 
   const handleEditProfileClick = () => {
-    // Lógica para editar datos del usuario
-    console.log('Botón Editar información personal');
+    navigate("/EditUserProfile")
   };
 
   useEffect(() => {
