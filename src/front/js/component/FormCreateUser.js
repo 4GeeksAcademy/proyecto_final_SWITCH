@@ -80,7 +80,7 @@ export const FormCreateUser = () => {
   useEffect(() => {
     if (store.userCreatedSuccess === true) {
       alert("El nuevo usuario se ha creado con éxito");
-      store.userCreatedSuccess = null;
+      store.userCreatedSuccess = false;
       navigate("/")
       /* Change to Profile Page? --> Would have to have conditionals based on 
       store.member/organizer like in "FormEditUser" component */
@@ -91,7 +91,7 @@ export const FormCreateUser = () => {
   useEffect(() => {
     if (store.userCreatedFailure === true) {
       alert("Ha habido un error en crear tu perfil. Inténtalo de nuevo.");
-      store.userCreatedFailure = null;
+      store.userCreatedFailure = false;
     }
   }, [store.userCreatedFailure])
 

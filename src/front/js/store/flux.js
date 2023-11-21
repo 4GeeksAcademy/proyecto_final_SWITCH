@@ -295,10 +295,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			updateUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
 				const store = getStore();
 
-				role = (role === 'true') ? true : false
-			
+				role = (role === 'true' || true) ? true : false
+
 				// Testing Input
-				// console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url) 
+				// console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
 
 				// Variables for Fetch Request Body
 				const fetchUrl = `${process.env.BACKEND_URL}/api/EditUserProfile/${store.id_user}`;

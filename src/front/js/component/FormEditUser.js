@@ -138,12 +138,12 @@ export const FormEditUser = () => {
   useEffect(() => {
     if(store.userUpdatedSuccess === true) {
       alert("El nuevo usuario se ha actualizado con éxito");
-      store.userUpdatedSuccess = null;
+      store.userUpdatedSuccess = false;
       // REDIRECT USER
       if(store.member === true) {
         navigate(`/UsersProfile/${stored_id_user}`)
       }
-      if (store.organizer === true) {
+      if(store.organizer === true) {
         navigate(`/OrganizerProfile/${stored_id_user}`)
       }
     }
@@ -153,7 +153,7 @@ export const FormEditUser = () => {
   useEffect(() => {
     if(store.userUpdatedFailutre === true) {
       alert("Ha habido un error en actualizar tu perfil. Inténtalo de nuevo.");
-      store.userUpdatedFailure = null;
+      store.userUpdatedFailure = false;
   }}, [store.userUpdatedFailure])
 
   useEffect(() => {
@@ -238,10 +238,9 @@ export const FormEditUser = () => {
             {/* ROLE */}
             <fieldset className="mb-3">
               <legend className="col-form-label col-12 pt-0 extradark-blue fw-bold">Tipo de Usuario<span className="requiredAsterisk">*</span></legend>
-              {/* TERNARY */}
+              {/* RADIO TRUE */}
               {userData.role === true
-                // TRUE CHECKED
-                ? <>
+                ? // TRUE CHECKED
                   <div className="form-check mb-2">
                     <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
                       checked
@@ -250,7 +249,30 @@ export const FormEditUser = () => {
                     <label className="form-check-label extradark-blue" htmlFor="radioMember">
                       <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
                     </label>
+                  </div> 
+                : // ELSE NOT CHECKED
+                  <div className="form-check mb-2">
+                    <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
+                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
+                    />
+                    <label className="form-check-label extradark-blue" htmlFor="radioMember">
+                      <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
+                    </label>
                   </div>
+                }
+                {/* RADIO FALSE */}
+                {userData.role === false
+                ? // FALSE CHECKED        
+                  <div className="form-check">
+                    <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
+                      checked
+                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
+                    />
+                    <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
+                      <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
+                    </label>
+                  </div>
+                :
                   <div className="form-check">
                     <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
                       onClick={(e) => setUserData({ ...userData,"role": e.target.value })}
@@ -259,29 +281,8 @@ export const FormEditUser = () => {
                       <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
                     </label>
                   </div>
-                </>
-                : <>
-                  {/* FALSE CHECKED */}
-                  <div className="form-check mb-2">
-                    <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
-                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
-                    />
-                    <label className="form-check-label extradark-blue" htmlFor="radioMember">
-                      <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
-                      checked
-                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
-                    />
-                    <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
-                      <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
-                    </label>
-                  </div>
-                </>
-              }
-              {/* {console.log(userData.role)}  */}
+                }
+              {/* {console.log(userData.role)} */}
             </fieldset>
 
             {/* GENDER */}
