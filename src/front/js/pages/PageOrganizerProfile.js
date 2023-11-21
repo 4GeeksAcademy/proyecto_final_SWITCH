@@ -67,9 +67,9 @@ const OrganizerProfile = () => {
         const languagesResponse = await fetch(process.env.BACKEND_URL + `/api/UserLanguages/${store.id_user}`);
         if(response.ok) {
           const languagesData = await languagesResponse.json()
-          console.log("languagesData:", languagesData)
+          // console.log("languagesData:", languagesData)
           const usersLanguages = languagesData.userLanguages.map(item => item.language)
-          console.log("usersLanguages:", usersLanguages)
+          // console.log("usersLanguages:", usersLanguages)
           setUserLanguages(usersLanguages)
         } else {
           throw new Error('Failed to fetch user languages')

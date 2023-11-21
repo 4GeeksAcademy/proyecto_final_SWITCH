@@ -298,7 +298,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				role = (role == true)
 
 				// Testing Input
-				console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
+				// console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
 
 				// Variables for Fetch Request Body
 				const fetchUrl = `${process.env.BACKEND_URL}/api/EditUserProfile/${store.id_user}`;

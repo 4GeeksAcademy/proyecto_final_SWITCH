@@ -13,7 +13,7 @@ export const SignIn = () => {
 
     const navigate = useNavigate();
 
-    console.log("this is your token", store.token);
+    // console.log("this is your token", store.token);
 
     const handleClick = (e) => {
         e.preventDefault();

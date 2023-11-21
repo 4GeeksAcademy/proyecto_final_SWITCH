@@ -66,7 +66,7 @@ export const FormEditUser = () => {
         // If first time in array, simply add language to it
         storedLanguagesArray.push(language)
       }
-      console.log("Post-update Array:", storedLanguagesArray)
+      // console.log("Post-update Array:", storedLanguagesArray)
       return { ...prevUserData, languages: storedLanguagesArray }
     })
   }
@@ -74,7 +74,7 @@ export const FormEditUser = () => {
    // FORM SUBMIT FUNCTION  
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("userdata sent to updateUser():", userData)
+    // console.log("userdata sent to updateUser():", userData)
     actions.updateUser(userData.firstName, userData.lastName, 
       userData.userName, userData.email,userData.password, 
       userData.city, userData.role, userData.gender,
@@ -156,9 +156,9 @@ export const FormEditUser = () => {
       store.userUpdatedFailure = false;
   }}, [store.userUpdatedFailure])
 
-  useEffect(() => {
-    console.log("userData variable:", userData)
-  }, [userData])
+  // useEffect(() => {
+  //   console.log("userData variable update:", userData)
+  // }, [userData])
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // COMPONENT
