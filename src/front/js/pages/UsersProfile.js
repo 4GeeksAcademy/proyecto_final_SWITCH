@@ -43,12 +43,15 @@ const UsersProfile = () => {
     return str.charAt(0).toUpperCase() + str.slice(1)
   };
 
+  const roleConversion = (booleanValue) => {
+    return booleanValue ? "Miembro" : "Organizador"
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(process.env.BACKEND_URL + `/api/UserData/${store.id_user}`);
         // console.log("response:", response)
-
         if (response.ok) {
           const data = await response.json();
           // console.log("data:", data)
@@ -60,7 +63,6 @@ const UsersProfile = () => {
             sexo: data.userData.gender,
             ciudad: data.userData.city,
             rol: data.userData.role,
-
           });
         } else {
           throw new Error('Failed to fetch user data');
@@ -85,7 +87,11 @@ const UsersProfile = () => {
     fetchData();
   }, []);
 
-   // useEffect(() => {
+  // useEffect(() => {
+  //   console.log("userDataUpdate:", userData);
+  // }, [userData]);
+
+  // useEffect(() => {
   //   console.log("userLanguagesUpdate:", userLanguages);
   // }, [userLanguages]);
   
@@ -97,6 +103,7 @@ const UsersProfile = () => {
         </div>
         <div className="user-info">
           <div className="tipoh3">{userData.userName}</div>
+          <p>{roleConversion(userData.rol)}</p>
           <p>{userData.email}</p>
           <p>
             <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>

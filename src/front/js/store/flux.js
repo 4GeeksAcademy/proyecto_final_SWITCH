@@ -295,7 +295,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			updateUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
 				const store = getStore();
 
-				role = (role === 'true' || true) ? true : false
+				role = (role == true)
 
 				// Testing Input
 				console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)

@@ -5,7 +5,7 @@ import '../../img/bocadillos.png';
 import { Context } from "../store/appContext"
 
 const OrganizerProfile = () => {
-  const {store, actions} = useContext (Context)
+  const { store, actions } = useContext(Context)
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
@@ -34,6 +34,14 @@ const OrganizerProfile = () => {
     navigate("/EditUserProfile")
   };
 
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  };
+
+  const roleConversion = (booleanValue) => {
+    return booleanValue ? "Miembro" : "Organizador"
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,7 +58,6 @@ const OrganizerProfile = () => {
             sexo: data.userData.gender,
             ciudad: data.userData.city,
             rol: data.userData.role,
-
           });
         } else {
           throw new Error('Failed to fetch user data');
@@ -76,9 +83,13 @@ const OrganizerProfile = () => {
   }, []);
 
   // useEffect(() => {
+  //   console.log("userDataUpdate:", userData);
+  // }, [userData]);
+
+  // useEffect(() => {
   //   console.log("userLanguagesUpdate:", userLanguages);
   // }, [userLanguages]);
-  
+
   return (
     <div className="user-data-column">
       <div className="user-profile">
@@ -87,6 +98,7 @@ const OrganizerProfile = () => {
         </div>
         <div className="user-info">
           <div className="tipoh3">{userData.userName}</div>
+          <p>{roleConversion(userData.rol)}</p>
           <p>{userData.email}</p>
           <p>
             <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
@@ -96,8 +108,8 @@ const OrganizerProfile = () => {
           <ul>
             {userLanguages == [] ?
               <p>Cargando idiomas</p>
-              : userLanguages.map(language => 
-              <li key={language}>{capitalizeFirstLetter(language)}</li>
+              : userLanguages.map(language =>
+                <li key={language}>{capitalizeFirstLetter(language)}</li>
               )
             }
           </ul>
