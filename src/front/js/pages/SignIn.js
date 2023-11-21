@@ -43,11 +43,11 @@ export const SignIn = () => {
                 }
 
                 {store.registrationSuccess && (
-                    <div className="fs-3">You are successfully logged in!</div>
+                    <div className="fs-3 py-5">¡Has iniciado sesión con éxito!</div>
                 )}
 
                 {store.registrationEmpty && (
-                    <div className="fs-3">
+                    <div className="fs-3 py-3">
                         Email y contraseña son necesarios.
                         <br />
                         ¡Inténtalo de nuevo!
@@ -55,10 +55,10 @@ export const SignIn = () => {
                 )}
 
                 {store.registrationWrong && (
-                    <div className="fs-3">
-                        Email or password are wrong.
+                    <div className="fs-3 py-3">
+                        Email o contraseña es incorrecta.
                         <br />
-                        Try again!
+                        ¡Inténtalo de nuevo!
                     </div>
                 )}
 
