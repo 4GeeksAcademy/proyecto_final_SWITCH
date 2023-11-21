@@ -295,14 +295,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			updateUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
 				const store = getStore();
 
-				role = (role === 'true') ? true : false
-				let id_user = store.id_user
+				role = (role == true)
 
 				// Testing Input
-				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
+				// console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
 
 				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + `api/EditUserProfile/${id_user}`;
+				const fetchUrl = `${process.env.BACKEND_URL}/api/EditUserProfile/${store.id_user}`;
 				const fetchBody = {
 					method: "PUT",
 					headers: {
@@ -320,7 +319,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						languages: languages,
 						photo_url: photo_url
 					})
-				}
+				};
 				// console.log("fetchUrl:", fetchUrl)
 				// console.log("fetchBody:", fetchBody)
 

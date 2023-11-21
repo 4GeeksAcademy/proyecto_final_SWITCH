@@ -9,11 +9,6 @@ export const HomeHeadline = () => {
     <div className="d-flex justify-between flex-column headline flex-xl-row ">
       {/*TEXT LEFT*/}
 
-      {/* LINK PROVISIONAL */}
-      <Link to='/EditUserProfile'>
-        LINK
-      </Link>
-
       <div className="pe-xl-5">
         <h2 className="fw-bold extradark-grey font-nunito home-headline-title">
           Qué es <span className="dark-blue">Switch </span>
