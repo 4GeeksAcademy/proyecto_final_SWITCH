@@ -19,6 +19,8 @@ const UsersProfile = () => {
     rol: ""
   });
 
+  const [userLanguages, setUserLanguages] = useState([])
+
   // const handleInputChange = (name, value) => {
   //   setUserData({ ...userData, [name]: value });
   // };
@@ -59,6 +61,18 @@ const UsersProfile = () => {
         } else {
           throw new Error('Failed to fetch user data');
         }
+
+        // FETCH: IDIOMAS DEL USUARIO
+        const languagesResponse = await fetch(process.env.BACKEND_URL + `/api/UserLanguages/${store.id_user}`);
+        if(response.ok) {
+          const languagesData = await languagesResponse.json()
+          console.log("languagesData:", languagesData)
+          const usersLanguages = languagesData.userLanguages.map(item => item.language)
+          console.log("usersLanguages:", usersLanguages)
+          setUserLanguages(usersLanguages)
+        } else {
+          throw new Error('Failed to fetch user languages')
+        }
       } catch (error) {
         console.error('Error fetching user data', error);
       }
@@ -80,7 +94,15 @@ const UsersProfile = () => {
             <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
           </p>
           <p>{userData.sexo}</p>
-          <p>{userData.userLanguages}</p>
+          <p>Idiomas:</p>
+          <ul>
+            {userLanguages == [] ?
+              <p>Cargando idiomas</p>
+              : userLanguages.map(language => 
+              <li key={language}>{language}</li>
+              )
+            }
+          </ul>
           {/* Botones */}
           <div className="buttons-container">
             <button type="button" className="custom-button" onClick={handleEditClick}>
