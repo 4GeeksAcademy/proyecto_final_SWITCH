@@ -91,13 +91,13 @@ const OrganizerProfile = () => {
           <p>
             <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
           </p>
-          <p>{userData.sexo}</p>
+          <p>{capitalizeFirstLetter(userData.sexo)}</p>
           <p>Idiomas:</p>
           <ul>
             {userLanguages == [] ?
               <p>Cargando idiomas</p>
               : userLanguages.map(language => 
-              <li key={language}>{language}</li>
+              <li key={language}>{capitalizeFirstLetter(language)}</li>
               )
             }
           </ul>

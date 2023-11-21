@@ -35,64 +35,66 @@ export const SignIn = () => {
     };
 
     return (
-        <div className="text-center mt-5 signin_max-width container">
+        <div className="bg-yellow">
+            <div className="text-center pt-5 signin_max-width container">
 
-            {!store.registrationSuccess &&
-                <h1 className="font-nunito fs-1 my-4">Acceso a tu cuenta</h1>
-            }
+                {!store.registrationSuccess &&
+                    <h1 className="font-nunito fs-1 my-4">Acceso a tu cuenta</h1>
+                }
 
-            {store.registrationSuccess && (
-                <div className="fs-3">You are successfully logged in!</div>
-            )}
+                {store.registrationSuccess && (
+                    <div className="fs-3">You are successfully logged in!</div>
+                )}
 
-            {store.registrationEmpty && (
-                <div className="fs-3">
-                    Email y contraseña son necesarios.
-                    <br />
-                    ¡Inténtalo de nuevo!
-                </div>
-            )}
+                {store.registrationEmpty && (
+                    <div className="fs-3">
+                        Email y contraseña son necesarios.
+                        <br />
+                        ¡Inténtalo de nuevo!
+                    </div>
+                )}
 
-            {store.registrationWrong && (
-                <div className="fs-3">
-                    Email or password are wrong.
-                    <br />
-                    Try again!
-                </div>
-            )}
+                {store.registrationWrong && (
+                    <div className="fs-3">
+                        Email or password are wrong.
+                        <br />
+                        Try again!
+                    </div>
+                )}
 
-            {!store.registrationSuccess && (
-                <div>
-                    <form onSubmit={handleClick}>
-                        <input
-                            type="email"
-                            placeholder="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="form-control mt-3"
-                        />
-                        <input
-                            type="password"
-                            placeholder="contraseña"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="form-control mt-3"
-                        />
-                        <button
-                            type="submit"
-                            className="btn rounded-3 rounded sign-in-btn bg-extradark-blue fw-bolder text-light px-md-5 py-3 extradark-grey my-auto mt-3"
-                            disabled={store.registrationInProgress}
-                        >
-                            Login
-                        </button>
-                    </form>
+                {!store.registrationSuccess && (
+                    <div>
+                        <form onSubmit={handleClick}>
+                            <input
+                                type="email"
+                                placeholder="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="form-control mt-3"
+                            />
+                            <input
+                                type="password"
+                                placeholder="contraseña"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="form-control mt-3"
+                            />
+                            <button
+                                type="submit"
+                                className="btn rounded-3 rounded sign-in-btn bg-extradark-blue fw-bolder text-light px-md-5 py-3 extradark-grey my-auto mt-3"
+                                disabled={store.registrationInProgress}
+                            >
+                                Login
+                            </button>
+                        </form>
 
-                    <p className="mt-5 mb-5 extradark-grey fs-5 font-nunito ">
-                        ¿Aún no te has registrado? <Link to="/createnewuserprofile"> Haz click aquí. </Link>
-                    </p>
-                </div>
-            )
-            }
-        </div >
+                        <p className="mt-5 pb-5 extradark-grey fs-5 font-nunito ">
+                            ¿Aún no te has registrado? <Link to="/createnewuserprofile"> Haz click aquí. </Link>
+                        </p>
+                    </div>
+                )
+                }
+            </div >
+        </div>
     );
 };
