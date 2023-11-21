@@ -75,11 +75,10 @@ const OrganizerProfile = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("userLanguagesUpdate:", userLanguages);
-  }, [userLanguages]);
+  // useEffect(() => {
+  //   console.log("userLanguagesUpdate:", userLanguages);
+  // }, [userLanguages]);
   
-
   return (
     <div className="user-data-column">
       <div className="user-profile">

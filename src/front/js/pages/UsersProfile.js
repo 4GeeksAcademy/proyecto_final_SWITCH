@@ -81,6 +81,10 @@ const UsersProfile = () => {
     fetchData();
   }, []);
 
+   // useEffect(() => {
+  //   console.log("userLanguagesUpdate:", userLanguages);
+  // }, [userLanguages]);
+  
   return (
     <div className="user-data-column">
       <div className="user-profile">
