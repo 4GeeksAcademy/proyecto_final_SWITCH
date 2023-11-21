@@ -147,11 +147,7 @@ def get_event(id_event):
 
 ################################################################################################################################################################
 
-# CREATE NEW EVENT
-
-
-
-# CREATE NEW USER PROFILE (POST)
+# CREATE NEW EVENT (POST)
 @app.route('/api/CreateNewEvent', methods=['POST'])
 def create_new_event():
     # Extraer data de JSON

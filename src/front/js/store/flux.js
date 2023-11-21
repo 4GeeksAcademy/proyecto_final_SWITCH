@@ -18,6 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			registrationInProgress: false,
 			registrationDoesntExist: false,
 			registrationWrong: false,
+			newEventCreatedSuccess : false,
+			newEventCreatedFailure : false,
 			message: null,
 			// demo: [
 			// 	{
@@ -59,6 +61,53 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ [targetName]: value });
 			},
 
+
+			/////////// CREATE NEW EVENT IN DATABASE //////////////
+			createNewEvent: async (name, description, startTime, endTime, location, capacity, role, gender, languages, photo_url) => {
+				const store = getStore();
+
+				role = (role === 'true') ? true : false
+
+				// Variables for Fetch Request Body
+				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewEvent";
+				const fetchBody = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						name: name,
+						description: description,
+						start_time: startTime,
+						end_time: endTime,
+						location: location,
+						event_capacity: capacity,
+						photo_url: photo_url
+					})
+				}
+
+					// Fetch Request 
+				try {
+					const response = await fetch(fetchUrl, fetchBody);
+					// console.log("response:", response)
+					const responseData = await response.json();
+					// console.log("responseData:", responseData)
+
+					// Handling Different Outcomes 
+					if (response.ok) {
+						setStore({ newEventCreatedSuccess: true })
+					}
+					if (!response.ok) {
+						const errorMessage = await response.text();
+						console.log("errorMessage:", errorMessage);
+						setStore({ newEventCreatedFailure: true })
+					}
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+			},
+
 			///////////// GET FILTERED EVENTS ///////////////////////
 
 
@@ -93,7 +142,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			/////////////////////////  GET ALL THE EVENTS ///////////////////////
 
-			searchAllEvents: () => {
+			searchAllEvents:() => {
 				// Perform a fetch request to retrieve all events
 				fetch(`${process.env.BACKEND_URL}/api/allEvents`)
 					.then((response) => {

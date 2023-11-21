@@ -19,6 +19,7 @@ import { SearchResults } from "./pages/searchResults";
 import { EventSearchJoin } from "./pages/EventSearchJoin";
 import EventPagePay from "./pages/EventPagePay";
 import { PaymentPage } from "./pages/PaymentPage";
+import { CreateNewEvent } from "./pages/CreateNewEvent";
 
 import { CreateNewUserProfile } from "./pages/CreateNewUserProfile";
 import { EditUserProfile } from "./pages/EditUserProfile"
@@ -52,6 +53,8 @@ const Layout = () => {
                         <Route element={<FormEditGroup />} path="/FormEditGroup" />
                         <Route element={<UsersProfile />} path="/UsersProfile" />
                         <Route element={<OrganizerProfile />} path="/OrganizerProfile" />
+                        <Route element={<CreateNewEvent />} path="/CreateNewEvent" />
+
 
                         <Route element={<UsersProfile />} path="/UsersProfile/:id" />
                         <Route element={<OrganizerProfile />} path="/OrganizerProfile/:id" />
