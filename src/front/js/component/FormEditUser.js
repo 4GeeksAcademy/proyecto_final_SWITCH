@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
 import "../../styles/index.css";
 import "../../styles/createNewUserProfile.css";
 import parejaTomaCafe from "../../img/pareja-toma-cafe.png";
@@ -10,6 +10,7 @@ export const FormEditUser = () => {
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // VARIABLES 
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
 
   // Get ID of User from flux.js
   let stored_id_user = store.id_user;
@@ -61,7 +62,8 @@ export const FormEditUser = () => {
       if (storedLanguagesArray.includes(language)) {
         let langIndex = storedLanguagesArray.indexOf(language);
         storedLanguagesArray.splice(langIndex, 1);
-      } else { // If first time in array, simply add language to it
+      } else { 
+        // If first time in array, simply add language to it
         storedLanguagesArray.push(language)
       }
       console.log("Post-update Array:", storedLanguagesArray)
@@ -72,6 +74,7 @@ export const FormEditUser = () => {
    // FORM SUBMIT FUNCTION  
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(userData)
     actions.updateUser(userData.firstName, userData.lastName, 
       userData.userName, userData.email,userData.password, 
       userData.city, userData.role, userData.gender,
@@ -153,6 +156,10 @@ export const FormEditUser = () => {
       store.userUpdatedFailure = null;
   }}, [store.userUpdatedFailure])
 
+  useEffect(() => {
+    console.log("userData variable:", userData)
+  }, [userData])
+
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // COMPONENT
 
@@ -173,7 +180,7 @@ export const FormEditUser = () => {
               <label htmlFor="first_name" className="form-label extradark-blue fw-bold">Nombre<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="first_name" name="first_name" required
                 value={userData.firstName}
-                onChange={(e) => setUserData({ ["firstName"]: e.target.value })}
+                onChange={(e) => setUserData({ ...userData, "firstName": e.target.value })}
               />
               {/* {console.log(userData.firstName)} */}
             </div>
@@ -183,7 +190,7 @@ export const FormEditUser = () => {
               <label htmlFor="last_name" className="form-label extradark-blue fw-bold">Apellido(s)<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="last_name" name="last_name" required
                 value={userData.lastName}
-                onChange={(e) => setUserData({ ["lastName"]: e.target.value })}
+                onChange={(e) => setUserData({ ...userData, "lastName": e.target.value })}
               />
               {/* {console.log(userData.lastName)} */}
             </div>
@@ -193,7 +200,7 @@ export const FormEditUser = () => {
               <label htmlFor="user_name" className="form-label extradark-blue fw-bold">Nombre de Usuario<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="user_name" name="user_name" required
                 value={userData.userName}
-                onChange={(e) => setUserData({ ["userName"]: e.target.value })}
+                onChange={(e) => setUserData({ ...userData, "userName": e.target.value })}
               />
               {/* {console.log(userData.email)} */}
             </div>
@@ -203,7 +210,7 @@ export const FormEditUser = () => {
               <label htmlFor="email" className="form-label extradark-blue fw-bold">Correo Electrónico<span className="requiredAsterisk">*</span></label>
               <input type="email" className="form-control" id="email" name="email" required
                 value={userData.email}
-                onChange={(e) => setUserData({ ["email"]: e.target.value })}
+                onChange={(e) => setUserData({ ...userData, "email": e.target.value })}
               />
               {/* {console.log(userData.email)} */}
             </div>
@@ -213,7 +220,7 @@ export const FormEditUser = () => {
               <label htmlFor="password" className="form-label extradark-blue fw-bold">Contraseña<span className="requiredAsterisk">*</span></label>
               <input type="password" className="form-control" id="password" name="password" required
                 value={userData.password}
-                onChange={(e) => setUserData({ ["password"]: e.target.value })}
+                onChange={(e) => setUserData({ ...userData, "password": e.target.value })}
               />
               {/* {console.log(userData.password)} */}
             </div>
@@ -223,7 +230,7 @@ export const FormEditUser = () => {
               <label htmlFor="city" className="form-label extradark-blue fw-bold">Ciudad<span className="requiredAsterisk">*</span></label>
               <input type="text" className="form-control" id="city" name="city" required
                 value={userData.city}
-                onChange={(e) => setUserData({ ["city"]: e.target.value })}
+                onChange={(e) => setUserData({ ...userData, "city": e.target.value })}
               />
               {/* {console.log(userData.city)} */}
             </div>
@@ -238,7 +245,7 @@ export const FormEditUser = () => {
                   <div className="form-check mb-2">
                     <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
                       checked
-                      onClick={(e) => setUserData({ ["role"]: e.target.value })}
+                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
                     />
                     <label className="form-check-label extradark-blue" htmlFor="radioMember">
                       <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
@@ -246,7 +253,7 @@ export const FormEditUser = () => {
                   </div>
                   <div className="form-check">
                     <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
-                      onClick={(e) => setUserData({ ["role"]: e.target.value })}
+                      onClick={(e) => setUserData({ ...userData,"role": e.target.value })}
                     />
                     <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
                       <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
@@ -257,7 +264,7 @@ export const FormEditUser = () => {
                   {/* FALSE CHECKED */}
                   <div className="form-check mb-2">
                     <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
-                      onClick={(e) => setUserData({ ["role"]: e.target.value })}
+                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
                     />
                     <label className="form-check-label extradark-blue" htmlFor="radioMember">
                       <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
@@ -266,7 +273,7 @@ export const FormEditUser = () => {
                   <div className="form-check">
                     <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
                       checked
-                      onClick={(e) => setUserData({ ["role"]: e.target.value })}
+                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
                     />
                     <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
                       <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
@@ -281,7 +288,7 @@ export const FormEditUser = () => {
             <div className="mb-3">
               <label className="form-label extradark-blue fw-bold">Género</label>
               <select className="form-select" name="gender" defaultValue={userData.gender}
-                onChange={(e) => setUserData({ ["gender"]: e.target.value })}
+                onChange={(e) => setUserData({ ...userData, "gender": e.target.value })}
               >
                 <option disabled>Seleccionar tu género</option>
                 <option value="male">Hombre</option>
@@ -333,7 +340,7 @@ export const FormEditUser = () => {
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label extradark-blue fw-bold">Imagen de perfil</label>
               <input className="form-control" type="file" id="formFile" name="photo"
-                onChange={(e) => setUserData({ ["photo"]: e.target.files[0] })}
+                onChange={(e) => setUserData({ ...userData, "photo": e.target.files[0] })}
               />
               {/* {console.log(userData.photo)} */}
             </div>

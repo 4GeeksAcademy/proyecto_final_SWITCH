@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'
 import '../../styles/martha.css';
 import '../../img/bocadillos.png';
 import { Context } from "../store/appContext"
 
 const OrganizerProfile = () => {
   const {store, actions} = useContext (Context)
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({
     userName: "",
     nombre: "",

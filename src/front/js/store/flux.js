@@ -296,13 +296,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 
 				role = (role === 'true') ? true : false
-				let id_user = store.id_user
-
+			
 				// Testing Input
-				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
+				// console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url) 
 
 				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + `api/EditUserProfile/${id_user}`;
+				const fetchUrl = `${process.env.BACKEND_URL}/api/EditUserProfile/${store.id_user}`;
 				const fetchBody = {
 					method: "PUT",
 					headers: {
@@ -320,7 +319,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						languages: languages,
 						photo_url: photo_url
 					})
-				}
+				};
 				// console.log("fetchUrl:", fetchUrl)
 				// console.log("fetchBody:", fetchBody)
 
