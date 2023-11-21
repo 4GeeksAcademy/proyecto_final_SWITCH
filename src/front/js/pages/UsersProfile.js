@@ -19,9 +19,9 @@ const UsersProfile = () => {
     rol: ""
   });
 
-  const handleInputChange = (name, value) => {
-    setUserData({ ...userData, [name]: value });
-  };
+  // const handleInputChange = (name, value) => {
+  //   setUserData({ ...userData, [name]: value });
+  // };
 
   const handleEditClick = () => {
     // Lógica para editar la información
@@ -40,11 +40,12 @@ const UsersProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(process.env.BACKEND_URL + `/api/userData/${store.id_user}`);
+        const response = await fetch(process.env.BACKEND_URL + `/api/UserData/${store.id_user}`);
+        // console.log("response:", response)
 
         if (response.ok) {
           const data = await response.json();
-
+          // console.log("data:", data)
           setUserData({
             userName: data.userData.user_name,
             nombre: data.userData.first_name,
@@ -60,7 +61,6 @@ const UsersProfile = () => {
         }
       } catch (error) {
         console.error('Error fetching user data', error);
-
       }
     };
 
