@@ -4,6 +4,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, Users
 from api.utils import generate_sitemap, APIException
+from api.models import Groups
 
 api = Blueprint('api', __name__)
 
@@ -43,3 +44,28 @@ def get_user(user_id):
 
     serialized_user = user.serialize()
     return jsonify({'user': serialized_user}), 200
+
+
+#### GET Groups info #####
+@api.route('/searchGroup/<int:group_id>', methods=['GET'])
+def get_group(group_id):
+    # Busca el grupo por su ID en la base de datos
+    group = Groups.query.get(group_id)
+
+    if group:
+        # Si se encuentra el grupo,  serializarlo o devolver los datos necesarios
+        group_data = {
+            'id': group.id_group,
+            'name': group.name,
+            'organizer_id': group.id_organizer,
+            'city': group.city,
+            'languages': group.languages,
+            'description': group.description,
+            'photo_url': group.photo_url,
+            'is_active': group.is_active,
+        }
+        
+        return jsonify({'group_data': group_data, }), 200
+    else:
+        # Si el grupo no se encuentra, devolver un mensaje de error
+        return jsonify({'message': 'Group not found'}), 404

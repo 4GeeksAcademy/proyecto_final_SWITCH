@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useNavigate } from 'react';
 import '../../styles/martha.css';
 import '../../img/LaTertulia.png';
 
@@ -13,7 +13,7 @@ function GroupPageAdmin() {
   const handleEditGroupsClick = () => {
     if (editGroupUrl) {
       // Redirige a la página de edición del grupo
-      window.location.href = editGroupUrl;
+      navigate(editGroupUrl);
     }
   };
 
@@ -69,7 +69,8 @@ function GroupPageAdmin() {
               <h2 className="tipoh2">Miembros:</h2>
               <p className="extradark-grey">Lista de miembros o información relevante.</p>
             </div>
-            <div className="eventos">
+            {/* aquí faltaría Eventos pero con las tablas actuales me daría error , si creamos modelo event*/}
+            <div className="eventos"> 
               <h2 className="tipoh2">Eventos:</h2>
               <p className="extradark-grey">Información sobre próximos eventos.</p>
             </div>
