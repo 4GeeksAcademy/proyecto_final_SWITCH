@@ -59,7 +59,7 @@ const Layout = () => {
 
                         <Route element={<EventSearchJoin />} path="/EventSearchJoin" />
                         <Route element={<EventPagePay />} path="/EventPagePay/:id" />
-                        <Route element={<PaymentPage />} path="/PaymentPage" />
+                        <Route element={<PaymentPage />} path="/PaymentPage/:id" />
 
 
                         <Route element={<CreateNewUserProfile />} path="/CreateNewUserProfile" />

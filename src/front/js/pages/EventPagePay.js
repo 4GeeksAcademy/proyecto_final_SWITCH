@@ -122,19 +122,20 @@ function EventPagePay() {
 
 
 
-            {!store.token ? (<Link
-              to={`/payment`}
+            {/* {!store.token ? ( */}
+            <Link
+              to={`/PaymentPage/${id}`}
               className="py-2 px-4 me-2 rounded-3 searchLink text-center bg-dark-blue fw-bolder fs-5 text-light"
             >
               Apúntate!
             </Link>
-            ) : (<Link
+            {/* ) : (<Link
               to={`/payment`}
               className="py-2 px-4 me-2 rounded-3 searchLink text-center bg-dark-blue fw-bolder fs-5 text-light"
             >
               Ya estás apuntado
             </Link>
-            )}
+            )} */}
 
           </div>
 
