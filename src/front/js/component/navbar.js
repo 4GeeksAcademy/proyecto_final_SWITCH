@@ -5,7 +5,7 @@ import { Context } from "../store/appContext";
 
 import "../../styles/navbar.css";
 import logo from "../../img/logo-switch-raya-blanca.png";
-import fotoPerfil from "../../img/foto-perfil-provisional.jpg";
+import fotoPerfil from "../../img/rigo-baby.jpg";
 import hamburger from "../../img/navbar-hamburger.png";
 
 
@@ -145,19 +145,27 @@ export const Navbar = () => {
                   {isNavbarOpen && (
                     <div className="bg-dark-blue d-flex navbar-desplegable flex-column rounded p-3 fs-4 align-items-start justify-content-start navbar-desplegable-go-up-when-open ">
                       {/* BUTTON MEMEBERS */}
-                      <Link to="/Profile" className="text-decoration-none">
-                        <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
-                          Tu perfil
-                        </div>
-                      </Link>
+                      {store.member === true ?
+                        <Link to={`/UsersProfile/${store.id_user}`} className="text-decoration-none">
+                          <div className="navbar-link-desplegable font-nunito pb-4 fw-bolder extralight-blue">
+                            Tu perfil
+                          </div>
+                        </Link>
+                        : null
+                      }
+                      {store.organizer === true ?
+                        <Link to={`/OrganizerProfile/${store.id_user}`} className="text-decoration-none">
+                          <div className="navbar-link-desplegable font-nunito pb-4 fw-bolder extralight-blue">
+                            Tu perfil
+                          </div>
+                        </Link>
+                        : null
+                      }
 
                       {/*BUTTON register*/}
-
                       <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue " onClick={handleClick}>
                         Cerrar sessión
                       </div>
-
-
 
                     </div>
                   )}

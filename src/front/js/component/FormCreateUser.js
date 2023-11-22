@@ -22,7 +22,6 @@ export const FormCreateUser = () => {
   const [newUserRole, setNewUserRole] = useState("");
   const [newUserGender, setNewUserGender] = useState("");
   const [newUserLanguages, setNewUserLanguages] = useState([]);
-  const [newUserPhoto, setNewUserPhoto] = useState(""); // Duda: ¿Cómo gestionar input de un archivo?
 
   // CHECKING INPUT VALUES
   // function change(e) {
@@ -43,6 +42,11 @@ export const FormCreateUser = () => {
     japanese: "Japonés",
     chinese: "Chino",
   };
+
+  // PHOTO FILE (CLOUDINARY)
+  const upload_preset_name = "switch-upload";
+  const cloud_name = "switch-images";
+  const [newUserPhoto, setNewUserPhoto] = useState(""); 
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // FUNCTIONS 
@@ -72,6 +76,41 @@ export const FormCreateUser = () => {
       newUserPassword, newUserCity, newUserRole, newUserGender,
       newUserLanguages, newUserPhoto)
   }
+
+  // FILE/PHOTO UPLOAD FUNCTION
+  function handleFile(event) {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append("upload_preset", upload_preset_name);
+    cloudinary(formData)
+  }
+
+  // CLOUDINARY API FETCH
+  async function cloudinary(formData) {
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
+        method: "POST",
+        body: formData
+      }); 
+      const data = await response.json();
+      console.log("response successful", data);
+      setNewUserPhoto(data.secure_url);
+      console.log("userPhoto_variable:", newUserPhoto)
+    } catch (error) {
+      console.error("Error:", error)
+      throw error
+    }}
+
+    /*
+      NOTAS
+      - Tenemos un url YAY
+      - Ahora haz un console.log de ese url, o muestra la foto en alguna página (da igual) solo para comprobar lo que hay ahí
+      - Luego tendremos que guardar ese url en una variable
+      - Conectar esa variable con la imagen de perfil en las paginas de perfil + la imagen de perfil en el navbar
+    
+    */
+
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // USEEFFECT
@@ -224,7 +263,8 @@ export const FormCreateUser = () => {
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label extradark-blue fw-bold">Imagen de perfil</label>
               <input className="form-control" type="file" id="formFile" name="photo"
-                onChange={(e) => setNewUserPhoto(e.target.files[0])}
+                // onChange={(e) => setNewUserPhoto(e.target.files[0])}
+                onChange={(e) => handleFile(e)}
               />
               {/* {console.log(newUserPhoto)} ✅ */}
             </div>
@@ -239,3 +279,4 @@ export const FormCreateUser = () => {
     </>
   );
 };
+
