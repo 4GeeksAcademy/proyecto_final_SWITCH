@@ -23,16 +23,15 @@ export const FormCreateNewEvent = () => {
     // FORM SUBMIT FUNCTION
     const handleSubmit = (e) => {
         e.preventDefault();
-        actions.createNewEvent
-            (
-                newEventName,
-                newEventDescription,
-                newEventStartTime,
-                newEventEndTime,
-                newEventLocation,
-                newEventCapacity,
-                newEventPhotoUrl
-            )
+        actions.createNewEvent(
+            newEventName,
+            newEventDescription,
+            newEventStartTime,
+            newEventEndTime,
+            newEventLocation,
+            newEventCapacity,
+            newEventPhotoUrl
+        )
     }
 
     /***FUNCIONES***/
@@ -40,7 +39,7 @@ export const FormCreateNewEvent = () => {
     // NEW EVENT SUCCESSFULLY CREATED
     useEffect(() => {
         if (store.newEventCreatedSuccess === true) {
-            alert("El nuevo usuario se ha creado con éxito");
+            alert("El nuevo evento se ha creado con éxito");
             store.newEventCreatedSuccess = null;
             navigate("/")
             /*Llevar a pagina de eventos para que pueda visualizar 
@@ -62,9 +61,9 @@ export const FormCreateNewEvent = () => {
             <div style={{ background: "#ffc100" }} className="py-3">
                 <div className="container col-10 col-md-8 col-lg-6 col-xxl-4">
                     <div className="formImageFlexBox">
-                        <img src={parejaSujetaBocadillo} className="formImage" />
+                        <img src={parejaSujetaBocadillo} className="formImage--event" />
                     </div>
-                    <h1 className="formProfileHeader extradark-blue text-center mt-2">Crea un nuevo evento</h1>
+                    <h1 className="formProfileHeader extradark-blue text-center my-3">Crea un nuevo evento</h1>
                     {/*FORM STARTS*/}
                     <form id="createNewEventForm" onSubmit={handleSubmit}>
                         {/*EVENT NAME */}
@@ -100,12 +99,27 @@ export const FormCreateNewEvent = () => {
                                 <span className="requiredAsterisk">*</span>
                             </label>
                             <input
-                                type="date"
+                                type="datetime-local"
                                 className="form-control"
                                 id="event_start_time"
                                 name="event_start_time"
                                 required
                                 onChange={(e) => setNewEventStartTime(e.target.value)}
+                            />
+                        </div>
+                        {/*EVENT END TIME */}
+                        <div className="mb-3">
+                            <label htmlFor="event_end_time" className="form-label extradark-blue fw-bold">
+                                Indica el fin de tu evento
+                                <span className="requiredAsterisk">*</span>
+                            </label>
+                            <input
+                                type="datetime-local"
+                                className="form-control"
+                                id="event_end_time"
+                                name="event_end_time"
+                                required
+                                onChange={(e) => setNewEventEndTime(e.target.value)}
                             />
                         </div>
                         {/* LOCATION */}

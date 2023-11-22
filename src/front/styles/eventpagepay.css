@@ -11,6 +11,10 @@
 /* Colors */
 
 /* Establece el color de fondo amarillo para toda la página */
+.title-event{
+  text-align: center;
+  width: 100%;
+}
 group-page{
     background-color: #ffc100;
     font-family: "Nunito", sans-serif;
@@ -49,6 +53,7 @@ header {
 
 .main-content {
   display: flex;
+  justify-content: center;
   align-items: flex-start;
 
 }

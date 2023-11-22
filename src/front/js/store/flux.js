@@ -18,8 +18,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			registrationInProgress: false,
 			registrationDoesntExist: false,
 			registrationWrong: false,
-			newEventCreatedSuccess : false,
-			newEventCreatedFailure : false,
+			newEventCreatedSuccess: false,
+			newEventCreatedFailure: false,
 			message: null,
 			// demo: [
 			// 	{
@@ -63,10 +63,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			/////////// CREATE NEW EVENT IN DATABASE //////////////
-			createNewEvent: async (name, description, startTime, endTime, location, capacity, role, gender, languages, photo_url) => {
+			createNewEvent: async (name, description, startTime, endTime, location, capacity, photo_url) => {
 				const store = getStore();
-
-				role = (role === 'true') ? true : false
 
 				// Variables for Fetch Request Body
 				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewEvent";
@@ -82,11 +80,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 						end_time: endTime,
 						location: location,
 						event_capacity: capacity,
-						photo_url: photo_url
+						photo_url: 'https://www.google.es/url?sa=i&url=https%3A%2F%2Fwww.larazon.es%2Fsociedad%2F20220627%2Fzpi26nu6gjb2jmiffygizzton4.html&psig=AOvVaw0JjlCg1-GudTvnQOpMyTpw&ust=1700766799559000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCMjw1pmo2IIDFQAAAAAdAAAAABAE'
 					})
 				}
 
-					// Fetch Request 
+				// Fetch Request 
 				try {
 					const response = await fetch(fetchUrl, fetchBody);
 					// console.log("response:", response)
@@ -142,7 +140,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			/////////////////////////  GET ALL THE EVENTS ///////////////////////
 
-			searchAllEvents:() => {
+			searchAllEvents: () => {
 				// Perform a fetch request to retrieve all events
 				fetch(`${process.env.BACKEND_URL}/api/allEvents`)
 					.then((response) => {

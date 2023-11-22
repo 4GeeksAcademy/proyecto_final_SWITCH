@@ -94,7 +94,7 @@ class Events(db.Model):
             "location": self.location,
             "photo_url": self.photo_url,
             "attendee": self.attendee,
-            "capacity": self.event_capacity,
+            "event_capacity": self.event_capacity,
             "group": self.id_group           
         }
 
