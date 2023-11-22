@@ -80,10 +80,16 @@ export const FormCreateUser = () => {
   // FILE/PHOTO UPLOAD FUNCTION
   function handleFile(event) {
     const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append("upload_preset", upload_preset_name);
-    cloudinary(formData)
+    console.log("fileInfo:", file)
+    // Handle Large Images
+    if(file.size >= 10485760){
+      alert("Elige una imagen más pequeña (menos que 10MB).");
+    } else {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append("upload_preset", upload_preset_name);
+      cloudinary(formData)
+    }
   }
 
   // CLOUDINARY API FETCH
@@ -94,7 +100,7 @@ export const FormCreateUser = () => {
         body: formData
       }); 
       const data = await response.json();
-      // console.log("cloudinary response", data);
+      console.log("cloudinary response", data);
       setNewUserPhoto(data.secure_url);
     } catch (error) {
       console.error("Error:", error)
