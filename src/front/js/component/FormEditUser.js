@@ -44,6 +44,10 @@ export const FormEditUser = () => {
     chinese: "Chino",
   };
 
+  // PHOTO FILE VARIABLES (CLOUDINARY)
+  const upload_preset_name = "switch-upload";
+  const cloud_name = "switch-images";
+
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // FUNCTIONS
 
@@ -80,6 +84,38 @@ export const FormEditUser = () => {
       userData.city, userData.role, userData.gender,
       userData.languages, userData.photo)
   }
+
+  // FILE/PHOTO UPLOAD FUNCTION
+  function handleFile(event) {
+    const file = event.target.files[0];
+    console.log("fileInfo:", file)
+    // Handle Large Images
+    if(file.size >= 10485760){
+      alert("Elige una imagen más pequeña (menos que 10MB).");
+    } else {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append("upload_preset", upload_preset_name);
+      cloudinary(formData)
+    }
+  }
+
+  // CLOUDINARY API FETCH
+  async function cloudinary(formData) {
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
+        method: "POST",
+        body: formData
+      }); 
+      const data = await response.json();
+      console.log("cloudinary response", data)
+      setUserData({ ...userData, "photo": data.secure_url })
+      store.photo_url_user = data.secure_url
+      console.log("photo url update successful after editing user's foto?:", store.photo_url_user)
+    } catch (error) {
+      console.error("Error:", error)
+      throw error
+    }}
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // USE_EFFECTS
@@ -341,7 +377,8 @@ export const FormEditUser = () => {
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label extradark-blue fw-bold">Imagen de perfil</label>
               <input className="form-control" type="file" id="formFile" name="photo"
-                onChange={(e) => setUserData({ ...userData, "photo": e.target.files[0] })}
+                onChange={(e) => handleFile(e)}
+                // onChange={(e) => setUserData({ ...userData, "photo": e.target.files[0] })}
               />
               {/* {console.log(userData.photo)} */}
             </div>

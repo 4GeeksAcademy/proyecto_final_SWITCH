@@ -302,10 +302,10 @@ def create_token():
 
 #################################################################################################################################################################
 
-# GET ID USER & ROLE (POST)
+# GET ID USER & ROLE & PHOTO (POST)
 
-@app.route('/api/idUserAndRole', methods=["POST"])
-def getUserIdAndRole():
+@app.route('/api/idUserAndRoleAndImage', methods=["POST"])
+def getUserIdAndRoleAndImage():
 
     # Extract JSON Data
     body = request.get_json(silent=True)
@@ -321,7 +321,7 @@ def getUserIdAndRole():
     
     user_serialized = user.serialize() 
     
-    return jsonify({'idUser': user_serialized['id'], "role": user_serialized['role']})
+    return jsonify({'idUser': user_serialized['id'], "role": user_serialized['role'], "photo": user_serialized['photo_url']})
 
 #################################################################################################################################################################
 

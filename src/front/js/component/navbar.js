@@ -1,12 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-
 import { Context } from "../store/appContext";
-
 import "../../styles/navbar.css";
 import logo from "../../img/logo-switch-raya-blanca.png";
-import fotoPerfil from "../../img/rigo-baby.jpg";
 import hamburger from "../../img/navbar-hamburger.png";
+import fotoPerfilGeneral from '../../img/foto-perfil-general.jpg';
 
 
 export const Navbar = () => {
@@ -27,6 +25,8 @@ export const Navbar = () => {
     actions.logout();
     navigate("/");
   };
+
+  console.log("storePhoto:", store.photo_url_user)
 
   return (
     <nav className="navbar bg-blue py-3 d-flex navbar-expand-lg">
@@ -114,13 +114,25 @@ export const Navbar = () => {
               <div className="d-xl-block d-none">
                 {store.member === true
                   ? <Link to={`/UsersProfile/${store.id_user}`}>
-                    <img src={fotoPerfil} height="55px" width="55px" className="rounded-circle bg-extradark-grey object-contain" />
+                    <img
+                      src={store.photo_url_user === "" ? fotoPerfilGeneral : store.photo_url_user}
+                      height="55px"
+                      width="55px"
+                      className="rounded-circle bg-extradark-grey object-contain"
+                      alt="Foto de Perfil"
+                      title="Accede tu perfil"
+                    /> 
                   </Link>
                   : null
                 }
                 {store.organizer === true
                   ? <Link to={`/OrganizerProfile/${store.id_user}`}>
-                    <img src={fotoPerfil} height="55px" width="55px" className="rounded-circle bg-extradark-grey object-contain" />
+                    <img
+                      src={store.photo_url_user = "" ? fotoPerfilGeneral : store.photo_url_user}
+                      height="55px"
+                      width="55px"
+                      className="rounded-circle bg-extradark-grey object-contain" 
+                      title="Accede tu perfil"/>
                   </Link>
                   : null
                 }
