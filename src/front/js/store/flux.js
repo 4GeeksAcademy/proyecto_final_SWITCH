@@ -20,6 +20,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			registrationInProgress: false,
 			registrationDoesntExist: false,
 			registrationWrong: false,
+			newEventCreatedSuccess: false,
+			newEventCreatedFailure: false,
 			message: null,
 			// demo: [
 			// 	{
@@ -62,11 +64,52 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ [targetName]: value });
 			},
 
+/////////// CREATE NEW EVENT IN DATABASE //////////////
+			createNewEvent: async (name, description, startTime, endTime, location, capacity, photo_url) => {
+				const store = getStore();
 
-			//////////////////// GET ID FROM USERS EMAIL ///////////////////////////
+				// Variables for Fetch Request Body
+				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewEvent";
+				const fetchBody = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						name: name,
+						description: description,
+						start_time: startTime,
+						end_time: endTime,
+						location: location,
+						event_capacity: capacity,
+						photo_url: 'https://www.google.es/url?sa=i&url=https%3A%2F%2Fwww.larazon.es%2Fsociedad%2F20220627%2Fzpi26nu6gjb2jmiffygizzton4.html&psig=AOvVaw0JjlCg1-GudTvnQOpMyTpw&ust=1700766799559000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCMjw1pmo2IIDFQAAAAAdAAAAABAE'
+					})
+				}
 
+				// Fetch Request 
+				try {
+					const response = await fetch(fetchUrl, fetchBody);
+					// console.log("response:", response)
+					const responseData = await response.json();
+					// console.log("responseData:", responseData)
 
-
+					// Handling Different Outcomes 
+					if (response.ok) {
+						setStore({ newEventCreatedSuccess: true })
+					}
+					if (!response.ok) {
+						const errorMessage = await response.text();
+						console.log("errorMessage:", errorMessage);
+						setStore({ newEventCreatedFailure: true })
+					}
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+			},
+      
+      
+      //////////////////// GET ID FROM USERS EMAIL ///////////////////////////
 			getIdFromUserEmail: (userEmail) => {
 				fetch(`${process.env.BACKEND_URL}/api/users/${userEmail}`)
 					.then((response) => {
@@ -83,10 +126,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.error("Error fetching userId from the userEmail:", error);
 					});
 			},
-
-
 			///////////// SAVE EVENT IN MEMBER's EVENTS LIST ///////////////////////
-
 			saveEventInMemberEventsList: async (eventId, userId) => {
 				console.log(eventId, userId)
 				const Url = process.env.BACKEND_URL + "/api/memberEvents";
@@ -100,14 +140,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 						user_relationship: userId,
 					})
 				}
-				// Fetch Request 
+				// Fetch Request
 				try {
 					const response = await fetch(Url, Body);
 					// console.log("response:", response)
 					const responseData = await response.json();
 					// console.log("responseData:", responseData)
-
-					// Handling Different Outcomes 
+					// Handling Different Outcomes
 					if (response.ok) {
 						console.log("event added to the member's events list")
 					}
@@ -119,12 +158,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log('Error:', error)
 					throw error
 				}
-
 			},
 
+
+
 			///////////// GET FILTERED EVENTS ///////////////////////
-
-
 
 			searchFilteredEvents: (city, eventName) => {
 				console.log("event as parameter of the searchFilteredEvents function:", eventName)

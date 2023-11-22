@@ -147,9 +147,7 @@ def get_event(id_event):
 
 ################################################################################################################################################################
 
-
 # CREATE NEW EVENT (POST)
-
 @app.route('/api/CreateNewEvent', methods=['POST'])
 def create_new_event():
     # Extraer data de JSON
@@ -182,7 +180,8 @@ def create_new_event():
         start_time=body['start_time'],
         end_time=body['end_time'],
         location=body['location'],
-        event_capacity=body['event_capacity']
+        event_capacity=body['event_capacity'],
+        photo_url=body['photo_url']
     )
 
     # Add the new event to the database

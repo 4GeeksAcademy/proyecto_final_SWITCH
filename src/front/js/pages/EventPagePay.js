@@ -45,7 +45,7 @@ function EventPagePay() {
 
       {/**TITULO */}
       <header className="mt-5">
-        {eventData && <h1 className="fw-bold text-48 dark-blue font-nunito">{eventData.name}</h1>}
+        {eventData && <h1 className="title-event fw-bold text-48 dark-blue font-nunito">{eventData.name}</h1>}
       </header>
 
       <div className="main-content">
