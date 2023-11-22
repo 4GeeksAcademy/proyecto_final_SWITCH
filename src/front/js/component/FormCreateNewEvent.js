@@ -40,7 +40,7 @@ export const FormCreateNewEvent = () => {
     useEffect(() => {
         if (store.newEventCreatedSuccess === true) {
             alert("El nuevo evento se ha creado con éxito");
-            store.newEventCreatedSuccess = null;
+            store.newEventCreatedSuccess = false;
             navigate("/")
             /*Llevar a pagina de eventos para que pueda visualizar 
             como los usuarios verán el evento que ha creadol? */
@@ -51,7 +51,7 @@ export const FormCreateNewEvent = () => {
     useEffect(() => {
         if (store.newEventCreatedFailure === true) {
             alert("Ha habido un error en crear el evento. Prueba otra vez.");
-            store.newEventCreatedFailure = null;
+            store.newEventCreatedFailure = false;
         }
     }, [store.newEventCreatedFailure])
 
@@ -125,7 +125,7 @@ export const FormCreateNewEvent = () => {
                         {/* LOCATION */}
                         <div className="mb-3">
                             <label htmlFor="location" className="form-label extradark-blue fw-bold">
-                                Dirección del evento
+                                Úbicación del evento
                                 <span className="requiredAsterisk">
                                     *
                                 </span>
