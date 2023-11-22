@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			userEmail: null,
 			events: [],
 			filteredEvents: [],
 			event: null,
@@ -33,6 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// ]
 		},
 		actions: {
+
 			setRegistrationEmpty: (value) => {
 				setStore({ registrationEmpty: value });
 			},
@@ -57,6 +59,66 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			saveInputs: (value, targetName) => {
 				setStore({ [targetName]: value });
+			},
+
+
+			//////////////////// GET ID FROM USERS EMAIL ///////////////////////////
+
+
+
+			getIdFromUserEmail: (userEmail) => {
+				fetch(`${process.env.BACKEND_URL}/api/users/${userEmail}`)
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error('Error fetching event');
+						}
+						return response.json();
+					})
+					.then((userId) => {
+						// setStore({ event: event });
+						console.log("id correctly fetched from email:", userId);
+					})
+					.catch((error) => {
+						console.error("Error fetching userId from the userEmail:", error);
+					});
+			},
+
+
+			///////////// SAVE EVENT IN MEMBER's EVENTS LIST ///////////////////////
+
+			saveEventInMemberEventsList: async (eventId, userId) => {
+				console.log(eventId, userId)
+				const Url = process.env.BACKEND_URL + "/api/memberEvents";
+				const Body = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						event_relationship: eventId,
+						user_relationship: userId,
+					})
+				}
+				// Fetch Request 
+				try {
+					const response = await fetch(Url, Body);
+					// console.log("response:", response)
+					const responseData = await response.json();
+					// console.log("responseData:", responseData)
+
+					// Handling Different Outcomes 
+					if (response.ok) {
+						console.log("event added to the member's events list")
+					}
+					if (!response.ok) {
+						const errorMessage = await response.text();
+						console.log("errorMessage:", errorMessage);
+					}
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+
 			},
 
 			///////////// GET FILTERED EVENTS ///////////////////////
@@ -189,10 +251,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			/////////// CHECK IF USER IN DATABASE + GET TOKEN //////////////
 
 			login: async (email, password) => {
+				setStore({ userEmail: email }) //////////////////////////////////////////////////// PORQUE NO GUARDA
+
 				const store = getStore();
 
 				if (!email || !password) {
 					setStore({ registrationEmpty: true });
+
+
 					throw new Error("Email and password are required");
 				}
 
@@ -218,6 +284,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return false;
 					}
 
+
 					const data = await resp.json();
 
 					console.log(
@@ -235,6 +302,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.log("there has been an error logging in", error);
 					setStore({ registrationDoesntExist: true });
+				}
+			},
+
+
+			/////////////////////////////////
+
+			getEmailFromToken: (token) => {
+				try {
+					const decodedToken = jwt.decode(token);
+
+					if (decodedToken && decodedToken.email) {
+						return decodedToken.email;
+					} else {
+						return null;
+					}
+				} catch (error) {
+					console.log('Error decoding token:', error);
+					return null;
 				}
 			},
 

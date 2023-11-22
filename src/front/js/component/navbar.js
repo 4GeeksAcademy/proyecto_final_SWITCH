@@ -5,6 +5,7 @@ import { Context } from "../store/appContext";
 
 import "../../styles/navbar.css";
 import logo from "../../img/logo-switch-raya-blanca.png";
+import fotoPerfil from "../../img/foto-perfil-provisional.jpg";
 import hamburger from "../../img/navbar-hamburger.png";
 
 
@@ -113,13 +114,13 @@ export const Navbar = () => {
               <div className="d-xl-block d-none">
                 {store.member === true
                   ? <Link to={`/UsersProfile/${store.id_user}`}>
-                    <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
+                    <img src={fotoPerfil} height="55px" width="55px" className="rounded-circle bg-extradark-grey object-contain" />
                   </Link>
                   : null
                 }
                 {store.organizer === true
                   ? <Link to={`/OrganizerProfile/${store.id_user}`}>
-                    <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
+                    <img src={fotoPerfil} height="55px" width="55px" className="rounded-circle bg-extradark-grey object-contain" />
                   </Link>
                   : null
                 }
