@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			id_user: null,
 			member: false,
 			organizer: false,
+			photo_url_user: "",
 			userCreatedSuccess: false,
 			userCreatedFailure: false,
 			userUpdatedSuccess: false,
@@ -198,10 +199,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
 				const store = getStore();
 
-				role = (role === 'true') ? true : false
+				role = (role == true);
 
 				// Testing Input
-				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
+				(console.log("createNewUser Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
 
 				// Variables for Fetch Request Body
 				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
@@ -246,6 +247,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log('Error:', error)
 					throw error
 				}
+			},
+
+			/////////// SET USER PHOTO //////////////
+
+			setUserPhoto: (photoUrl) => {
+				const store = getStore();
+				console.log("received photo data:", photoUrl)
+				store.photo_url_user = photoUrl;
+				console.log("is there photo data in the store var?:", store.photo_url_user)
 			},
 
 			/////////// CHECK IF USER IN DATABASE + GET TOKEN //////////////
@@ -323,14 +333,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			/////////// GET ID USER & ROLE //////////////
+			/////////// GET ID USER & ROLE & IMAGE //////////////
 
-			getIdUserAndRole: async (email) => {
+			getIdUserAndRoleAndImage: async (email) => {
 				const store = getStore();
 				// console.log("email:", email) 
 
 				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + "/api/idUserAndRole";
+				const fetchUrl = process.env.BACKEND_URL + "/api/idUserAndRoleAndImage";
 				const fetchBody = {
 					method: "POST",
 					headers: {
@@ -354,6 +364,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// Handling Different Outcomes 
 					if (response.ok) {
 						setStore({ id_user: responseData.idUser });
+						setStore({ photo_url_user: responseData.photo})
+						console.log("post-sign_photo_variable:", store.photo_url_user)
 					}
 					if (!response.ok) {
 						const errorMessage = await response.text();
@@ -383,7 +395,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				role = (role == true)
 
 				// Testing Input
-				// console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
+				console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
 
 				// Variables for Fetch Request Body
 				const fetchUrl = `${process.env.BACKEND_URL}/api/EditUserProfile/${store.id_user}`;
@@ -423,6 +435,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const errorMessage = await response.text();
 						console.log("errorMessage:", errorMessage);
 						setStore({ userUpdatedFailure: true })
+					}
+					if (responseData.role) {
+						setStore({ member: true })
+						// console.log("member:", store.member)
+					}
+					if (!responseData.role) {
+						setStore({ organizer: true })
+						// console.log("organizer:", store.organizer)
 					}
 				} catch (error) {
 					console.log('Error:', error)

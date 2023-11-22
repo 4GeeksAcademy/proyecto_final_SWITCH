@@ -4,9 +4,7 @@ import '../../styles/martha.css';
 import '../../img/bocadillos.png';
 import { Context } from "../store/appContext"
 import { Link } from "react-router-dom";
-
-
-
+import fotoPerfilGeneral from '../../img/foto-perfil-general.jpg'
 
 const UsersProfile = () => {
   const { store, actions } = useContext(Context)
@@ -38,14 +36,14 @@ const UsersProfile = () => {
 
 
   const [userData, setUserData] = useState({
-    userName: "",
-    nombre: "",
-    apellido: "",
-    email: "",
-    sexo: '',
-    password: "",
-    ciudad: "",
-    rol: ""
+    userName: "Cargando",
+    nombre: "Cargando",
+    apellido: "Cargando",
+    email: "Cargando",
+    sexo: 'Cargando',
+    password: "Cargando",
+    ciudad: "Cargando",
+    rol: "Cargando"
   });
 
   const [userLanguages, setUserLanguages] = useState([])
@@ -211,19 +209,22 @@ const UsersProfile = () => {
   //   console.log("userLanguagesUpdate:", userLanguages);
   // }, [userLanguages]);
   
+  console.log("User-storePhoto:", store.photo_url_user)
 
   return (
     <div className="user-data-column">
       <div className="user-profile">
 
         <div className="user-photo">
-          <img className="user-photo-image" src={userData.photo_url} alt="" />
+          <img className="user-photo-image" 
+               src={store.photo_url_user === ""? fotoPerfilGeneral : store.photo_url_user} 
+               alt="Foto de Perfil" />
         </div>
 
 
         <div className="user-info">
           <div className="tipoh3">{userData.userName}</div>
-          <p>{roleConversion(userData.rol)}</p>
+          <p>{userData.rol == "Cargando"? "Cargando" : roleConversion(userData.rol)}</p>
           <p>{userData.email}</p>
           <p>
             <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
