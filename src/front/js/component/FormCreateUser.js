@@ -43,7 +43,7 @@ export const FormCreateUser = () => {
     chinese: "Chino",
   };
 
-  // PHOTO FILE (CLOUDINARY)
+  // PHOTO FILE VARIABLES (CLOUDINARY)
   const upload_preset_name = "switch-upload";
   const cloud_name = "switch-images";
   const [newUserPhoto, setNewUserPhoto] = useState(""); 
@@ -94,9 +94,8 @@ export const FormCreateUser = () => {
         body: formData
       }); 
       const data = await response.json();
-      console.log("response successful", data);
+      // console.log("cloudinary response", data);
       setNewUserPhoto(data.secure_url);
-      console.log("userPhoto_variable:", newUserPhoto)
     } catch (error) {
       console.error("Error:", error)
       throw error
@@ -104,9 +103,9 @@ export const FormCreateUser = () => {
 
     /*
       NOTAS
-      - Tenemos un url YAY
-      - Ahora haz un console.log de ese url, o muestra la foto en alguna página (da igual) solo para comprobar lo que hay ahí
-      - Luego tendremos que guardar ese url en una variable
+      - Tenemos un url ✅
+      - Ahora haz un console.log de ese url, o muestra la foto en alguna página (da igual) solo para comprobar lo que hay ahí ✅
+      - Luego tendremos que guardar ese url en una variable ✅
       - Conectar esa variable con la imagen de perfil en las paginas de perfil + la imagen de perfil en el navbar
     
     */
@@ -114,6 +113,12 @@ export const FormCreateUser = () => {
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // USEEFFECT
+
+  // STORE USER PHOTO IN FLUX
+  useEffect(() => {
+    // console.log("newUserPhoto Variable:", newUserPhoto)
+    actions.setUserPhoto(newUserPhoto)
+  }, [newUserPhoto])
 
   // USER SUCCESSFULLY CREATED
   useEffect(() => {

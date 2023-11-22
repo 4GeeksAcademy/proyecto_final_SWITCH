@@ -9,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			id_user: null,
 			member: false,
 			organizer: false,
+			photo_url_user: "",
 			userCreatedSuccess: false,
 			userCreatedFailure: false,
 			userUpdatedSuccess: false,
@@ -246,6 +247,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log('Error:', error)
 					throw error
 				}
+			},
+
+			/////////// SET USER PHOTO //////////////
+
+			setUserPhoto: (photoUrl) => {
+				const store = getStore();
+				store.photo_url_user = photoUrl;
 			},
 
 			/////////// CHECK IF USER IN DATABASE + GET TOKEN //////////////
