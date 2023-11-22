@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom'
 import '../../styles/martha.css';
 import '../../img/bocadillos.png';
 import { Context } from "../store/appContext"
 
 const OrganizerProfile = () => {
-  const {store, actions} = useContext (Context)
+  const { store, actions } = useContext(Context)
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({
     userName: "",
     nombre: "",
@@ -16,9 +19,11 @@ const OrganizerProfile = () => {
     rol: ""
   });
 
-  const handleInputChange = (name, value) => {
-    setUserData({ ...userData, [name]: value });
-  };
+  const [userLanguages, setUserLanguages] = useState([])
+
+  // const handleInputChange = (name, value) => {
+  //   setUserData({ ...userData, [name]: value });
+  // };
 
   const handleViewGroupsClick = () => {
     // Lógica para ver grupos creados
@@ -29,14 +34,22 @@ const OrganizerProfile = () => {
     navigate("/EditUserProfile")
   };
 
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+  };
+
+  const roleConversion = (booleanValue) => {
+    return booleanValue ? "Miembro" : "Organizador"
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(process.env.BACKEND_URL + `/api/userData/${store.id_user}`);
-
+        const response = await fetch(process.env.BACKEND_URL + `/api/UserData/${store.id_user}`);
+        // console.log("response:", response)
         if (response.ok) {
           const data = await response.json();
-
+          // console.log("data:", data)
           setUserData({
             userName: data.userData.user_name,
             nombre: data.userData.first_name,
@@ -45,19 +58,37 @@ const OrganizerProfile = () => {
             sexo: data.userData.gender,
             ciudad: data.userData.city,
             rol: data.userData.role,
-
           });
         } else {
           throw new Error('Failed to fetch user data');
         }
+
+        // FETCH: IDIOMAS DEL USUARIO
+        const languagesResponse = await fetch(process.env.BACKEND_URL + `/api/UserLanguages/${store.id_user}`);
+        if(response.ok) {
+          const languagesData = await languagesResponse.json()
+          // console.log("languagesData:", languagesData)
+          const usersLanguages = languagesData.userLanguages.map(item => item.language)
+          // console.log("usersLanguages:", usersLanguages)
+          setUserLanguages(usersLanguages)
+        } else {
+          throw new Error('Failed to fetch user languages')
+        }
       } catch (error) {
         console.error('Error fetching user data', error);
-
       }
     };
 
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   console.log("userDataUpdate:", userData);
+  // }, [userData]);
+
+  // useEffect(() => {
+  //   console.log("userLanguagesUpdate:", userLanguages);
+  // }, [userLanguages]);
 
   return (
     <div className="user-data-column">
@@ -67,12 +98,21 @@ const OrganizerProfile = () => {
         </div>
         <div className="user-info">
           <div className="tipoh3">{userData.userName}</div>
+          <p>{roleConversion(userData.rol)}</p>
           <p>{userData.email}</p>
           <p>
             <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
           </p>
-          <p>{userData.sexo}</p>
-          <p>{userData.userLanguages}</p>
+          <p>{capitalizeFirstLetter(userData.sexo)}</p>
+          <p>Idiomas:</p>
+          <ul>
+            {userLanguages == [] ?
+              <p>Cargando idiomas</p>
+              : userLanguages.map(language =>
+                <li key={language}>{capitalizeFirstLetter(language)}</li>
+              )
+            }
+          </ul>
           {/* Botones */}
           <div className="buttons-container">
             <button type="button" className="custom-button" onClick={handleViewGroupsClick}>

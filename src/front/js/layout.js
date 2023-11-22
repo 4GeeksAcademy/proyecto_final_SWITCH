@@ -11,6 +11,8 @@ import { SignIn } from "./pages/SignIn";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import GroupPage from "./pages/GroupPage";
+import GroupPageAdmin from "./pages/GroupPageAdmin";
+import FormEditGroup from "./pages/FormEditGroup";
 import UsersProfile from "./pages/UsersProfile";
 import OrganizerProfile from "./pages/PageOrganizerProfile";
 import { SearchResults } from "./pages/searchResults";
@@ -46,6 +48,11 @@ const Layout = () => {
                         <Route element={<SignIn />} path="/signin" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<GroupPage />} path="/GroupPage" />
+                        <Route element={<GroupPageAdmin />} path="/GroupPageAdmin" />
+                        <Route element={<FormEditGroup />} path="/FormEditGroup" />
+                        <Route element={<UsersProfile />} path="/UsersProfile" />
+                        <Route element={<OrganizerProfile />} path="/OrganizerProfile" />
+
                         <Route element={<UsersProfile />} path="/UsersProfile/:id" />
                         <Route element={<OrganizerProfile />} path="/OrganizerProfile/:id" />
                         <Route element={<SearchResults />} path="/searchResults" />
