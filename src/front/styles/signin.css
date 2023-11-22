@@ -2,7 +2,11 @@
     max-width: 500px;
   }
 
-  /* BUTTONS */
+.bg-yellow {
+  background-color: #ffc100;;
+ } 
+
+ /* BUTTONS */
 
 .sign-in-btn:hover {
     background-color: #018fa6;

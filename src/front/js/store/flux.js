@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			userEmail: null,
 			events: [],
 			filteredEvents: [],
 			event: null,
@@ -8,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			id_user: null,
 			member: false,
 			organizer: false,
+			photo_url_user: "",
 			userCreatedSuccess: false,
 			userCreatedFailure: false,
 			userUpdatedSuccess: false,
@@ -35,6 +37,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// ]
 		},
 		actions: {
+
 			setRegistrationEmpty: (value) => {
 				setStore({ registrationEmpty: value });
 			},
@@ -61,8 +64,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ [targetName]: value });
 			},
 
-
-			/////////// CREATE NEW EVENT IN DATABASE //////////////
+/////////// CREATE NEW EVENT IN DATABASE //////////////
 			createNewEvent: async (name, description, startTime, endTime, location, capacity, photo_url) => {
 				const store = getStore();
 
@@ -105,10 +107,62 @@ const getState = ({ getStore, getActions, setStore }) => {
 					throw error
 				}
 			},
+      
+      
+      //////////////////// GET ID FROM USERS EMAIL ///////////////////////////
+			getIdFromUserEmail: (userEmail) => {
+				fetch(`${process.env.BACKEND_URL}/api/users/${userEmail}`)
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error('Error fetching event');
+						}
+						return response.json();
+					})
+					.then((userId) => {
+						// setStore({ event: event });
+						console.log("id correctly fetched from email:", userId);
+					})
+					.catch((error) => {
+						console.error("Error fetching userId from the userEmail:", error);
+					});
+			},
+			///////////// SAVE EVENT IN MEMBER's EVENTS LIST ///////////////////////
+			saveEventInMemberEventsList: async (eventId, userId) => {
+				console.log(eventId, userId)
+				const Url = process.env.BACKEND_URL + "/api/memberEvents";
+				const Body = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						event_relationship: eventId,
+						user_relationship: userId,
+					})
+				}
+				// Fetch Request
+				try {
+					const response = await fetch(Url, Body);
+					// console.log("response:", response)
+					const responseData = await response.json();
+					// console.log("responseData:", responseData)
+					// Handling Different Outcomes
+					if (response.ok) {
+						console.log("event added to the member's events list")
+					}
+					if (!response.ok) {
+						const errorMessage = await response.text();
+						console.log("errorMessage:", errorMessage);
+					}
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+			},
+
+
 
 			///////////// GET FILTERED EVENTS ///////////////////////
-
-
 
 			searchFilteredEvents: (city, eventName) => {
 				console.log("event as parameter of the searchFilteredEvents function:", eventName)
@@ -183,10 +237,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
 				const store = getStore();
 
-				role = (role === 'true') ? true : false
+				role = (role == true);
 
 				// Testing Input
-				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
+				(console.log("createNewUser Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
 
 				// Variables for Fetch Request Body
 				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
@@ -233,13 +287,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			/////////// SET USER PHOTO //////////////
+
+			setUserPhoto: (photoUrl) => {
+				const store = getStore();
+				console.log("received photo data:", photoUrl)
+				store.photo_url_user = photoUrl;
+				console.log("is there photo data in the store var?:", store.photo_url_user)
+			},
+
 			/////////// CHECK IF USER IN DATABASE + GET TOKEN //////////////
 
 			login: async (email, password) => {
+				setStore({ userEmail: email }) //////////////////////////////////////////////////// PORQUE NO GUARDA
+
 				const store = getStore();
 
 				if (!email || !password) {
 					setStore({ registrationEmpty: true });
+
+
 					throw new Error("Email and password are required");
 				}
 
@@ -265,6 +332,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						return false;
 					}
 
+
 					const data = await resp.json();
 
 					console.log(
@@ -285,14 +353,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			/////////// GET ID USER & ROLE //////////////
 
-			getIdUserAndRole: async (email) => {
+			/////////////////////////////////
+
+			getEmailFromToken: (token) => {
+				try {
+					const decodedToken = jwt.decode(token);
+
+					if (decodedToken && decodedToken.email) {
+						return decodedToken.email;
+					} else {
+						return null;
+					}
+				} catch (error) {
+					console.log('Error decoding token:', error);
+					return null;
+				}
+			},
+
+			/////////// GET ID USER & ROLE & IMAGE //////////////
+
+			getIdUserAndRoleAndImage: async (email) => {
 				const store = getStore();
 				// console.log("email:", email) 
 
 				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + "/api/idUserAndRole";
+				const fetchUrl = process.env.BACKEND_URL + "/api/idUserAndRoleAndImage";
 				const fetchBody = {
 					method: "POST",
 					headers: {
@@ -316,6 +402,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// Handling Different Outcomes 
 					if (response.ok) {
 						setStore({ id_user: responseData.idUser });
+						setStore({ photo_url_user: responseData.photo})
+						console.log("post-sign_photo_variable:", store.photo_url_user)
 					}
 					if (!response.ok) {
 						const errorMessage = await response.text();
@@ -342,14 +430,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			updateUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
 				const store = getStore();
 
-				role = (role === 'true') ? true : false
-				let id_user = store.id_user
+				role = (role == true)
 
 				// Testing Input
-				// (console.log(firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
+				console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
 
 				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + `api/EditUserProfile/${id_user}`;
+				const fetchUrl = `${process.env.BACKEND_URL}/api/EditUserProfile/${store.id_user}`;
 				const fetchBody = {
 					method: "PUT",
 					headers: {
@@ -367,7 +454,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						languages: languages,
 						photo_url: photo_url
 					})
-				}
+				};
 				// console.log("fetchUrl:", fetchUrl)
 				// console.log("fetchBody:", fetchBody)
 
@@ -386,6 +473,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const errorMessage = await response.text();
 						console.log("errorMessage:", errorMessage);
 						setStore({ userUpdatedFailure: true })
+					}
+					if (responseData.role) {
+						setStore({ member: true })
+						// console.log("member:", store.member)
+					}
+					if (!responseData.role) {
+						setStore({ organizer: true })
+						// console.log("organizer:", store.organizer)
 					}
 				} catch (error) {
 					console.log('Error:', error)

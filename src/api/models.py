@@ -97,6 +97,23 @@ class Events(db.Model):
             "event_capacity": self.event_capacity,
             "group": self.id_group           
         }
+    
+''' NECESITARÍAMOS CREAR UNA CLASE GROUP EVENT
+def serialize_GroupEvent(self):
+    return {
+        "id": self.id_event,
+        "name": self.name,
+        "description": self.description,
+        "start_time": self.start_time,
+        "end_time": self.end_time,
+        "location": self.location,
+        "photo_url": self.photo_url,
+        "attendee": self.attendee,
+        "capacity": self.event_capacity,
+        "group": self.id_group
+    }
+'''
+
 
 
 class Events_attendee(db.Model):
@@ -142,7 +159,7 @@ class Enum_languages(enum.Enum):
     french = 'french'
     italian = 'italian'
     german = 'german'
-    portuguese = 'portugues'
+    portuguese = 'portuguese'
     russian = 'russian'
     arabic = 'arabic'
     japanese = 'japanese'

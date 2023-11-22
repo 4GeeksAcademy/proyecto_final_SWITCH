@@ -1,11 +1,10 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-
 import { Context } from "../store/appContext";
-
 import "../../styles/navbar.css";
 import logo from "../../img/logo-switch-raya-blanca.png";
 import hamburger from "../../img/navbar-hamburger.png";
+import fotoPerfilGeneral from '../../img/foto-perfil-general.jpg';
 
 
 export const Navbar = () => {
@@ -26,6 +25,8 @@ export const Navbar = () => {
     actions.logout();
     navigate("/");
   };
+
+  console.log("storePhoto:", store.photo_url_user)
 
   return (
     <nav className="navbar bg-blue py-3 d-flex navbar-expand-lg">
@@ -113,13 +114,25 @@ export const Navbar = () => {
               <div className="d-xl-block d-none">
                 {store.member === true
                   ? <Link to={`/UsersProfile/${store.id_user}`}>
-                    <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
+                    <img
+                      src={store.photo_url_user === "" ? fotoPerfilGeneral : store.photo_url_user}
+                      height="55px"
+                      width="55px"
+                      className="rounded-circle bg-extradark-grey object-contain"
+                      alt="Foto de Perfil"
+                      title="Accede tu perfil"
+                    /> 
                   </Link>
                   : null
                 }
                 {store.organizer === true
                   ? <Link to={`/OrganizerProfile/${store.id_user}`}>
-                    <img src={logo} height="55px" width="55px" className="rounded-circle bg-extradark-grey" />
+                    <img
+                      src={store.photo_url_user = "" ? fotoPerfilGeneral : store.photo_url_user}
+                      height="55px"
+                      width="55px"
+                      className="rounded-circle bg-extradark-grey object-contain" 
+                      title="Accede tu perfil"/>
                   </Link>
                   : null
                 }
@@ -144,19 +157,27 @@ export const Navbar = () => {
                   {isNavbarOpen && (
                     <div className="bg-dark-blue d-flex navbar-desplegable flex-column rounded p-3 fs-4 align-items-start justify-content-start navbar-desplegable-go-up-when-open ">
                       {/* BUTTON MEMEBERS */}
-                      <Link to="/Profile" className="text-decoration-none">
-                        <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue">
-                          Tu perfil
-                        </div>
-                      </Link>
+                      {store.member === true ?
+                        <Link to={`/UsersProfile/${store.id_user}`} className="text-decoration-none">
+                          <div className="navbar-link-desplegable font-nunito pb-4 fw-bolder extralight-blue">
+                            Tu perfil
+                          </div>
+                        </Link>
+                        : null
+                      }
+                      {store.organizer === true ?
+                        <Link to={`/OrganizerProfile/${store.id_user}`} className="text-decoration-none">
+                          <div className="navbar-link-desplegable font-nunito pb-4 fw-bolder extralight-blue">
+                            Tu perfil
+                          </div>
+                        </Link>
+                        : null
+                      }
 
                       {/*BUTTON register*/}
-
                       <div className="navbar-link-desplegable font-nunito pb-4  fw-bolder extralight-blue " onClick={handleClick}>
                         Cerrar sessión
                       </div>
-
-
 
                     </div>
                   )}

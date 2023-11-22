@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import parejaHomePage from "../../img/pareja-home-page.png";
 
@@ -8,11 +8,6 @@ export const HomeHeadline = () => {
   return (
     <div className="d-flex justify-between flex-column headline flex-xl-row ">
       {/*TEXT LEFT*/}
-
-      {/* LINK PROVISIONAL */}
-      <Link to='/EditUserProfile'>
-        LINK
-      </Link>
 
       <div className="pe-xl-5">
         <h2 className="fw-bold extradark-grey font-nunito home-headline-title">

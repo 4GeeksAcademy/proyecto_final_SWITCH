@@ -80,11 +80,11 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0 # avoid cache memory
     return response
 
+
+
 ################################################################################################################################################################
 
 # GET ALL EVENTS
-
-# TODO APPLY FILTERING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 @app.route('/api/allEvents', methods=['GET'])
 def get_all_events():
@@ -194,6 +194,7 @@ def create_new_event():
 #################################################################################################################################################################
 
 # CREATE NEW USER PROFILE (POST)
+
 @app.route('/api/CreateNewUserProfile', methods=['POST'])
 def create_new_user():
     # Extraer data de JSON
@@ -267,6 +268,8 @@ def create_new_user():
     # Client-side Message
     return jsonify({'msg': 'New User Successfully Created'})
 
+
+
 #################################################################################################################################################################
 
 # SIGN-IN USER: 
@@ -293,12 +296,15 @@ def create_token():
     access_token = create_access_token(identity=user.email)
     return jsonify(access_token=access_token), 200
 
+
+
+
 #################################################################################################################################################################
 
-# GET ID USER & ROLE (POST)
+# GET ID USER & ROLE & PHOTO (POST)
 
-@app.route('/api/idUserAndRole', methods=["POST"])
-def getUserIdAndRole():
+@app.route('/api/idUserAndRoleAndImage', methods=["POST"])
+def getUserIdAndRoleAndImage():
 
     # Extract JSON Data
     body = request.get_json(silent=True)
@@ -314,7 +320,7 @@ def getUserIdAndRole():
     
     user_serialized = user.serialize() 
     
-    return jsonify({'idUser': user_serialized['id'], "role": user_serialized['role']})
+    return jsonify({'idUser': user_serialized['id'], "role": user_serialized['role'], "photo": user_serialized['photo_url']})
 
 #################################################################################################################################################################
 
@@ -413,6 +419,82 @@ def updateMember(id_user):
 
     # Client-side Message
     return jsonify({'msg': 'User Profile Successfully Updated'})
+
+#################################################################################################################################################################
+
+# GET USER EMAIL FROM TOKEN
+
+###############################################################################################################################################################
+
+# GET USER ID FROM EMAIL
+
+@app.route('/users/<string:email>', methods=['GET'])
+def get_user_id(email):
+    user = Users.query.filter_by(email=email).first()
+    if user:
+        return jsonify({'id': user.id_user}), 200
+    return jsonify({'message': 'User not found'}), 404
+
+###############################################################################################################################################################
+
+
+# ADD EVENT to MEMBER'S EVENTS THEY HAVE JOINED LIST
+
+@app.route('/api/memberEvents', methods=["POST"])
+def post_member_event():
+    # Extract JSON Data
+    body = request.get_json(silent=True)
+    
+    # Handle Errors
+    if body is None:
+        return jsonify({'error': 'You must send information with the body'}), 400
+    if 'event_relationship' not in body:
+        return jsonify({'error': 'You must include event ID'}), 400
+    if 'user_relationship' not in body:
+        return jsonify({'error': 'You must include user ID'}), 400
+    
+    # Find the event and user in the database
+    event = Events.query.get(body['event_relationship'])
+    user = Users.query.get(body['user_relationship'])
+    
+    if not event:
+        return jsonify({'error': 'Event not found'}), 404
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+    
+    # Create a new Events_attendee record
+    new_event_attendee = Events_attendee(
+        event_relationship=event,
+        user_relationship=user
+    )
+    
+    # Add the new record to the database
+    db.session.add(new_event_attendee)
+    db.session.commit()
+    
+    # Return a success response
+    return jsonify({'message': 'Event attendee created successfully'}), 200
+
+#################################################################################################################################################################
+
+# GET ALL EVENTS that MEMBER HAS JOINED
+
+@app.route('/api/userEvents/<int:user_id>', methods=["GET"])
+def get_user_events(user_id):
+    # Find the user in the database
+    user = Users.query.get(user_id)
+
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    # Retrieve all the events associated with the user
+    user_events = Events_attendee.query.filter_by(user_relationship=user).all()
+
+    # Serialize the events to a list of dictionaries
+    serialized_events = [event.serialize() for event in user_events]
+
+    # Return the serialized events as a JSON response
+    return jsonify(serialized_events), 200
 
 #################################################################################################################################################################
 
