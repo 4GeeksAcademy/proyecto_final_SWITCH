@@ -8,7 +8,7 @@ import fotoPerfilGeneral from '../../img/foto-perfil-general.jpg'
 const OrganizerProfile = () => {
   const { store, actions } = useContext(Context)
   const navigate = useNavigate();
-
+  
   const [userData, setUserData] = useState({
     userName: "Cargando",
     nombre: "Cargando",
@@ -91,6 +91,8 @@ const OrganizerProfile = () => {
   //   console.log("userLanguagesUpdate:", userLanguages);
   // }, [userLanguages]);
 
+  console.log("Store member:", store.member)
+  console.log("Store org:", store.organizer)
 
   return (
     <div className="user-data-column">
