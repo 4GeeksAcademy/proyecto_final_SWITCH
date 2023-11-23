@@ -64,7 +64,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ [targetName]: value });
 			},
 
-/////////// CREATE NEW EVENT IN DATABASE //////////////
+			/////////// CREATE NEW EVENT IN DATABASE //////////////
 			createNewEvent: async (name, description, startTime, endTime, location, capacity, photo_url) => {
 				const store = getStore();
 
@@ -109,7 +109,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
       
       
-      //////////////////// GET ID FROM USERS EMAIL ///////////////////////////
+     		//////////////////// GET ID FROM USERS EMAIL ///////////////////////////
 			getIdFromUserEmail: (userEmail) => {
 				fetch(`${process.env.BACKEND_URL}/api/users/${userEmail}`)
 					.then((response) => {
@@ -234,13 +234,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			/////////// CREATE USER IN DATABASE //////////////
 
-			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
+			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages) => {
 				const store = getStore();
 
-				role = (role == true);
+				function roleConversion(roleInput) {
+					switch (roleInput) {
+						case 'true':
+						case true:
+							return true
+						case 'false':
+						case false:
+							return false
+						default:
+							return null
+					}
+				}
+				role = roleConversion(role)
+				const photo_url = store.photo_url_user;
 
 				// Testing Input
-				(console.log("createNewUser Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)) 
+				console.log("createNewUser Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
 
 				// Variables for Fetch Request Body
 				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
@@ -293,7 +306,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				console.log("received photo data:", photoUrl)
 				store.photo_url_user = photoUrl;
-				console.log("is there photo data in the store var?:", store.photo_url_user)
+				console.log("store photo-var:", store.photo_url_user)
 			},
 
 			/////////// CHECK IF USER IN DATABASE + GET TOKEN //////////////
@@ -403,7 +416,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (response.ok) {
 						setStore({ id_user: responseData.idUser });
 						setStore({ photo_url_user: responseData.photo})
-						console.log("post-sign_photo_variable:", store.photo_url_user)
+						console.log("post-signin_photo_variable:", store.photo_url_user)
 					}
 					if (!response.ok) {
 						const errorMessage = await response.text();
@@ -430,7 +443,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			updateUser: async (firstName, lastName, userName, email, password, city, role, gender, languages, photo_url) => {
 				const store = getStore();
 
-				role = (role == true)
+				function roleConversion(roleInput) {
+					switch (roleInput) {
+						case 'true':
+						case true:
+							return true
+						case 'false':
+						case false:
+							return false
+						default:
+							return null
+					}
+				}
+				role = roleConversion(role)
 
 				// Testing Input
 				console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
@@ -461,9 +486,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// Fetch Request 
 				try {
 					const response = await fetch(fetchUrl, fetchBody);
-					console.log("response:", response)
+					// console.log("response:", response)
 					const responseData = await response.json();
-					console.log("responseData:", responseData)
+					// console.log("responseData:", responseData)
 
 					// Handling Different Outcomes 
 					if (response.ok) {

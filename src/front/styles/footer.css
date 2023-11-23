@@ -1,0 +1,19 @@
+.footer {
+    background-color: #ffc100;
+}
+
+.footer-text {
+    font-size: 12px;
+}
+
+.footer-icon {
+    cursor: pointer
+}
+
+.footer-logo {
+    margin-top: -15px;
+}
+
+.footer-h6 {
+    margin-bottom: 5px !important;
+}
