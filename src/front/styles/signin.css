@@ -1,0 +1,14 @@
+.signin_max-width {
+    max-width: 500px;
+  }
+
+.bg-yellow {
+  background-color: #ffc100;;
+ } 
+
+ /* BUTTONS */
+
+.sign-in-btn:hover {
+    background-color: #018fa6;
+
+  }

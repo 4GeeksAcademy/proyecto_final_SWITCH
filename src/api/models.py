@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+import enum
 
 db = SQLAlchemy()
 
@@ -12,10 +13,13 @@ class Users(db.Model):
     password = db.Column(db.String(80), nullable = False)
     gender = db.Column(db.String(20))
     city = db.Column(db.String(50), nullable = False)
-    languages = db.Column(db.String(100), nullable = False)
     photo_url = db.Column(db.String(500))
     is_active = db.Column(db.Boolean(), nullable = False)
     role = db.Column (db.Boolean(), nullable =False)
+
+    # Consideración: usar una tabla de Enum para role? 
+    # ¿Hacer algo parecido a lo que hemos hecho para idiomas?
+
 
     def __repr__(self):
         return f'<Users: {self.id_user}>'
@@ -29,7 +33,6 @@ class Users(db.Model):
             "email": self.email,
             "gender": self.gender,
             "city": self.city,
-            "languages": self.languages,
             "photo_url": self.photo_url,
             "is_active": self.is_active,
             "role" : self.role      
@@ -62,6 +65,7 @@ class Groups(db.Model):
             "is_active": self.active            
         }
     
+    # Consideración: necesitamos otra tabla de "Group_languages"? 
 
 class Events(db.Model):
     __tablename__ = 'events'
@@ -72,7 +76,7 @@ class Events(db.Model):
     end_time = db.Column(db.DateTime, nullable = False)
     location = db.Column(db.String, nullable = False)
     photo_url = db.Column(db.String(500))
-    attendee = db.Column(db.Boolean(), nullable = False)
+    attendee = db.Column(db.Boolean())
     event_capacity = db.Column(db.Integer, nullable = False)
     id_group = db.Column(db.Integer, db.ForeignKey('groups.id_group'))
     group_relationship = db.relationship(Groups)
@@ -90,10 +94,10 @@ class Events(db.Model):
             "location": self.location,
             "photo_url": self.photo_url,
             "attendee": self.attendee,
-            "capacity": self.event_capacity,
+            "event_capacity": self.event_capacity,
             "group": self.id_group           
         }
-
+    
 
 class Events_attendee(db.Model):
     __tablename__ = 'events_attendee'
@@ -132,4 +136,31 @@ class Members_group(db.Model):
             "group": self.id_group       
         }
 
+class Enum_languages(enum.Enum):
+    english = 'english' 
+    spanish = 'spanish'
+    french = 'french'
+    italian = 'italian'
+    german = 'german'
+    portuguese = 'portuguese'
+    russian = 'russian'
+    arabic = 'arabic'
+    japanese = 'japanese'
+    chinese = 'chinese'
 
+class User_languages(db.Model):
+    __tablename__ = 'user_languages'
+    id_user_language = db.Column(db.Integer, primary_key = True)
+    id_user = db.Column(db.Integer, db.ForeignKey('users.id_user'))
+    user_relationship = db.relationship(Users)
+    language = db.Column(db.Enum(Enum_languages))
+   
+    def __repr__(self):
+        return f'<User_languages_record: {self.id_user_language}>'
+    
+    def serialize(self):
+        return {
+            "id": self.id_user_language,
+            "user": self.id_user,
+            "language": self.language.value       
+        }

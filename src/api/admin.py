@@ -1,11 +1,6 @@
-  
 import os
 from flask_admin import Admin
-from .models import db, Users
-from .models import db, Groups
-from .models import db, Events
-from .models import db, Events_attendee
-from .models import db, Members_group
+from .models import db, Users, Groups, Events, Events_attendee, Members_group, User_languages
 
 
 
@@ -23,6 +18,7 @@ def setup_admin(app):
     admin.add_view(ModelView(Events, db.session))
     admin.add_view(ModelView(Events_attendee, db.session))
     admin.add_view(ModelView(Members_group, db.session))
+    admin.add_view(ModelView(User_languages, db.session))
 
 
     # You can duplicate that line to add mew models

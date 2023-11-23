@@ -1,0 +1,84 @@
+/* FONTS */
+
+/* Nunito */
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.font-nunito {
+  font-family: "Nunito", sans-serif;
+}
+
+/* Colors */
+
+/* Establece el color de fondo amarillo para toda la página */
+.title-event{
+  text-align: center;
+  width: 100%;
+}
+group-page{
+    background-color: #ffc100;
+    font-family: "Nunito", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.tipoh2{
+  background-color: #000080;
+  color: white; /* texto blanco legible en el fondo azul */
+  padding: 6px; /* Espacio interno para separar el texto del borde */
+}
+
+/* Estilos para los div contenedores */
+.descripcion, .organizador, .miembros, .eventos {
+    width: 90%;
+    margin: 10px;
+    padding: 10px;   
+  
+}
+
+/* Estilos para títulos dentro de los div contenedores */
+.tipoh2{
+    font-size: 1.5em; /* Ejemplo de tamaño de fuente para pantallas grandes */
+  
+    @media (max-width: 768px) {
+      font-size: 1.2em; /* Tamaño de fuente más pequeño para pantallas pequeñas */
+    }
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+}
+
+.imagen-lateral {
+  max-width: 100%;
+  height: auto;  
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /*sombra */
+  margin-right: 20px; 
+  margin-top: 10px; 
+}
+  
+  
+/* Estilos para pantallas de tamaño pequeño (menos de 768px) */
+@media (max-width: 768px) {
+    .group-page {
+      flex-direction: column; /* Cambia a una sola columna */
+    }
+  
+    .main-content {
+      display: block;
+    }
+  
+    .imagen-lateral,
+    .contenedores {
+      width: 100%; /* Ocupa el ancho completo */
+    }
+  }

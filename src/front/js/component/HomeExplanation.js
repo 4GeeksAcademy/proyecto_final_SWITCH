@@ -3,6 +3,8 @@ import parejaHablando from "../../img/pareja-hablando.png";
 import chicoChateando from "../../img/chico-chateando.png";
 import logo from "../../img/logo-switch-turquesa.png";
 
+import { useNavigate, Link, useLocation } from "react-router-dom";
+
 export const HomeExplanation = () => {
   return (
     <div className="d-flex justify-between flex-column  flex-xl-row pt-5">
@@ -13,7 +15,7 @@ export const HomeExplanation = () => {
 
         <div className="bg-blue explanation-blue-box-left p-5 mb-5">
           <div className="d-flex justify-content-center">
-            <div class="explanation-white-line"></div>
+            <div className="explanation-white-line"></div>
           </div>
 
           <h3 className="fw-bold extradark-grey font-nunito home-explanation-title pt-3">
@@ -35,9 +37,11 @@ export const HomeExplanation = () => {
             className="pt-5 explanation-left-pic"
           />
           <div className="d-flex justify-content-center">
-            <button className="btn rounded-3 rounded explanation-btn bg-yellow fw-bolder text-16  px-5 py-3 mt-4">
-              REGISTRATE GRATIS
-            </button>
+            <Link to="/createnewuserprofile">
+              <button className="btn rounded-3 rounded explanation-btn bg-yellow fw-bolder text-16  px-5 py-3 mt-4">
+                REGISTRATE GRATIS
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -48,7 +52,7 @@ export const HomeExplanation = () => {
         {/*BLUE BOX RIGHT*/}
         <div className="bg-blue explanation-blue-box-right p-5">
           <div className="d-flex justify-content-center">
-            <div class="explanation-white-line"></div>
+            <div className="explanation-white-line"></div>
           </div>
           <h3 className="fw-bold extradark-grey font-nunito home-explanation-title pt-3">
             Crea tu propio grupo y eventos
@@ -74,9 +78,11 @@ export const HomeExplanation = () => {
           <img src={logo} alt="switch logo" className="explanation-logo" />
 
           <div className="d-flex justify-content-center justify-content-sm-start">
-            <button className="btn rounded-3 rounded explanation-btn bg-yellow fw-bolder text-16  px-5 py-3 mt-4">
-              ORGANIZA TU EVENTO
-            </button>
+            <Link to="/signin">
+              <button className="btn rounded-3 rounded explanation-btn bg-yellow fw-bolder text-16  px-5 py-3 mt-4">
+                ORGANIZA TU EVENTO
+              </button>
+            </Link>
           </div>
         </div>
       </div>

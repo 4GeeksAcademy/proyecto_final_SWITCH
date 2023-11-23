@@ -1,0 +1,34 @@
+
+
+
+
+
+/* SEARCH RESULT LINK */
+
+.searchLink {
+    text-decoration: none;
+    color: black;
+}
+
+.searchLink:hover {
+    color: rgb(90, 90, 90);
+}
+
+
+/* EVENT SEARCH PAGE*/ 
+
+.event-search-date {
+    color: rgb(65, 59, 59);
+    font-size: 15px; 
+}
+
+/* EVENT JOIN BUTTON*/
+
+.event-search-page-join-button {
+    outline: none;
+    border: none;
+  }
+  
+.event-search-page-join-button:hover {
+    background-color: #018fa6;
+  }

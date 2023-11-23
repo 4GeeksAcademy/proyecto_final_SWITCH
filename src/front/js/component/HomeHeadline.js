@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import parejaHomePage from "../../img/pareja-home-page.png";
 
 export const HomeHeadline = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="d-flex justify-between flex-column headline flex-xl-row ">
       {/*TEXT LEFT*/}

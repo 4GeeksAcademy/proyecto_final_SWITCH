@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+    /* Font = 'Roboto Condensed */
+    /* Sizes = 400, 500, 600, 700, 800, 900 */
+    --robotoCondensed: 'Roboto Condensed', 'Nunito', sans-serif;
+}
+
+.formProfileHeader {
+    font-family: var(--robotoCondensed);
+    font-weight: 700;
+    font-style: normal;
+    text-transform: uppercase;
+}
+
+.requiredAsterisk {
+    color: #ff6459;
+}
+
+.formProfileButton {
+    transition: background-color 200ms;
+    font-size: 18px;
+    letter-spacing: 0.25px;
+}
+
+.formProfileButton:hover {
+   background-color: #018fa6;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #018fa6;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 12px #018fa6;
+}
+
+.formImage {
+    height: 200px;
+    overflow: hidden;
+    margin: -36px 0px -44px -2px; 
+}
+
+.formImageFlexbox {
+    display: flex;
+    justify-content: center;
+}
