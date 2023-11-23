@@ -139,8 +139,6 @@ export const FormCreateUser = () => {
     }
   }, [store.userCreatedFailure])
 
-
-  console.log("TESSSSSSSSSSSSSSSSSTING")
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // COMPONENT
 
