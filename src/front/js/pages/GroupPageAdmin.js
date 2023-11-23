@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useNavigate } from 'react';
+import { Link } from 'react-router-dom';
 import '../../styles/martha.css';
 import '../../img/LaTertulia.png';
-
-
-import { Link } from 'react-router-dom';
 
 
 function GroupPageAdmin() {
@@ -40,11 +38,11 @@ function GroupPageAdmin() {
 
   return (
     <div className='contenedorGeneral'>
-<div className="group-page">
-    {/* TITULO */}
-    <header>
-        {groupData && <h1 className="fw-bold text-48 dark-blue font-nunito">{groupData.name}</h1>}
-    </header>
+      <div className="group-page">
+        {/* TITULO */}
+        <header>
+          {groupData && <h1 className="fw-bold text-48 dark-blue font-nunito">{groupData.name}</h1>}
+        </header>
 
         <div className="main-content">
           <div className="contenedores">
@@ -64,29 +62,31 @@ function GroupPageAdmin() {
                 </p>
               )}
             </div>
-{/* Falta Data */}
+            {/* Falta Data */}
             <div className="miembros">
               <h2 className="tipoh2">Miembros:</h2>
               <p className="extradark-grey">Lista de miembros o información relevante.</p>
             </div>
             {/* aquí faltaría Eventos pero con las tablas actuales me daría error , si creamos modelo event*/}
-            <div className="eventos"> 
+            <div className="eventos">
               <h2 className="tipoh2">Eventos:</h2>
               <p className="extradark-grey">Información sobre próximos eventos.</p>
             </div>
             <div className="buttons-group-container">
               {/* Ruta a la página de edición de datos del grupo */}
-              <Link to="/FormEditGroup"> 
+              <Link to="/formEditGroup">
                 <button type="button" className="custom-button">
                   <i className="fas fa-pencil-alt"></i> Edita tus datos
                 </button>
               </Link>
+
               {/* Ruta a la página de creación de un evento */}
-              <Link to="/create-event-page"> 
+              <Link to="/CreateNewEvent">
                 <button type="button" className="custom-button">
                   <i className="fas fa-pencil-alt"></i> Crea un nuevo evento
                 </button>
               </Link>
+
             </div>
           </div>
           <div className="imagen-lateral">
