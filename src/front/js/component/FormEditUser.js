@@ -66,7 +66,7 @@ export const FormEditUser = () => {
       if (storedLanguagesArray.includes(language)) {
         let langIndex = storedLanguagesArray.indexOf(language);
         storedLanguagesArray.splice(langIndex, 1);
-      } else { 
+      } else {
         // If first time in array, simply add language to it
         storedLanguagesArray.push(language)
       }
@@ -75,22 +75,27 @@ export const FormEditUser = () => {
     })
   }
 
-   // FORM SUBMIT FUNCTION  
+  // FORM SUBMIT FUNCTION  
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log("userdata sent to updateUser():", userData)
-    actions.updateUser(userData.firstName, userData.lastName, 
-      userData.userName, userData.email,userData.password, 
-      userData.city, userData.role, userData.gender,
-      userData.languages, userData.photo)
-  }
+    setTimeout(() => {
+      actions.updateUser(
+        userData.firstName, userData.lastName,
+        userData.userName, userData.email,
+        userData.password, userData.city,
+        userData.role, userData.gender,
+        userData.languages, userData.photo
+      );
+    }, 3000);
+  };
 
   // FILE/PHOTO UPLOAD FUNCTION
   function handleFile(event) {
     const file = event.target.files[0];
     console.log("fileInfo:", file)
     // Handle Large Images
-    if(file.size >= 10485760){
+    if (file.size >= 10485760) {
       alert("Elige una imagen más pequeña (menos que 10MB).");
     } else {
       const formData = new FormData();
@@ -106,16 +111,17 @@ export const FormEditUser = () => {
       const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
         method: "POST",
         body: formData
-      }); 
+      });
       const data = await response.json();
       console.log("cloudinary response", data)
       setUserData({ ...userData, "photo": data.secure_url })
       store.photo_url_user = data.secure_url
-      console.log("photo url update successful after editing user's foto?:", store.photo_url_user)
+      console.log("Photo url updated?:", store.photo_url_user)
     } catch (error) {
       console.error("Error:", error)
       throw error
-    }}
+    }
+  }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // USE_EFFECTS
@@ -172,14 +178,14 @@ export const FormEditUser = () => {
 
   // USER SUCCESSFULLY UPDATED
   useEffect(() => {
-    if(store.userUpdatedSuccess === true) {
+    if (store.userUpdatedSuccess === true) {
       alert("El nuevo usuario se ha actualizado con éxito");
       store.userUpdatedSuccess = false;
       // REDIRECT USER
-      if(store.member === true) {
+      if (store.member === true) {
         navigate(`/UsersProfile/${stored_id_user}`)
       }
-      if(store.organizer === true) {
+      if (store.organizer === true) {
         navigate(`/OrganizerProfile/${stored_id_user}`)
       }
     }
@@ -187,10 +193,11 @@ export const FormEditUser = () => {
 
   // USER NOT SUCCESSFULLY UPDATED
   useEffect(() => {
-    if(store.userUpdatedFailutre === true) {
+    if (store.userUpdatedFailutre === true) {
       alert("Ha habido un error en actualizar tu perfil. Inténtalo de nuevo.");
       store.userUpdatedFailure = false;
-  }}, [store.userUpdatedFailure])
+    }
+  }, [store.userUpdatedFailure])
 
   // useEffect(() => {
   //   console.log("userData variable update:", userData)
@@ -277,47 +284,47 @@ export const FormEditUser = () => {
               {/* RADIO TRUE */}
               {userData.role === true
                 ? // TRUE CHECKED
-                  <div className="form-check mb-2">
-                    <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
-                      checked
-                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
-                    />
-                    <label className="form-check-label extradark-blue" htmlFor="radioMember">
-                      <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
-                    </label>
-                  </div> 
+                <div className="form-check mb-2">
+                  <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
+                    checked
+                    onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
+                  />
+                  <label className="form-check-label extradark-blue" htmlFor="radioMember">
+                    <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
+                  </label>
+                </div>
                 : // ELSE NOT CHECKED
-                  <div className="form-check mb-2">
-                    <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
-                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
-                    />
-                    <label className="form-check-label extradark-blue" htmlFor="radioMember">
-                      <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
-                    </label>
-                  </div>
-                }
-                {/* RADIO FALSE */}
-                {userData.role === false
+                <div className="form-check mb-2">
+                  <input className="form-check-input" type="radio" name="userRole" id="radioMember" value="true"
+                    onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
+                  />
+                  <label className="form-check-label extradark-blue" htmlFor="radioMember">
+                    <b>Miembro</b> - quiero unirme a grupos y acudir a eventos
+                  </label>
+                </div>
+              }
+              {/* RADIO FALSE */}
+              {userData.role === false
                 ? // FALSE CHECKED        
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
-                      checked
-                      onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
-                    />
-                    <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
-                      <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
-                    </label>
-                  </div>
+                <div className="form-check">
+                  <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
+                    checked
+                    onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
+                  />
+                  <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
+                    <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
+                  </label>
+                </div>
                 :
-                  <div className="form-check">
-                    <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
-                      onClick={(e) => setUserData({ ...userData,"role": e.target.value })}
-                    />
-                    <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
-                      <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
-                    </label>
-                  </div>
-                }
+                <div className="form-check">
+                  <input className="form-check-input" type="radio" name="userRole" id="radioOrganizer" value="false"
+                    onClick={(e) => setUserData({ ...userData, "role": e.target.value })}
+                  />
+                  <label className="form-check-label extradark-blue" htmlFor="radioOrganizer">
+                    <b>Organizador</b> - quiero crear grupos y organizar eventos, así como, unirme a grupos y acudir a eventos
+                  </label>
+                </div>
+              }
               {/* {console.log(userData.role)} */}
             </fieldset>
 
@@ -348,22 +355,22 @@ export const FormEditUser = () => {
               {userData.languages && allLanguages.map(language => (
                 <div className="form-check" key={language}>
                   {userData.languages.includes(language)
-                  ? <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value={language}
-                    id={language}
-                    name="languages[]"
-                    checked //CHECKED
-                    onChange={() => editLanguagesArray(language)}
+                    ? <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value={language}
+                      id={language}
+                      name="languages[]"
+                      checked //CHECKED
+                      onChange={() => editLanguagesArray(language)}
                     />
-                  : <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value={language}
-                    id={language}
-                    name="languages[]"
-                    onChange={() => editLanguagesArray(language)}
+                    : <input
+                      className="form-check-input"
+                      type="checkbox"
+                      value={language}
+                      id={language}
+                      name="languages[]"
+                      onChange={() => editLanguagesArray(language)}
                     />
                   }
                   <label className="form-check-label extradark-blue fw-bold" htmlFor={language}>
@@ -378,7 +385,7 @@ export const FormEditUser = () => {
               <label htmlFor="formFile" className="form-label extradark-blue fw-bold">Imagen de perfil</label>
               <input className="form-control" type="file" id="formFile" name="photo"
                 onChange={(e) => handleFile(e)}
-                // onChange={(e) => setUserData({ ...userData, "photo": e.target.files[0] })}
+              // onChange={(e) => setUserData({ ...userData, "photo": e.target.files[0] })}
               />
               {/* {console.log(userData.photo)} */}
             </div>

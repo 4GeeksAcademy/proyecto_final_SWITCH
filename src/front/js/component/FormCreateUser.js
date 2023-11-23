@@ -46,7 +46,7 @@ export const FormCreateUser = () => {
   // PHOTO FILE VARIABLES (CLOUDINARY)
   const upload_preset_name = "switch-upload";
   const cloud_name = "switch-images";
-  const [newUserPhoto, setNewUserPhoto] = useState(""); 
+  const [newUserPhoto, setNewUserPhoto] = useState("");
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // FUNCTIONS 
@@ -72,9 +72,14 @@ export const FormCreateUser = () => {
   // FORM SUBMIT FUNCTION  
   const handleSubmit = (e) => {
     e.preventDefault();
-    actions.createNewUser(newUserFirstName, newUserLastName, newUserUserName, newUserEmail,
-      newUserPassword, newUserCity, newUserRole, newUserGender,
-      newUserLanguages, newUserPhoto)
+    setTimeout(() => {
+      actions.createNewUser(
+        newUserFirstName, newUserLastName,
+        newUserUserName, newUserEmail,
+        newUserPassword, newUserCity,
+        newUserRole, newUserGender,
+        newUserLanguages)
+    }, 3000);
   }
 
   // FILE/PHOTO UPLOAD FUNCTION
@@ -82,7 +87,7 @@ export const FormCreateUser = () => {
     const file = event.target.files[0];
     console.log("fileInfo:", file)
     // Handle Large Images
-    if(file.size >= 10485760){
+    if (file.size >= 10485760) {
       alert("Elige una imagen más pequeña (menos que 10MB).");
     } else {
       const formData = new FormData();
@@ -98,24 +103,15 @@ export const FormCreateUser = () => {
       const response = await fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
         method: "POST",
         body: formData
-      }); 
+      });
       const data = await response.json();
       console.log("cloudinary response", data);
       setNewUserPhoto(data.secure_url);
     } catch (error) {
       console.error("Error:", error)
       throw error
-    }}
-
-    /*
-      NOTAS
-      - Tenemos un url ✅
-      - Ahora haz un console.log de ese url, o muestra la foto en alguna página (da igual) solo para comprobar lo que hay ahí ✅
-      - Luego tendremos que guardar ese url en una variable ✅
-      - Conectar esa variable con la imagen de perfil en las paginas de perfil + la imagen de perfil en el navbar
-    
-    */
-
+    }
+  }
 
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   // USEEFFECT
@@ -132,8 +128,6 @@ export const FormCreateUser = () => {
       alert("El nuevo usuario se ha creado con éxito");
       store.userCreatedSuccess = false;
       navigate("/")
-      /* Change to Profile Page? --> Would have to have conditionals based on 
-      store.member/organizer like in "FormEditUser" component */
     }
   }, [store.userCreatedSuccess])
 
