@@ -69,3 +69,58 @@ def get_group(group_id):
     else:
         # Si el grupo no se encuentra, devolver un mensaje de error
         return jsonify({'message': 'Group not found'}), 404
+
+#### PUT Groups info #####
+@api.route('/groups/<int:group_id>', methods=['PUT'])
+def update_group(group_id):
+    group_data = request.get_json()
+    group = Group.query.get_or_404(group_id)
+
+    # Actualiza los campos del grupo con los datos proporcionados si existen en group_data
+    if 'name' in group_data:
+        group.name = group_data['name']
+    if 'organizer_id' in group_data:
+        group.organizer_id = group_data['organizer_id']
+    if 'description' in group_data:
+        group.description = group_data['description']
+    
+    # Guarda los cambios en la base de datos
+    db.session.commit()
+
+    return jsonify({'message': 'Grupo actualizado exitosamente'})
+
+
+#### POST Groups info #####
+@api.route('/groups', methods=['POST'])
+def create_group():
+    group_data = request.get_json()
+
+    # Crea una nueva instancia de Group con los datos proporcionados
+    new_group = Group(
+        name=group_data['name'],
+        organizer_id=group_data['organizer_id'],
+        description=group_data['description'] 
+    )
+    
+    # Agrega el nuevo grupo a la sesión
+    db.session.add(new_group)
+
+    # Guarda los cambios en la base de datos
+    db.session.commit()
+
+    return jsonify({'message': 'Grupo creado exitosamente'})
+
+#### DELETE Groups info #####
+@api.route('/groups/<int:group_id>', methods=['DELETE'])
+def delete_group(group_id):
+    group = Group.query.get_or_404(group_id)  # Obtiene el grupo por su ID desde la base de datos
+
+    # Lógica para eliminar el grupo con group_id
+    db.session.delete(group)  # Elimina el grupo de la sesión
+
+    # Guarda los cambios en la base de datos
+    db.session.commit()
+
+    return jsonify({'message': 'Grupo eliminado exitosamente'})
+
+
