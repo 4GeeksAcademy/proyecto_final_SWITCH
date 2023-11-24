@@ -207,6 +207,9 @@ const UsersProfile = () => {
   //   console.log("userLanguagesUpdate:", userLanguages);
   // }, [userLanguages]);
   
+  console.log("Store member:", store.member)
+  console.log("Store org:", store.organizer)
+
   return (
     <div className="user-data-column">
       <div className="user-profile d-flex flex-column flex-sm-row align-items-center align-items-sm-start">
@@ -217,15 +220,15 @@ const UsersProfile = () => {
         </div>
         <div className="user-info mt-2 mt-sm-0">
           <div className="tipoh3">{userData.userName}</div>
-          <p>{userData.nombre} {userData.apellido}</p>
-          <p>{userData.rol == "Cargando"? "Cargando" : roleConversion(userData.rol)}</p>
-          <p>{userData.email}</p>
+          <p className="fst-italic">{userData.nombre} {userData.apellido}</p>
+          <p className="fst-italic">{userData.rol == "Cargando"? "Cargando" : roleConversion(userData.rol)}</p>
+          <p className="fst-italic">{userData.email}</p>
           <p>
             <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
           </p>
-          <p>{capitalizeFirstLetter(userData.sexo)}</p>
-          <p>Idiomas:</p>
-          <ul>
+          <p className="fst-italic">{capitalizeFirstLetter(userData.sexo)}</p>
+          <p className="fst-italic">Idiomas:</p>
+          <ul className="fst-italic">
             {userLanguages == [] ?
               <p>Cargando idiomas</p>
               : userLanguages.map(language => 
@@ -233,23 +236,16 @@ const UsersProfile = () => {
               )
             }
           </ul>
-          {/* Botones */}
-          <div className="buttons-container d-flex flex-column">
-            <button type="button" className="custom-button" onClick={handleEditClick}>
-              Tus eventos
-            </button>
-
-
-
+          <p className="fw-bold text-decoration-underline"> Tus Eventos:</p>
+          <ul className='list-unstyled'>
             {userEventsData.map((event, index) => (
-              <Link to={`/EventPagePay/${event.id}`} key={index} >
-                <p className='text-black fs-5'>{event.name}</p>
+              <Link to={`/EventPagePay/${event.id}`} key={index} className="text-decoration-none">
+                <li>{event.name}</li>
               </Link>
             ))}
+          </ul>
 
-
-
-
+          {/* Botones */}    
             <button type="button" className="custom-button" onClick={handleViewGroupsClick}>
               Tus grupos
             </button>
@@ -261,14 +257,8 @@ const UsersProfile = () => {
           </div>
         </div>
 
-
-
-
       </div>
-    </div >
   );
-
-
 };
 
 export default UsersProfile;

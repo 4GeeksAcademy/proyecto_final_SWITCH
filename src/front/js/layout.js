@@ -48,8 +48,8 @@ const Layout = () => {
                         <Route element={<Home />} path="/" />
                         <Route element={<SignIn />} path="/signin" />
                         <Route element={<Demo />} path="/demo" />
-                        <Route element={<GroupPage />} path="/GroupPage" />
-                        <Route element={<GroupPageAdmin />} path="/GroupPageAdmin" />
+                        <Route element={<GroupPage />} path="/GroupPage/:id" />
+                        <Route element={<GroupPageAdmin />} path="/GroupPageAdmin/:id" />
                         <Route element={<FormEditGroup />} path="/FormEditGroup" />
                         <Route element={<UsersProfile />} path="/UsersProfile" />
                         <Route element={<OrganizerProfile />} path="/OrganizerProfile" />

@@ -89,7 +89,7 @@ export const SignIn = () => {
                             </button>
                         </form>
 
-                        <p className="mt-5 pb-5 extradark-grey fs-5 font-nunito ">
+                        <p className="mt-5 pb-5 extradark-grey fs-5 font-nunito mb-0">
                             ¿Aún no te has registrado? <Link to="/createnewuserprofile"> Haz click aquí. </Link>
                         </p>
                     </div>

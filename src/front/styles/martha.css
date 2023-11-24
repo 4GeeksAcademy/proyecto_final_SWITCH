@@ -64,7 +64,14 @@ header {
   margin-right: 20px; 
   margin-top: 10px; 
 }
-  
+
+.imagen-lateral img {
+  max-width: 100%;
+}
+
+.contenedores {
+  flex: 1 1 0;
+}
   
 /* Estilos para pantallas de tamaño pequeño (menos de 768px) */
 @media (max-width: 768px) {

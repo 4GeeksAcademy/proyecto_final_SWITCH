@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import '../../styles/eventpagepay.css';
-import LaTertulia from '../../img/LaTertulia.png';
+import fotoGrupoGeneral from '../../img/foto-grupo-general.jpg';
 import { useNavigate, useParams, Link } from "react-router-dom";
 
 
@@ -12,6 +12,8 @@ function EventPagePay() {
   const { store, actions } = useContext(Context);
 
   const [eventData, setEventData] = useState(null);
+  const [groupData, setGroupData] = useState(null);
+  const [organizerData, setOrganizerData] = useState("");  
 
   // GET THE INFO OF JUST ONE PARTICULAR EVENT
 
@@ -20,13 +22,33 @@ function EventPagePay() {
 
   async function searchEventById(id) {
     try {
+      // Event Data Fetch
       const response = await fetch(`${process.env.BACKEND_URL}/api/searchevent/${id}`);
       if (!response.ok) {
         throw new Error('Error fetching event');
       }
       const event = await response.json();
       setEventData(event);
-      console.log("Event correctly fetched:", event);
+      console.log("Event correctly set:", event);
+
+      // Group Data Fetch
+      const groupResponse = await fetch(`${process.env.BACKEND_URL}/api/searchGroup/${event.group}`);
+      if (!groupResponse.ok) {
+        throw new Error('Error fetching group data');
+      }
+      const groupData = await groupResponse.json();      
+      setGroupData(groupData);
+      console.log("Group data set:", groupData)
+
+      // Group Organizer Fetch
+      const organizerResponse = await fetch(`${process.env.BACKEND_URL}/api/UserData/${groupData.group_data.organizer_id}`);
+      if (!organizerResponse.ok) {
+        throw new Error('Error fetching organizer id');
+      }
+      const organizerData = await organizerResponse.json();      
+      setOrganizerData(organizerData);
+      console.log("Organizer data set:", organizerData)
+
     } catch (error) {
       console.error("Error fetching individual event:", error);
     }
@@ -44,7 +66,7 @@ function EventPagePay() {
     <div className="group-page" >
 
       {/**TITULO */}
-      <header className="mt-5">
+      <header className="pt-5">
         {eventData && <h1 className="title-event fw-bold text-48 dark-blue font-nunito">{eventData.name}</h1>}
       </header>
 
@@ -53,7 +75,7 @@ function EventPagePay() {
 
           {/**LOCALIZACION */}
 
-          <div className="descripcion">
+          <div className="descripcion mt-0">
             <h2 className="tipoh2">Donde:</h2>
             {eventData && <p className="extradark-grey fs-5">
               {eventData.location}
@@ -96,21 +118,25 @@ function EventPagePay() {
             {eventData && <p className="extradark-grey fs-5">{eventData.event_capacity}</p>}
           </div>
 
-          {/**Organizador */}
+          {/**GRUPO DEL EVENTO */}
 
           <div className="organizador">
-            <h2 className="tipoh2">Organizador:</h2>
-            <p className="extradark-grey fs-5">{ }</p>
+            <h2 className="tipoh2">Grupo que organiza el evento:</h2>
+            {groupData && <Link to={`/GroupPage/${eventData.group}`} className="extradark-grey fs-5">
+                            {groupData.group_data.name}
+                          </Link>}
           </div>
 
-          {/**Miembros Apuntados */}
-
+          {/**ORGANIZADOR*/}
           <div className="miembros">
-            <h2 className="tipoh2">Miembros Apuntados:</h2>
-            <p className="extradark-grey fs-5">{ }</p>
+            <h2 className="tipoh2">Organizador:</h2>
+            {organizerData && 
+              <p className="extradark-grey fs-5">
+                {organizerData.userData.first_name}{organizerData.userData.last_name}
+              </p>}
           </div>
 
-          {/**precio */}
+          {/**PRECIO */}
 
           <div className="miembros">
             <h2 className="tipoh2">Precio:</h2>
@@ -119,8 +145,6 @@ function EventPagePay() {
 
           {/* BLUE BUTTON*/}
           <div className="py-3 px-4 extradark-grey fs-5 d-flex flex-column justify-content-between align-items-center">
-
-
 
             {/* {!store.token ? ( */}
             <Link
@@ -140,11 +164,14 @@ function EventPagePay() {
           </div>
 
         </div>
-        <div className="imagen-lateral">
-          <img src={LaTertulia} alt="Imagen del Group Page" />
+        {/* IMAGEN */}
+        <div className="imagen-lateral border border-white border-3">
+          <img 
+            src={eventData && eventData.photo_url? eventData.photo_url : fotoGrupoGeneral}
+            alt="Imagen del Group Page" 
+          />
         </div>
       </div>
-
 
     </div>
 
@@ -152,3 +179,11 @@ function EventPagePay() {
 }
 
 export default EventPagePay
+
+   {/* TODO
+            X Name links to group
+            - Group page = static --> need to make it dynamic (param at end of link)
+            - Create fetch to group endpoint in group page
+            - That's it...for now
+            
+    */}

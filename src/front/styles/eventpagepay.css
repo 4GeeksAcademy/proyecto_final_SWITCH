@@ -26,6 +26,7 @@ header {
   display: flex;
   justify-content: space-between;
   padding: 10px 20px;
+  background-color: #ffc100;
 }
 
 .tipoh2{
@@ -55,17 +56,24 @@ header {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-
+  background-color: #ffc100;
 }
 
 .imagen-lateral {
-  max-width: 100%;
+  max-width: auto;
   height: auto;  
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /*sombra */
   margin-right: 20px; 
   margin-top: 10px; 
 }
-  
+
+.imagen-lateral img {
+  max-width: 100%;
+}
+
+.contenedores {
+  flex: 1 1 0;
+}
   
 /* Estilos para pantallas de tamaño pequeño (menos de 768px) */
 @media (max-width: 768px) {

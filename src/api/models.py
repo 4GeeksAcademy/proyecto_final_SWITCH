@@ -62,7 +62,7 @@ class Groups(db.Model):
             "languages": self.languages,
             "description": self.description,
             "photo_url": self.photo_url,
-            "is_active": self.active            
+            "is_active": self.is_active            
         }
     
     # Consideración: necesitamos otra tabla de "Group_languages"? 
