@@ -207,6 +207,9 @@ const UsersProfile = () => {
   //   console.log("userLanguagesUpdate:", userLanguages);
   // }, [userLanguages]);
   
+  console.log("Store member:", store.member)
+  console.log("Store org:", store.organizer)
+
   return (
     <div className="user-data-column">
       <div className="user-profile d-flex flex-column flex-sm-row align-items-center align-items-sm-start">
