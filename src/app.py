@@ -117,6 +117,27 @@ def get_all_events():
 
 ################################################################################################################################################################
 
+# GET ALL GROUPS EVENTS
+
+@app.route('/api/allGroupEvents/<int:id_group>', methods=['GET'])
+def get_all_group_events(id_group):
+     # Find the user in the database
+    group = Groups.query.get(id_group)
+
+    if not group:
+        return jsonify({'error': 'Group not found'}), 404
+   
+    # Retrieve all groups events from the database
+    all_group_events = Events.query.filter_by(group_relationship=group).all()
+   
+     # Serialize the events to a list of dictionaries
+    serialized_events = [event.serialize() for event in all_group_events]
+
+    # original
+    return jsonify(serialized_events), 200
+
+################################################################################################################################################################
+
 # GET ONLY ONE EVENT
 
 @app.route('/api/searchevent/<int:id_event>', methods=['GET'])
@@ -136,7 +157,9 @@ def get_event(id_event):
         'start_time': event.start_time,
         'end_time': event.end_time,
         'location': event.location,
-        'event_capacity': event.event_capacity
+        'event_capacity': event.event_capacity,
+        'photo_url': event.photo_url,
+        'group': event.id_group
     }
 
   # Print the events list for debugging

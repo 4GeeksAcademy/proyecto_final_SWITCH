@@ -24,7 +24,7 @@ export const PaymentPage = () => {
 
 
   // PROVISIONAL: 
-  const userEmail = "another@test.com"
+  //const userEmail = "another@test.com"
 
 
   //////////////// GET ID FROM EMAIL /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ export const PaymentPage = () => {
   // }
 
   // PROVISIONAL: 
-  const userId = 3
+  //const userId = 3
 
 
 
@@ -59,21 +59,13 @@ export const PaymentPage = () => {
 
   ////////////////// SAVE EVENT IN MEMBER'S PROFILE //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  function createMemberAttendee() {
-    actions.saveEventInMemberEventsList(userId, id)
-  }
-
+  // function createMemberAttendee() {
+  //   actions.saveEventInMemberEventsList(userId, id)
+  // }
 
   return (
     <>
       <Paypal />
-      <div className="d-flex justify-content-center">
-        <button className="btn rounded-3 rounded home-input-btn bg-dark-blue fw-bolder text-16 text-light px-5 py-3 mt-4 "
-          onClick={createMemberAttendee}
-        >
-          Paga (provisional) {store.id_user}
-        </button>
-      </div>
     </>
   );
 };

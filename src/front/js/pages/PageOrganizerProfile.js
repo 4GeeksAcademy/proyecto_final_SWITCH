@@ -27,8 +27,21 @@ const OrganizerProfile = () => {
   // };
 
   const handleViewGroupsClick = () => {
-    // Lógica para ver grupos creados
-    console.log('Botón Ver Grupos Creados clicado');
+    async function getOrganizerGroup(id) {
+      try {
+        const response = await fetch(`${process.env.BACKEND_URL}/api/organizerGroup/${id}`);
+        if (!response.ok) {
+          throw new Error('Error fetching event');
+        }
+        const groupData = await response.json();
+        console.log("Group Data received:", groupData)
+        const groupId = groupData.id
+        navigate(`/GroupPageAdmin/${groupId}`)
+      } catch (error) {
+        console.error("Error fetching individual event:", error);
+      }
+    }
+    getOrganizerGroup(store.id_user)
   };
 
   const handleEditProfileClick = () => {
@@ -104,15 +117,15 @@ const OrganizerProfile = () => {
         </div>
         <div className="user-info mt-2 mt-sm-0">
           <div className="tipoh3">{userData.userName}</div>
-          <p>{userData.nombre} {userData.apellido}</p>
-          <p>{userData.rol == "Cargando"? "Cargando" : roleConversion(userData.rol)}</p>
-          <p>{userData.email}</p>
+          <p className="fst-italic">{userData.nombre} {userData.apellido}</p>
+          <p className="fst-italic">{userData.rol == "Cargando"? "Cargando" : roleConversion(userData.rol)}</p>
+          <p className="fst-italic">{userData.email}</p>
           <p>
             <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
           </p>
-          <p>{capitalizeFirstLetter(userData.sexo)}</p>
-          <p>Idiomas:</p>
-          <ul>
+          <p className="fst-italic">{capitalizeFirstLetter(userData.sexo)}</p>
+          <p className="fst-italic">Idiomas:</p>
+          <ul className="fst-italic">
             {userLanguages == [] ?
               <p>Cargando idiomas</p>
               : userLanguages.map(language =>
@@ -123,7 +136,7 @@ const OrganizerProfile = () => {
           {/* Botones */}
           <div className="buttons-container d-flex flex-column">
             <button type="button" className="custom-button" onClick={handleViewGroupsClick}>
-              Tus grupos
+              Ir a tu grupo
             </button>
             <div className="edit-profile-button">
               <button type="button" className="custom-button edit-profile" onClick={handleEditProfileClick}>
