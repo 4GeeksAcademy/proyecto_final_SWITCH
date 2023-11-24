@@ -41,20 +41,20 @@ export const PaymentPage = () => {
   // }
 
   // PROVISIONAL: 
-  //const userId = 3
+  // const userId = 3
 
 
 
   ////////////////////////////////////////////////////////////////////////////////
 
 
-  const userID = actions.getIdFromUserEmail(userEmail);
+  // const userID = actions.getIdFromUserEmail(userEmail);
 
-  if (userID) {
-    console.log(`The user ID for email '${userEmail}' is: ${userID}`);
-  } else {
-    console.log(`No user found with email '${userEmail}'`); //////////////////////////////////////// NO FUNCIONA
-  }
+  // if (userID) {
+  //   console.log(`The user ID for email '${userEmail}' is: ${userID}`);
+  // } else {
+  //   console.log(`No user found with email '${userEmail}'`); //////////////////////////////////////// NO FUNCIONA
+  // }
 
 
   ////////////////// SAVE EVENT IN MEMBER'S PROFILE //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
