@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import '../../styles/martha.css';
 import '../../img/bocadillos.png';
 import { Context } from "../store/appContext"
-import fotoPerfilGeneral from '../../img/foto-perfil-general.jpg'
+import { Link } from "react-router-dom";
+import fotoPerfilGeneral from '../../img/fotoAvatar.png'
+import bocadilloRosaImage from '../../img/organizadorProfile.png'
 
 const OrganizerProfile = () => {
   const { store, actions } = useContext(Context)
@@ -55,6 +57,19 @@ const OrganizerProfile = () => {
   const roleConversion = (booleanValue) => {
     return booleanValue ? "Miembro" : "Organizador"
   }
+  const handleViewEventsClick = () => {
+    // Lógica para redirigir a la página de eventos del organizador
+    navigate("/TusEventosOrganizador"); // Ajusta la URL de redirección según sea necesario
+  };
+
+
+    // Función para renderizar el banner con la imagen
+    const renderbocadilloRosaImage = () => (
+      <div className="banner">
+        <img src={bocadilloRosaImage} alt="Banner" />
+        <h1>¡Bienvenido a tu perfil!</h1>
+      </div>
+    );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,6 +123,11 @@ const OrganizerProfile = () => {
   console.log("Store org:", store.organizer)
 
   return (
+    <div className="profile-container">
+    <div className="banner">
+      {renderbocadilloRosaImage()}
+    </div>
+
     <div className="user-data-column">
       <div className="user-profile d-flex flex-column flex-sm-row align-items-center align-items-sm-start">
         <div className="user-photo me-0 me-sm-4">
@@ -133,7 +153,12 @@ const OrganizerProfile = () => {
               )
             }
           </ul>
+          
           {/* Botones */}
+          <div className="button-container">
+            <button className="custom-button" onClick={handleViewEventsClick}>
+              Tus Eventos
+            </button>
           <div className="buttons-container d-flex flex-column">
             <button type="button" className="custom-button" onClick={handleViewGroupsClick}>
               Ir a tu grupo
@@ -146,6 +171,8 @@ const OrganizerProfile = () => {
           </div>
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 
