@@ -17,7 +17,7 @@
 }
 
 group-page{  
-     background-color: #ffc100;
+    background-color: #ffc100;
     font-family: "Nunito", sans-serif;
     margin: 0;
     padding: 0;
@@ -93,12 +93,51 @@ header {
 
 /* Estilos para el contenedor principal */
 
-.user-data-column {
+
+.profile-container {
   background-color: #ffc100;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.banner {
+  text-align: center; /* Para centrar el contenido */
+  margin-top: 10px;
+}
+
+.banner h1 {
+  font-family: "Nunito";
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); /* Agrega sombra al texto */
+  line-height: 1.2; /* Controla el espaciado entre líneas */
+  color: #000080; /* Cambia el color del texto */
+  font-weight: bold; /* Aplica negrita al texto */
+  text-transform: uppercase; /* Convierte el texto a mayúsculas */
+  margin-top: 10px; /* Ajusta este valor según sea necesario */
+}
+
+.banner img {
+  max-width: 100%; /* Para que la imagen no sobrepase el ancho del contenedor */
+  height: auto; /* Para mantener la proporción original de la imagen */
+  width: 80%; /* Modifica este valor para ajustar el tamaño de la imagen */
+  margin: 0 auto; /* Para centrar la imagen */
+}
+
+/* Estilos para dispositivos más pequeños */
+@media (max-width: 768px) {
+  .banner img {
+    width: 90%; /* Ajusta el tamaño para dispositivos más pequeños */
+  }
+}
+
+.user-data-column {
+  display: flex;
   align-items: flex-start;
-  justify-content: center; /* Centra horizontalmente */  
-  height: 100vh; /* Altura completa de la ventana */
+  justify-content: center;
+  height: 100vh;
+  margin-top: 10px; /* Ajusta este valor según sea necesario */
   
 }
 
@@ -112,7 +151,6 @@ header {
   font-family: "Nunito", sans-serif;
   display: flex;
   align-items: center;
-  /* border: 1px solid #01319d; */
   padding: 20px; 
   margin-top: 50px;
   position: relative;
@@ -122,10 +160,9 @@ header {
 .user-photo {
   border-radius: 50%;
   overflow: hidden;
-  width: 250px;
-  height: 250px;
+  width: 150px;
+  height: 150px;
   margin-right: 30px;
-  border: 1px solid #01319d;
   position: relative;
   display: inline-block; /* Para que el div se ajuste al contenido (la imagen) */
 }
@@ -150,6 +187,13 @@ header {
 }
 
 /* Estilos para los botones */
+
+.button-container {
+  display: flex;
+  gap: 10px; /* Espacio entre botones */
+  margin-bottom: 20px; /* Agregar margen inferior */
+}
+
 .custom-button {
   margin-top: 10px;
   padding: 8px 16px;

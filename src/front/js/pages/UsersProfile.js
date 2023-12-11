@@ -4,7 +4,9 @@ import '../../styles/martha.css';
 import '../../img/bocadillos.png';
 import { Context } from "../store/appContext"
 import { Link } from "react-router-dom";
-import fotoPerfilGeneral from '../../img/foto-perfil-general.jpg'
+import fotoPerfilGeneral from '../../img/fotoAvatar.png'
+import bocadilloRosaImage from '../../img/pareja-cafe3.png'
+
 
 const UsersProfile = () => {
   const { store, actions } = useContext(Context)
@@ -74,6 +76,14 @@ const UsersProfile = () => {
     return booleanValue ? "Miembro" : "Organizador"
   }
 
+  // Función para renderizar el banner con la imagen
+  const renderbocadilloRosaImage = () => (
+    <div className="banner">
+      <img src={bocadilloRosaImage} alt="Banner" />
+      <h1>¡Bienvenido a tu perfil!</h1>
+    </div>
+  );
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -97,7 +107,7 @@ const UsersProfile = () => {
 
         // FETCH: IDIOMAS DEL USUARIO
         const languagesResponse = await fetch(process.env.BACKEND_URL + `/api/UserLanguages/${store.id_user}`);
-        if(response.ok) {
+        if (response.ok) {
           const languagesData = await languagesResponse.json()
           console.log("languagesData:", languagesData)
           const usersLanguages = languagesData.userLanguages.map(item => item.language)
@@ -206,58 +216,64 @@ const UsersProfile = () => {
   // useEffect(() => {
   //   console.log("userLanguagesUpdate:", userLanguages);
   // }, [userLanguages]);
-  
+
   console.log("Store member:", store.member)
   console.log("Store org:", store.organizer)
 
   return (
-    <div className="user-data-column">
-      <div className="user-profile d-flex flex-column flex-sm-row align-items-center align-items-sm-start">
-        <div className="user-photo me-0 me-sm-4">
-          <img className="user-photo-image" 
-               src={store.photo_url_user === ""? fotoPerfilGeneral : store.photo_url_user} 
-               alt="Foto de Perfil" />
-        </div>
-        <div className="user-info mt-2 mt-sm-0">
-          <div className="tipoh3">{userData.userName}</div>
-          <p className="fst-italic">{userData.nombre} {userData.apellido}</p>
-          <p className="fst-italic">{userData.rol == "Cargando"? "Cargando" : roleConversion(userData.rol)}</p>
-          <p className="fst-italic">{userData.email}</p>
-          <p>
-            <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
-          </p>
-          <p className="fst-italic">{capitalizeFirstLetter(userData.sexo)}</p>
-          <p className="fst-italic">Idiomas:</p>
-          <ul className="fst-italic">
-            {userLanguages == [] ?
-              <p>Cargando idiomas</p>
-              : userLanguages.map(language => 
-              <li key={language}>{capitalizeFirstLetter(language)}</li>
-              )
-            }
-          </ul>
-          <p className="fw-bold text-decoration-underline"> Tus Eventos:</p>
-          <ul className='list-unstyled'>
-            {userEventsData.map((event, index) => (
-              <Link to={`/EventPagePay/${event.id}`} key={index} className="text-decoration-none">
-                <li>{event.name}</li>
-              </Link>
-            ))}
-          </ul>
+    <div className="profile-container">
+      <div className="banner">
+        {renderbocadilloRosaImage()}
+      </div>
 
-          {/* Botones */}    
-            <button type="button" className="custom-button" onClick={handleViewGroupsClick}>
-              Tus grupos
-            </button>
-            <div className="edit-profile-button">
-              <button type="button" className="custom-button edit-profile" onClick={handleEditProfileClick}>
-                <i className="fas fa-pencil-alt"></i> Editar perfil
+      <div className="user-data-column">
+        <div className="user-profile d-flex flex-column flex-sm-row align-items-center align-items-sm-start">
+          <div className="user-photo me-0 me-sm-4">
+            <img className="user-photo-image"
+              src={store.photo_url_user === "" ? fotoPerfilGeneral : store.photo_url_user}
+              alt="Foto de Perfil" />
+          </div>
+          <div className="user-info mt-2 mt-sm-0">
+            <div className="tipoh3">{userData.userName}</div>
+            <p className="fst-italic">{userData.nombre} {userData.apellido}</p>
+            <p className="fst-italic">{userData.rol == "Cargando" ? "Cargando" : roleConversion(userData.rol)}</p>
+            <p className="fst-italic">{userData.email}</p>
+            <p>
+              <i className="fas fa-map-marker-alt"></i> <strong>{userData.ciudad}</strong>
+            </p>
+            <p className="fst-italic">{capitalizeFirstLetter(userData.sexo)}</p>
+            <p className="fst-italic">Idiomas:</p>
+            <ul className="fst-italic">
+              {userLanguages == [] ?
+                <p>Cargando idiomas</p>
+                : userLanguages.map(language =>
+                  <li key={language}>{capitalizeFirstLetter(language)}</li>
+                )
+              }
+            </ul>
+            <div className="button-container">
+              <button className="custom-button"> Tus Eventos</button>
+              <ul className='list-unstyled'>
+                {userEventsData.map((event, index) => (
+                  <Link to={`/EventPagePay/${event.id}`} key={index} className="text-decoration-none">
+                    <li>{event.name}</li>
+                  </Link>
+                ))}
+              </ul>
+              <button type="button" className="custom-button" onClick={handleViewGroupsClick}>
+                Tus grupos
               </button>
+              <div className="edit-profile-button">
+                <button type="button" className="custom-button edit-profile" onClick={handleEditProfileClick}>
+                  <i className="fas fa-pencil-alt"></i> Editar perfil
+                </button>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
+    </div>
+
   );
 };
 
