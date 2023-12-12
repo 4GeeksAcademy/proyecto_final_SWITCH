@@ -67,6 +67,7 @@ header {
 
 .imagen-lateral img {
   min-width: 100%;
+  max-width: 100%
 }
 
 .contenedores {
@@ -192,6 +193,13 @@ header {
   display: flex;
   gap: 10px; /* Espacio entre botones */
   margin-bottom: 20px; /* Agregar margen inferior */
+  flex-direction: column;
+}
+
+@media (min-width: 868px) {
+  .button-container {
+    flex-direction: row;
+  }
 }
 
 .custom-button {
