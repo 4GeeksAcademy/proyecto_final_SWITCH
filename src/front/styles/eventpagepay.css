@@ -60,7 +60,7 @@ header {
 }
 
 .imagen-lateral {
-  max-width: auto;
+  width: 50%;
   height: auto;  
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /*sombra */
   margin-right: 20px; 
@@ -68,7 +68,7 @@ header {
 }
 
 .imagen-lateral img {
-  max-width: 100%;
+  min-width: 100%;
 }
 
 .contenedores {

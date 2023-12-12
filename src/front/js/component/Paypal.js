@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "../../styles/index.css";
+import "../../styles/payment.css";
 import { loadScript } from "@paypal/paypal-js";
 
 
@@ -41,7 +42,7 @@ export const Paypal = () => {
     return (
         <>
             <h1 className=" my-5 text-center">Solo te queda un paso más...</h1>
-            <div id="paypal" className="col-5 mt-3 mx-auto"></div>
+            <div id="paypal" className="col-5 mt-3 mx-auto bigHeight"></div>
         </>
     );
 }

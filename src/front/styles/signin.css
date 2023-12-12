@@ -6,6 +6,10 @@
   background-color: #ffc100;;
  } 
 
+.bigHeightSignIn {
+  height: 600px;
+}
+
  /* BUTTONS */
 
 .sign-in-btn:hover {

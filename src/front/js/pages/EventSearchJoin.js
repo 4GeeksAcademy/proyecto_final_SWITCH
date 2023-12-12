@@ -8,7 +8,7 @@ export const EventSearchJoin = () => {
     const { store, actions } = useContext(Context);
 
     return (
-        < div className="container mb-5">
+        < div className="container bigHeightSearch">
             {/* SEARCH BAR */}
             <div className=" py-5"> <HomeSearchBar />
             </div>

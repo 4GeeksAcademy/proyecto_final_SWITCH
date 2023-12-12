@@ -36,7 +36,7 @@ export const SignIn = () => {
     };
 
     return (
-        <div className="bg-yellow">
+        <div className="bg-yellow bigHeightSignIn">
             <div className="text-center pt-5 signin_max-width container">
 
                 {!store.registrationSuccess &&
