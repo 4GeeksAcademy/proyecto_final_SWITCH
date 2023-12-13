@@ -232,74 +232,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 			},
 
-			/////////// CREATE USER IN DATABASE //////////////
-
-			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages) => {
-				const store = getStore();
-
-				function roleConversion(roleInput) {
-					switch (roleInput) {
-						case 'true':
-						case true:
-							return true
-						case 'false':
-						case false:
-							return false
-						default:
-							return null
-					}
-				}
-				role = roleConversion(role)
-				const photo_url = store.photo_url_user;
-
-				// Testing Input
-				console.log("createNewUser Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
-
-				// Variables for Fetch Request Body
-				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
-				const fetchBody = {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						first_name: firstName,
-						last_name: lastName,
-						user_name: userName,
-						email: email,
-						password: password,
-						city: city,
-						role: role,
-						gender: gender,
-						languages: languages,
-						photo_url: photo_url
-					})
-				}
-				// console.log("fetchUrl:", fetchUrl)
-				// console.log("fetchBody:", fetchBody)
-
-				// Fetch Request 
-				try {
-					const response = await fetch(fetchUrl, fetchBody);
-					// console.log("response:", response)
-					const responseData = await response.json();
-					// console.log("responseData:", responseData)
-
-					// Handling Different Outcomes 
-					if (response.ok) {
-						setStore({ userCreatedSuccess: true })
-					}
-					if (!response.ok) {
-						const errorMessage = await response.text();
-						console.log("errorMessage:", errorMessage);
-						setStore({ userCreatedFailure: true })
-					}
-				} catch (error) {
-					console.log('Error:', error)
-					throw error
-				}
-			},
-
 			/////////// SET USER PHOTO //////////////
 
 			setUserPhoto: (photoUrl) => {
@@ -384,6 +316,74 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			/////////// CREATE USER IN DATABASE //////////////
+
+			createNewUser: async (firstName, lastName, userName, email, password, city, role, gender, languages) => {
+				const store = getStore();
+
+				function roleConversion(roleInput) {
+					switch (roleInput) {
+						case 'true':
+						case true:
+							return true
+						case 'false':
+						case false:
+							return false
+						default:
+							return null
+					}
+				}
+				role = roleConversion(role)
+				const photo_url = store.photo_url_user;
+
+				// Testing Input
+				console.log("createNewUser Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
+
+				// Variables for Fetch Request Body
+				const fetchUrl = process.env.BACKEND_URL + "/api/CreateNewUserProfile";
+				const fetchBody = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						first_name: firstName,
+						last_name: lastName,
+						user_name: userName,
+						email: email,
+						password: password,
+						city: city,
+						role: role,
+						gender: gender,
+						languages: languages,
+						photo_url: photo_url
+					})
+				}
+				// console.log("fetchUrl:", fetchUrl)
+				// console.log("fetchBody:", fetchBody)
+
+				// Fetch Request 
+				try {
+					const response = await fetch(fetchUrl, fetchBody);
+					// console.log("response:", response)
+					const responseData = await response.json();
+					// console.log("responseData:", responseData)
+
+					// Handling Different Outcomes 
+					if (response.ok) {
+						setStore({ userCreatedSuccess: true })
+					}
+					if (!response.ok) {
+						const errorMessage = await response.text();
+						console.log("errorMessage:", errorMessage);
+						setStore({ userCreatedFailure: true })
+					}
+				} catch (error) {
+					console.log('Error:', error)
+					throw error
+				}
+			},
+
 			/////////// GET ID USER & ROLE & IMAGE //////////////
 
 			getIdUserAndRoleAndImage: async (email) => {
@@ -456,6 +456,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				}
 				role = roleConversion(role)
+				
 
 				// Testing Input
 				console.log("updateUser_Input:", firstName, lastName, userName, email, city, role, gender, languages, photo_url)
@@ -480,18 +481,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 						photo_url: photo_url
 					})
 				};
-				// console.log("fetchUrl:", fetchUrl)
-				// console.log("fetchBody:", fetchBody)
+				console.log("fetchUrl:", fetchUrl)
+				console.log("fetchBody:", fetchBody)
 
 				// Fetch Request 
 				try {
 					const response = await fetch(fetchUrl, fetchBody);
-					// console.log("response:", response)
+					console.log("response:", response)
 					const responseData = await response.json();
-					// console.log("responseData:", responseData)
+					console.log("responseData:", responseData.role)
 
 					// Handling Different Outcomes 
 					if (response.ok) {
+						if (role) {
+							setStore({ member: true })
+							setStore({ organizer: null })
+							console.log("member:", store.member)
+						} else {	
+							setStore({ organizer: true })
+							setStore({ member: null })
+							console.log("organizer:", store.organizer)
+						}
 						setStore({ userUpdatedSuccess: true })
 					}
 					if (!response.ok) {
@@ -499,14 +509,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log("errorMessage:", errorMessage);
 						setStore({ userUpdatedFailure: true })
 					}
-					if (responseData.role) {
-						setStore({ member: true })
-						// console.log("member:", store.member)
-					}
-					if (!responseData.role) {
-						setStore({ organizer: true })
-						// console.log("organizer:", store.organizer)
-					}
+					
 				} catch (error) {
 					console.log('Error:', error)
 					throw error
